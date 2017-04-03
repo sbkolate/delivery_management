@@ -38,7 +38,7 @@ def get_data():
 		{
 			"module_name": "Delivery Order",
 			"_doctype": "Delivery Order",
-			"color": "green",
+			"color": "##53c653",
 			"icon": "fa fa-first-order",
 			"type": "link",
 			"link": "List/Delivery Order"
@@ -46,7 +46,7 @@ def get_data():
 		{
 			"module_name": "Delivery Request",
 			"_doctype": "Delivery Request",
-			"color": "blue",
+			"color": "#cc9900",
 			"icon": "fa fa-first-order",
 			"type": "link",
 			"link": "List/Delivery Request"
