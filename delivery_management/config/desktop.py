@@ -11,6 +11,7 @@ def get_data():
 			"type": "module",
 			"label": _("Delivery Management")
 		},
+
 		{
 			"module_name": "Upload Delivery Schedule",
 			"color": "#669999",
@@ -18,6 +19,7 @@ def get_data():
 			"type": "module",
 			"label": _("Upload Delivery Schedule")
 		},
+
 		{
 			"module_name": "Carrier",
 			"_doctype": "Carrier",
@@ -26,6 +28,7 @@ def get_data():
 			"type": "link",
 			"link": "List/Carrier"
 		},
+
 		{
 			"module_name": "Driver",
 			"_doctype": "Driver",
@@ -34,6 +37,7 @@ def get_data():
 			"type": "link",
 			"link": "List/Driver"
 		},
+
 		{
 			"module_name": "Product",
 			"_doctype": "Product",
@@ -42,6 +46,7 @@ def get_data():
 			"type": "link",
 			"link": "List/Product"
 		},
+
 		{
 			"module_name": "Delivery Order",
 			"_doctype": "Delivery Order",
@@ -50,6 +55,7 @@ def get_data():
 			"type": "link",
 			"link": "List/Delivery Order"
 		},
+
 		{
 			"module_name": "Delivery Request",
 			"_doctype": "Delivery Request",
@@ -66,6 +72,7 @@ def get_data():
 			"type": "link",
 			"link": "List/Delivery Request Item"
 		},
+		
 		{
 			"module_name": "Delivery Order Item",
 			"_doctype": "Delivery Order Item",
