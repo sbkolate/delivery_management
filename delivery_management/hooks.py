@@ -111,3 +111,10 @@ notification_config = "delivery_management.notifications.get_notification_config
 # 	"frappe.desk.doctype.event.event.get_events": "delivery_management.event.get_events"
 # }
 
+
+fixtures = [{
+	"doctype": "Role",
+	"filters": {
+		"name": ["in", "Delivery Manager"]
+		}
+	}]

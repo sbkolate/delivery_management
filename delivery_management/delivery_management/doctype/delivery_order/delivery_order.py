@@ -16,55 +16,52 @@ from frappe.model.mapper import get_mapped_doc
 class DeliveryOrder(Document):
 	
 	def validate(self):
-		doc = frappe.get_doc("Delivery Order", "DO-0001")
-		for i in doc.product_item:
-			print frappe.get_value(i)
+		pass
 		
 
-@frappe.whitelist()
-def make_delivery_note(source_name, target_doc=None):
-	def set_missing_values(source, target):
-		# target.ignore_pricing_rule = 1
-		target.run_method("set_missing_values")
-		# target.run_method("calculate_taxes_and_totals")
+# @frappe.whitelist()
+# def make_delivery_note(source_name, target_doc=None, ignore_permissions=False):
+# 	def set_missing_values(source, target):
+# 		name=frappe.db.get_value("Delivery Order",{"customer_name":source.customer},"customer_name")
+# 		target.customer = source.customer
+# 		target.company = source.company
+# 		target.shipping_date = today()
+# 		target.shipping_address = source.address
+# 		target.set('product_item', [])
+	
+# 		for item in source.product_item:
+			# task_map = {
+			# 	"product_code": item.product_code,
+			# 	"product_name": item.product_name
+			# 	"description" = item.description
+			# 	"quantity" = item.quantity
+			# }
+			# target.append("product_item", task_map)
+	# 		product_code = item.product_code
+	# 		product_name = item.product_name
+	# 		description = item.description
+	# 		quantity = item.quantity
+	# 		target.append('product_item', 
+	# 			{"product_code":product_code, "product_name":product_name,
+	# 			"description":description, "quantity":quantity})						
 
-	def update_item(source_doc, target_doc, source_parent):
-		# target_doc.base_amount = (flt(source_doc.qty) - flt(source_doc.delivered_qty)) * \
-		# 	flt(source_doc.base_rate)
-		# target_doc.amount = (flt(source_doc.qty) - flt(source_doc.delivered_qty)) * \
-		# 	flt(source_doc.rate)
-		target_doc.qty = flt(source_doc.qty) - flt(source_doc.delivered_qty)
 
-	doclist = get_mapped_doc("Delivery Order", source_name, 	{
-		"Delivery Order": {
-			"doctype": "Delivery Note",
-			"validation": {
-				"docstatus": ["=", 1]
-			}
-		},
-		"Delivery Order Item": {
-			"doctype": "Delivery Note Item",
-			"field_map": {
-				"name": "si_detail",
-				"parent": "against_delivery_request",
-				"serial_no": "serial_no",
-				"delivery_order": "against_delivery_order",
-				"so_detail": "so_detail"
-			},
-			"postprocess": update_item,
-			"condition": lambda doc: doc.delivered_by_supplier!=1
-		},
-		# "Sales Taxes and Charges": {
-		# 	"doctype": "Sales Taxes and Charges",
-		# 	"add_if_empty": True
-		# },
-		# "Sales Team": {
-		# 	"doctype": "Sales Team",
-		# 	"field_map": {
-		# 		"incentives": "incentives"
+		# def update_item(source_doc, target_doc, source_parent):
+		# 	target_doc.qty = flt(source_doc.qty) - flt(source_doc.delivered_qty)
+
+
+		# doclist = get_mapped_doc("Delivery Order", source_name, 	{
+		# 	"Delivery Order": {
+		# 		"doctype": "Delivery Note",
+		# 		"validation": {
+		# 			"docstatus": ["=", 0]
+		# 		}
 		# 	},
-		# 	"add_if_empty": True
-		# }
-	}, target_doc, set_missing_values)
+		# 	"Delivery Order Item": {
+		# 		"doctype": "Delivery Note Item",
+		# 		"add_if_empty": True,
+		# 	},
+		
+		# }, target_doc, set_missing_values, ignore_permissions=False)
 
-	return doclist
+	# return doclist

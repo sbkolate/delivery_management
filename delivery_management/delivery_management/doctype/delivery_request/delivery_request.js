@@ -5,16 +5,8 @@ cur_frm.add_fetch('product_code', 'product_name', 'product_name');
 cur_frm.add_fetch('product_code', 'description', 'description');
 
 
-// frappe.ui.form.on('Delivery Request', {
-// 	refresh: function(frm) {
-
-// 	}
-// });
-
-
 frappe.ui.form.on('Delivery Request', {
     refresh: function(frm) {
-    	var me = this;
 		cur_frm.add_custom_button(__('Make Delivery Order'), 
 			function(){
 				frappe.model.open_mapped_doc({
@@ -23,10 +15,6 @@ frappe.ui.form.on('Delivery Request', {
 				})
 		}, __("Make"));
   	}
-
- //  	make_delivery_order: function() {
-
-	// },
 });
 
 // frappe.ui.form.on('Case', {
