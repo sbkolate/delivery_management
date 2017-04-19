@@ -45,7 +45,7 @@ app_license = "MIT"
 # Installation
 # ------------
 
-# before_install = "delivery_management.install.before_install"
+before_install = "delivery_management.install.create_new_role"
 # after_install = "delivery_management.install.after_install"
 
 # Desk Notifications
@@ -112,9 +112,9 @@ notification_config = "delivery_management.notifications.get_notification_config
 # }
 
 
-fixtures = [{
-	"doctype": "Role",
-	"filters": {
-		"name": ["in", "Delivery Manager"]
-		}
-	}]
+# fixtures = [{
+# 	"doctype": "Role",
+# 	"filters": {
+# 		"name": ["in", "Delivery Manager"]
+# 		}
+# 	}]
