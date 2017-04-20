@@ -27,7 +27,7 @@ app_license = "MIT"
 
 # application home page (will override Website Settings)
 # home_page = "login"
-
+login_mail_title = "Welcome to Hafary"
 # website user home page (by Role)
 # role_home_page = {
 #	"Role": "home_page"
@@ -41,6 +41,8 @@ app_license = "MIT"
 
 # automatically create page for each record of this doctype
 # website_generators = ["Web Page"]
+
+fixtures = ['Custom Field', 'Property Setter', "Custom Script","Print Format"]
 
 # Installation
 # ------------

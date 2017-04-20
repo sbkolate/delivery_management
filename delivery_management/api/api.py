@@ -57,8 +57,8 @@ def get_driver_details(name=None):
 
 
 @frappe.whitelist(allow_guest=True)
-def get_customer_details(name=None):
-	delivery_order_customer = frappe.get_doc("Delivery Order", name)
+def get_delivery_order_customer_details(name=None):
+	delivery_order = frappe.get_doc("Delivery Order", name)
 	# if not driver:
 	# 	error_msg = {
 	# 		"error": "Driver ID" + name +"does not exist..."
@@ -66,15 +66,19 @@ def get_customer_details(name=None):
 
 	# 	return error_msg
 
-	driver_details = {
-		"ID" : driver.name,
-		"Full Name": driver.first_name + " " + driver.last_name,
-		"Email ": driver.email_address,
+	customer_details = {
+		"ID" : delivery_order.name,
+		"Full Name": delivery_order.customer
+		"Email ": delivery_order.customer.,
 		"Contact Number" : driver.contact_number,
 		"Assigned Vehicle No.": driver.vehicle_no
 		
 	}
 	return driver_details
+
+
+
+
 
 
 
@@ -85,3 +89,8 @@ def get_customer_details(name=None):
 
 # 	to_json = {'queryset' : queryset, }
 # 	return HttpResponse(json.dumps(to_json), content_type = 'application/json')
+
+cur_frm.cscript.buyer = function() {
+  frappe.geo.doctype.address.address.get_address_display(this.frm, "buyer", "buyer_address");
+};
+
