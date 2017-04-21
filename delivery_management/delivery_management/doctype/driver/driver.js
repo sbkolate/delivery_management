@@ -3,11 +3,11 @@
 
 
 cur_frm.add_fetch('driver', 'first_name', 'first_name');
-cur_frm.add_fetch('Driver', 'last_name', 'last_name');
-cur_frm.add_fetch('Driver', 'birth_date', 'date_of_birth');
-cur_frm.add_fetch('Driver', 'phone', 'contact_number');
-cur_frm.add_fetch('Driver', 'email', 'email_address');
-cur_frm.add_fetch('Driver', 'gender', 'gender');
+cur_frm.add_fetch('driver', 'last_name', 'last_name');
+cur_frm.add_fetch('driver', 'birth_date', 'date_of_birth');
+cur_frm.add_fetch('driver', 'phone', 'contact_number');
+cur_frm.add_fetch('driver', 'email', 'email_address');
+cur_frm.add_fetch('driver', 'gender', 'gender');
 
 
 
