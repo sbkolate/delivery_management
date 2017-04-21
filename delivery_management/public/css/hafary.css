@@ -1,0 +1,87 @@
+.control-label {
+	color: #000000	 !important;
+	font-size: 16px;
+	letter-spacing: 0.5px;	
+}
+.form-control{
+	font-size: 16px !important;
+}
+
+a.small{
+	font-size: 100% !important;
+}
+
+small, .small{
+	font-size: 100% !important;
+}
+
+.timeline-head .comment-input-header{
+    padding: 14px 15px !important;
+}
+
+.btn-xs, .btn-group-xs > .btn{
+	font-size: 16px !important;
+}
+
+h6.uppercase, .h6.uppercase{
+	font-size: 16px !important;
+}
+.sidebar-menu h6, .sidebar-menu .h6{
+	font-size: 12px !important;
+}
+.layout-side-section{
+	font-size: 12px !important;
+}
+
+a.module-link[data-name="Accounts"]{
+  display: None !important;
+}
+
+a.module-link[data-name="Buying"],
+a.module-link[data-name="CRM"],
+a.module-link[data-name="Setup"],
+a.module-link[data-name="HR"],
+a.module-link[data-name="Learn"],
+a.module-link[data-name="Selling"],
+a.module-link[data-name="Stock"],
+a.module-link[data-name="Website"],
+a.module-link[data-name="Manufacturing"],
+a.module-link[data-name="Projects"], 
+a.module-link[data-name="Schools"], 
+a.module-link[data-name="Developer"], 
+a.module-link[data-name="Support"], 
+a.module-link[data-name="Maintenance"], 
+a.module-link[data-name="Integrations"]{
+  display: None !important;
+}
+
+.help-message-wrapper {
+    display: none!important;
+}
+/*a[href="https://css-tricks.com"] {
+  color: #E18728;
+}*/
+
+.dropdown-toggle {
+	display: None !important;
+}
+
+.form-inner-toolbar{
+	display: None !important;
+}
+
+.form-heatmap .form-dashboard-section {
+	display: None !important;
+}
+
+.form-heatmap .form-dashboard-section {
+	display: None !important;
+}
+
+.form-stats .form-dashboard-section {
+	display: None !important;
+}
+
+.form-links .form-dashboard-section {
+	display: None !important;
+}
