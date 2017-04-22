@@ -7,4 +7,5 @@ import frappe
 from frappe.model.document import Document
 
 class Driver(Document):
-	pass
+	def validate(self):
+		self.full_name = self.first_name + " " + self.last_name
