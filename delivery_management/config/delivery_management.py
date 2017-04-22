@@ -7,16 +7,16 @@ def get_data():
 			"label": _("Documents"),
 			"icon": "fa fa-star",
 			"items": [
-				{
-					"type": "doctype",
-					"name": "Delivery Request",
-					"description": _("Delivery Request"),
-				},
-				{
-					"type": "doctype",
-					"name": "Delivery Order",
-					"description": _("Delivery Order"),
-				},
+				# {
+				# 	"type": "doctype",
+				# 	"name": "Delivery Request",
+				# 	"description": _("Delivery Request"),
+				# },
+				# {
+				# 	"type": "doctype",
+				# 	"name": "Delivery Order",
+				# 	"description": _("Delivery Order"),
+				# },
 				# {
 				# 	"type": "doctype",
 				# 	"name": "Upload Delivery Schedule",
