@@ -71,6 +71,14 @@ notification_config = "delivery_management.notifications.get_notification_config
 # Document Events
 # ---------------
 # Hook on document methods and events
+doc_events = {
+	"Customer": {
+		"validate": "delivery_management.custom_methods.set_customer_full_name",
+	},
+	"Contact": {
+		"validate": "delivery_management.custom_methods.set_contact_full_name",
+	},
+}
 
 # doc_events = {
 # 	"*": {

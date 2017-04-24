@@ -13,6 +13,6 @@ cur_frm.add_fetch('user_id', 'gender', 'gender');
 
 frappe.ui.form.on('Driver', {
 	refresh: function(frm) {
-
+		
 	}
 });
