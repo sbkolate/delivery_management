@@ -74,6 +74,7 @@ notification_config = "delivery_management.notifications.get_notification_config
 doc_events = {
 	"Customer": {
 		"validate": "delivery_management.custom_methods.set_customer_full_name",
+		"before_insert": "delivery_management.custom_methods.set_customer_full_name",
 	},
 	"Contact": {
 		"validate": "delivery_management.custom_methods.set_contact_full_name",
