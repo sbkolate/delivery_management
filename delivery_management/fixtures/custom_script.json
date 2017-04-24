@@ -1,1 +1,11 @@
-[]
+[
+ {
+  "docstatus": 0, 
+  "doctype": "Custom Script", 
+  "dt": "Customer", 
+  "modified": "2017-04-21 20:51:31.240831", 
+  "name": "Customer-Client", 
+  "script": "frappe.ui.form.on(\"Customer\", {\n\tonload: function(frm) {\n\t\tfrm.trigger(\"hide_customer_dashboard\")\n\t},\n\thide_customer_dashboard: function(frm) {\n\t\t$(\".form-dashboard\").hide()\n\t}\n})", 
+  "script_type": "Client"
+ }
+]
