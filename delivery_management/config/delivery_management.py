@@ -21,8 +21,7 @@ def get_data():
 				# 	"type": "doctype",
 				# 	"name": "Upload Delivery Schedule",
 				# 	"description": _("Upload Delivery Schedule"),
-				# },
-																
+				# },											
 			]
 		},
 
