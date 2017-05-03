@@ -19,7 +19,7 @@ frappe.ui.form.on('Delivery Request', {
         erpnext.utils.get_address_display(frm, 'customer_address', 'address_display', false);
     },
     customer_shipping_address: function(frm, cdt, cdn) {
-        erpnext.utils.get_address_display(frm, "shipping_address_name", "shipping_address_display", false);
+        erpnext.utils.get_address_display(frm, "customer_shipping_address", "shipping_address_display", false);
     },
 });
 
