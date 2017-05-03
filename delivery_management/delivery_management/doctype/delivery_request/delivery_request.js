@@ -14,44 +14,14 @@ frappe.ui.form.on('Delivery Request', {
 					frm: cur_frm
 				})
 		}, __("Make"));
-  	}
+  	},
+    customer_address: function(frm, cdt, cdn) {
+        erpnext.utils.get_address_display(frm, 'customer_address', 'address_display', false);
+    },
+    customer_shipping_address: function(frm, cdt, cdn) {
+        erpnext.utils.get_address_display(frm, "shipping_address_name", "shipping_address_display", false);
+    },
 });
-
-// frappe.ui.form.on('Case', {
-// 	refresh: function(frm) {
-// 		if(frm.doc.docstatus == 1) {
-// 			cur_frm.add_custom_button(__("Create Invoice"),
-// 				function() {
-// 					frappe.model.open_mapped_doc({
-// 							method: "clinic_management.clinic_management.doctype.case.case.create_quote",
-// 							frm: cur_frm
-// 					})
-// 				})
-// 			}
-// 	},
-// 	onload: function(frm) {
-// 		if(frm.doc.__islocal == 1) {
-// 			frm.doc.company = "";
-// 		}
-// 	},
-	// company: function(frm) {
-	// 	if(!frm.doc.doctor) frappe.throw(__("Please select Doctor first"));
-	// },
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
