@@ -7,4 +7,5 @@ import frappe
 from frappe.model.document import Document
 
 class Product(Document):
-	pass
+	def validate(self):
+		self.product_code = self.product_code_no
