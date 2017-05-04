@@ -7,4 +7,5 @@ import frappe
 from frappe.model.document import Document
 
 class Carrier(Document):
-	pass
+	def validate(self):
+		self.carrier_no = self.carrier_number
