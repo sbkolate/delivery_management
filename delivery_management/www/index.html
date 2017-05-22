@@ -1,1 +1,65 @@
-<h1> Hello </h1>
+{% block header %}
+  <h1>{{ doc.project_name }}</h1>
+  <input type="hidden" id="projname" value="{{ doc.project_name }}">
+{% endblock %}
+
+<form id="frmFileUp">
+  <input type="file" id="select_files" multiple>
+</form>
+<button id="btn_upload">Upload</button>
+
+<script type="text/javascript">
+
+  frappe.ready(function() {
+    var $form = $("form[id='frmFileUp']");
+
+    $form.on("change", "[type='file']", function() {
+  var $input = $(this);
+  var input = $input.get(0);
+  
+  if(input.files.length) {
+    input.filedata = { "files_data" : [] }; //Initialize as json array.
+
+    window.file_reading = true;
+
+    $.each(input.files, function(key, value) {
+      setupReader(value, input);
+    });
+
+    window.file_reading = false;
+  }
+});
+
+$("#btn_upload").click(function() {
+  var projname = $('#projname').val();
+  var filedata = $('#select_files').prop('filedata');
+
+  frappe.call({
+    method: "app_name.api.attach_file_to_project",
+    args: {"filedata": filedata, "project_name": projname },
+    freeze: true,
+    freeze_message: __("Upload files..."),
+    callback: function(r){
+      if(!r.exc) {
+        frappe.msgprint(__("Files uploaded"));
+      } else {
+        frappe.msgprint(__("Files not uploaded. <br /> " + r.exc));
+      }
+    }
+  });
+});
+  });
+
+  function setupReader(file, input) {
+      var name = file.name;
+      var reader = new FileReader();  
+      reader.onload = function(e) {
+      input.filedata.files_data.push({
+        "__file_attachment": 1,
+        "filename": file.name,
+        "dataurl": reader.result
+      })
+    }
+    reader.readAsDataURL(file);
+  }
+</script>

@@ -256,7 +256,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-05-04 20:11:30.465405", 
+ "modified": "2017-05-22 14:14:59.273934", 
  "modified_by": "Administrator", 
  "module": "Delivery Management", 
  "name": "Product", 
@@ -297,7 +297,7 @@
    "print": 1, 
    "read": 1, 
    "report": 1, 
-   "role": "Delivery Manager", 
+   "role": "Hafary Admin1", 
    "set_user_permissions": 0, 
    "share": 1, 
    "submit": 0, 
@@ -324,7 +324,7 @@
    "write": 0
   }
  ], 
- "quick_entry": 1, 
+ "quick_entry": 0, 
  "read_only": 0, 
  "read_only_onload": 0, 
  "show_name_in_global_search": 0, 

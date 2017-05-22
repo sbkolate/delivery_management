@@ -2,15 +2,15 @@ cur_frm.add_fetch('product_code', 'product_name', 'product_name');
 cur_frm.add_fetch('product_code', 'description', 'description');
 
 frappe.ui.form.on('Delivery Request', {
-    refresh: function(frm) {
-		cur_frm.add_custom_button(__('Make Delivery Order'), 
-			function(){
-				frappe.model.open_mapped_doc({
-					method: "delivery_management.delivery_management.doctype.delivery_request.delivery_request.make_delivery_order",
-					frm: cur_frm
-				})
-		}, __("Make"));
-  	},
+  //   refresh: function(frm) {
+		// cur_frm.add_custom_button(__('Make Delivery Order'), 
+		// 	function(){
+		// 		frappe.model.open_mapped_doc({
+		// 			method: "delivery_management.delivery_management.doctype.delivery_request.delivery_request.make_delivery_order",
+		// 			frm: cur_frm
+		// 		})
+		// }, __("Make"));
+  // 	},
     customer_address: function(frm, cdt, cdn) {
         erpnext.utils.get_address_display(frm, 'customer_address', 'address_display', false);
     },
@@ -20,7 +20,15 @@ frappe.ui.form.on('Delivery Request', {
 });
 
 
-
+frappe.ui.form.on("Delivery Order", {
+    refresh:function(frm){
+        total_qty = 0;
+        $.each(frm.doc.product_item || [], function(i, d) {
+            total_qty += flt(d.quantity)
+        });
+        frm.doc.total_quantity = total_qty;
+    }
+});
 
 
 

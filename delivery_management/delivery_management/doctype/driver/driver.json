@@ -761,7 +761,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-05-04 17:28:25.813079", 
+ "modified": "2017-05-22 14:05:03.951323", 
  "modified_by": "Administrator", 
  "module": "Delivery Management", 
  "name": "Driver", 
@@ -802,7 +802,7 @@
    "print": 1, 
    "read": 1, 
    "report": 1, 
-   "role": "Delivery Manager", 
+   "role": "Hafary Admin", 
    "set_user_permissions": 0, 
    "share": 1, 
    "submit": 0, 
@@ -849,7 +849,7 @@
    "write": 1
   }
  ], 
- "quick_entry": 1, 
+ "quick_entry": 0, 
  "read_only": 0, 
  "read_only_onload": 0, 
  "search_fields": "first_name,last_name,email_address", 
