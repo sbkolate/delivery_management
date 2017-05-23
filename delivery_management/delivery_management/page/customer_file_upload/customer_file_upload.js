@@ -1,44 +1,15 @@
-// Copyright (c) 2016, DPI-Sagar and contributors
-// For license information, please see license.txt
+frappe.pages['customer-file-upload'].on_page_load = function(wrapper) {
+	var page = frappe.ui.make_app_page({
+		parent: wrapper,
+		title: 'Customer File Upload',
+		single_column: true
+	});
+}
 
-
-frappe.ui.form.on('Delivery Order', {
-    refresh: function(frm) {
-		function(){
-				frappe.model.open_mapped_doc({
-					method: "delivery_management.delivery_management.doctype.delivery_order.delivery_order.make_delivery_note",
-					frm: cur_frm
-				});
-		},
-  	},
-});
-
-
-frappe.provide("erpnext.hr");
-
-// erpnext.hr.AttendanceControlPanel = frappe.ui.form.Controller.extend({
-frappe.ui.form.on('Upload Delivery Schedule', {
-	onload: function() {
-		this.frm.set_value("delivery_from_date", get_today());
-		this.frm.set_value("delivery_to_date", get_today());
-	},
-
-	refresh: function() {
-		this.frm.disable_save();
+frappe.ui.form.on( 'Customer File Upload', {
+	refresh: function(){
+		
 		this.show_upload();
-	},
-
-	get_template:function() {
-		if(!this.frm.doc.delivery_from_date || !this.frm.doc.delivery_to_date) {
-			msgprint(__("Delivery From Date and Delivery To Date is mandatory"));
-			return;
-		}
-		window.location.href = repl(frappe.request.url +
-			'?cmd=%(cmd)s&from_date=%(from_date)s&to_date=%(to_date)s', {
-				cmd: "erpnext.hr.doctype.upload_attendance.upload_attendance.get_template",
-				from_date: this.frm.doc.att_fr_date,
-				to_date: this.frm.doc.att_to_date,
-			});
 	},
 
 	show_upload: function() {
@@ -49,7 +20,7 @@ frappe.ui.form.on('Upload Delivery Schedule', {
 		frappe.upload.make({
 			parent: $wrapper,
 			args: {
-				method: 'erpnext.hr.doctype.upload_attendance.upload_attendance.upload'
+				method: 'delivery_management.delivery_management.page.customer_file_upload.customer_file_upload.upload'
 			},
 			sample_url: "e.g. http://example.com/somefile.csv",
 			callback: function(attachment, r) {
@@ -96,5 +67,3 @@ frappe.ui.form.on('Upload Delivery Schedule', {
 			.attr('value', 'Upload and Import')
 	}
 })
-
-cur_frm.cscript = new erpnext.hr.AttendanceControlPanel({frm: cur_frm});
