@@ -20,7 +20,7 @@ app_include_css = "/assets/delivery_management/css/hafary.css"
 app_include_js = "/assets/delivery_management/js/data_import_tool.js"
 app_include_js = "/assets/delivery_management/js/customer_import_tool.js"
 
-app_include_js = "/delivery_management/page/customer_import_tool/customer_import_tool.js"
+# app_include_js = "/delivery_management/page/customer_import_tool/customer_import_tool.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/delivery_management/css/delivery_management.css"
@@ -46,7 +46,7 @@ login_mail_title = "Welcome to Hafary"
 # automatically create page for each record of this doctype
 # website_generators = ["Web Page"]
 
-fixtures = ['Custom Field', 'Property Setter', "Custom Script","Print Format"]
+fixtures = ['Custom Field', 'Property Setter', "Custom Script", "Print Format"]
 
 # Installation
 # ------------
@@ -76,10 +76,6 @@ notification_config = "delivery_management.notifications.get_notification_config
 # ---------------
 # Hook on document methods and events
 doc_events = {
-	"Customer": {
-		"validate": "delivery_management.custom_methods.set_customer_full_name",
-		"before_insert": "delivery_management.custom_methods.set_customer_full_name",
-	},
 	"Contact": {
 		"validate": "delivery_management.custom_methods.set_contact_full_name",
 	},

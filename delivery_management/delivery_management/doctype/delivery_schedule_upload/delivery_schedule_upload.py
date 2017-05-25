@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2015, DPI-Sagar and contributors
+# Copyright (c) 2017, DPI-Sagar and contributors
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
@@ -9,7 +9,7 @@ from frappe import _
 from frappe.utils.csvutils import UnicodeWriter
 from frappe.model.document import Document
 
-class UploadDeliverySchedule(Document):
+class DeliveryScheduleUpload(Document):
 	pass
 
 @frappe.whitelist()
@@ -40,40 +40,49 @@ def add_header(w):
 	return w
 
 def add_data(w, args):
-	customers = get_active_customers()
+	dates = get_dates(args)
+	employees = get_active_employees()
 	existing_attendance_records = get_existing_attendance_records(args)
-	for customer in customers:
-		existing_attendance = {}
-		if existing_attendance_records \
-			and tuple([date, customer.name]) in existing_attendance_records:
-				existing_attendance = existing_attendance_records[tuple([date, customer.name])]
-		row = [
-			existing_attendance and existing_attendance.name or "",
-			customer.name, customer.first_name, date,
-			existing_attendance and existing_attendance.status or "",
-			existing_attendance and existing_attendance.leave_type or "", customer.first_name,
-			existing_attendance and existing_attendance.naming_series or get_naming_series(),
-		]
-		w.writerow(row)
+	for date in dates:
+		for employee in employees:
+			existing_attendance = {}
+			if existing_attendance_records \
+				and tuple([date, employee.name]) in existing_attendance_records:
+					existing_attendance = existing_attendance_records[tuple([date, employee.name])]
+			row = [
+				existing_attendance and existing_attendance.name or "",
+				employee.name, employee.employee_name, date,
+				existing_attendance and existing_attendance.status or "",
+				existing_attendance and existing_attendance.leave_type or "", employee.company,
+				existing_attendance and existing_attendance.naming_series or get_naming_series(),
+			]
+			w.writerow(row)
 	return w
 
-def get_active_customers():
-	customers = frappe.db.sql("""select name, first_name, customer_group, customer_type, territory
-		from `tabCustomer` where docstatus < 2 and status = 'Enabled' """, as_dict=1)
-	return customers
+def get_dates(args):
+	"""get list of dates in between from date and to date"""
+	no_of_days = date_diff(add_days(args["to_date"], 1), args["from_date"])
+	dates = [add_days(args["from_date"], i) for i in range(0, no_of_days)]
+	return dates
+
+def get_active_employees():
+	employees = frappe.db.sql("""select name, employee_name, company
+		from tabEmployee where docstatus < 2 and status = 'Active'""", as_dict=1)
+	return employees
 
 def get_existing_attendance_records(args):
-	schedule = frappe.db.sql("""select name, date, customer_ref, delivery_note_no, lorry_no, contact_person_name
-		from `tabDelivery Schedule` where docstatus < 2""", as_dict=1)
+	attendance = frappe.db.sql("""select name, date, customer_ref, delivery_note_no, lorry_no, contact_person_name
+		from `tabDelivery Schedule` where date between %s and %s and docstatus < 2""",
+		(args["from_date"], args["to_date"]), as_dict=1)
 
 	existing_attendance = {}
-	for att in schedule:
+	for att in attendance:
 		existing_attendance[tuple([att.date, att.customer_ref])] = att
 
 	return existing_attendance
 
 def get_naming_series():
-	series = frappe.get_meta("Delivery Schedule").get_field("naming_series").options.strip().split("\n")
+	series = frappe.get_meta("Attendance").get_field("naming_series").options.strip().split("\n")
 	if not series:
 		frappe.throw(_("Please setup numbering series for Attendance via Setup > Numbering Series"))
 	return series[0]
@@ -81,6 +90,7 @@ def get_naming_series():
 
 @frappe.whitelist()
 def upload():
+	print "\n\nhi from py upload"
 	if not frappe.has_permission("Delivery Schedule", "create"):
 		raise frappe.PermissionError
 

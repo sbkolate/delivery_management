@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2015, DPI-Sagar and contributors
+# Copyright (c) 2017, DPI-Sagar and contributors
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
@@ -9,12 +9,14 @@ from frappe import _
 from frappe.utils.csvutils import UnicodeWriter
 from frappe.model.document import Document
 
-class UploadDeliverySchedule(Document):
+
+class UploadCustomer(Document):
 	pass
+
 
 @frappe.whitelist()
 def get_template():
-	if not frappe.has_permission("Delivery Schedule", "create"):
+	if not frappe.has_permission("Customer", "create"):
 		raise frappe.PermissionError
 
 	args = frappe.local.form_dict
@@ -27,61 +29,61 @@ def get_template():
 	# write out response as a type csv
 	frappe.response['result'] = cstr(w.getvalue())
 	frappe.response['type'] = 'csv'
-	frappe.response['doctype'] = "Delivery Schedule"
+	frappe.response['doctype'] = "Customer"
 
 def add_header(w):
 	w.writerow(["Notes:"])
 	w.writerow(["Please do not change the template headings"])
 	w.writerow(["Status should be one of these values: "])
 	w.writerow(["If you are overwriting existing attendance records, 'ID' column mandatory"])
-	w.writerow(["ID", "Date", "Customer Ref", "Delivery Note No", "Lorry No", "Trip",
-		 "Contact Person Name", "Address Line 1", "Address Line 2", "Address Line 3", 
-		 "Pin Code", "Contact No", "Mobile No", "Email", "Remarks"])
+	w.writerow(["ID", "Customer Name", "Customer Group", "Type",
+		 "Territory", "Address Line 1", "Address Line 2", "Address Line 3", 
+		 "Pin Code", "Contact No", "Mobile No", "Email", "Fax"])
 	return w
 
 def add_data(w, args):
 	customers = get_active_customers()
-	existing_attendance_records = get_existing_attendance_records(args)
+	existing_customer_records = get_existing_customer_records(args)
 	for customer in customers:
-		existing_attendance = {}
-		if existing_attendance_records \
-			and tuple([date, customer.name]) in existing_attendance_records:
-				existing_attendance = existing_attendance_records[tuple([date, customer.name])]
+		existing_customer = {}
+		if existing_customer_records \
+			and tuple([name, customer.customer_name]) in existing_customer_records:
+				existing_customer = existing_customer_records[tuple([name, customer.customer_name])]
 		row = [
-			existing_attendance and existing_attendance.name or "",
-			customer.name, customer.first_name, date,
-			existing_attendance and existing_attendance.status or "",
-			existing_attendance and existing_attendance.leave_type or "", customer.first_name,
-			existing_attendance and existing_attendance.naming_series or get_naming_series(),
+			existing_customer and existing_customer.name or "",
+			customer.name, customer.customer_name, date,
+			existing_customer and existing_customer.status or "",
+			existing_customer and existing_customer.leave_type or "", customer.customer_name,
+			existing_customer and existing_customer.naming_series or get_naming_series(),
 		]
 		w.writerow(row)
 	return w
 
 def get_active_customers():
-	customers = frappe.db.sql("""select name, first_name, customer_group, customer_type, territory
+	customers = frappe.db.sql("""select name, customer_name, customer_group, customer_type, territory
 		from `tabCustomer` where docstatus < 2 and status = 'Enabled' """, as_dict=1)
 	return customers
 
-def get_existing_attendance_records(args):
-	schedule = frappe.db.sql("""select name, date, customer_ref, delivery_note_no, lorry_no, contact_person_name
-		from `tabDelivery Schedule` where docstatus < 2""", as_dict=1)
+def get_existing_customer_records(args):
+	customer = frappe.db.sql("""select name, customer_name, customer_group, customer_type, territory
+		from `tabCustomer` where docstatus < 2""", as_dict=1)
 
-	existing_attendance = {}
-	for att in schedule:
-		existing_attendance[tuple([att.date, att.customer_ref])] = att
+	existing_customer = {}
+	for att in customer:
+		existing_customer[tuple([att.name, att.customer_name])] = att
 
-	return existing_attendance
+	return existing_customer
 
 def get_naming_series():
-	series = frappe.get_meta("Delivery Schedule").get_field("naming_series").options.strip().split("\n")
+	series = frappe.get_meta("Customer").get_field("naming_series").options.strip().split("\n")
 	if not series:
-		frappe.throw(_("Please setup numbering series for Attendance via Setup > Numbering Series"))
+		frappe.throw(_("Please setup numbering series for Customer via Setup > Numbering Series"))
 	return series[0]
 
 
 @frappe.whitelist()
 def upload():
-	if not frappe.has_permission("Delivery Schedule", "create"):
+	if not frappe.has_permission("Customer", "create"):
 		raise frappe.PermissionError
 
 	from frappe.utils.csvutils import read_csv_content_from_uploaded_file
@@ -94,7 +96,7 @@ def upload():
 		return {"messages": msg, "error": msg}
 	columns = [scrub(f) for f in rows[4]]
 	columns[0] = "name"
-	columns[1] = "date"
+	columns[1] = "customer_name"
 	ret = []
 	error = False
 
@@ -104,13 +106,13 @@ def upload():
 		if not row: continue
 		row_idx = i + 5
 		d = frappe._dict(zip(columns, row))
-		d["doctype"] = "Delivery Schedule"
+		d["doctype"] = "Customer"
 		if d.name:
-			d["docstatus"] = frappe.db.get_value("Delivery Schedule", d.name, "docstatus")
+			d["docstatus"] = frappe.db.get_value("Customer", d.name, "docstatus")
 
 		try:
 			check_record(d)
-			ret.append(import_doc(d, "Delivery Schedule", 1, row_idx, submit=False))
+			ret.append(import_doc(d, "Customer", 1, row_idx, submit=False))
 		except Exception, e:
 			error = True
 			ret.append('Error for row (#%d) %s : %s' % (row_idx,

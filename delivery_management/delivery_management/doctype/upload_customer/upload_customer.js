@@ -12,7 +12,7 @@ delivery_management.delivery_management.UploadCn = frappe.ui.form.Controller.ext
 
 		window.location.href = repl(frappe.request.url +
 			'?cmd=%(cmd)s', {
-				cmd: "delivery_management.delivery_management.doctype.upload_delivery_schedule.upload_delivery_schedule.get_template",
+				cmd: "delivery_management.delivery_management.doctype.upload_customer.upload_customer.get_template",
 			});
 	},
 
@@ -24,7 +24,7 @@ delivery_management.delivery_management.UploadCn = frappe.ui.form.Controller.ext
 		frappe.upload.make({
 			parent: $wrapper,
 			args: {
-				method: 'delivery_management.delivery_management.doctype.upload_delivery_schedule.upload_delivery_schedule.upload'
+				method: 'delivery_management.delivery_management.doctype.upload_customer.upload_customer.upload'
 			},
 			sample_url: "e.g. http://hafary.digitalprizm.net/somefile.csv",
 			callback: function(attachment, r) {

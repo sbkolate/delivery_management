@@ -4,15 +4,26 @@
 frappe.provide("delivery_management.delivery_management");
 
 delivery_management.delivery_management.UploadCn = frappe.ui.form.Controller.extend({
+	onload: function() {
+		this.frm.set_value("delivery_from_date", get_today());
+		this.frm.set_value("delivery_to_date", get_today());
+	},
+
 	refresh: function() {
+		
 		this.show_upload();
 	},
 
 	get_template:function() {
-
+		if(!this.frm.doc.delivery_from_date || !this.frm.doc.delivery_to_date) {
+			msgprint(__("Delivery From Date and Delivery To Date is mandatory"));
+			return;
+		}
 		window.location.href = repl(frappe.request.url +
-			'?cmd=%(cmd)s', {
-				cmd: "delivery_management.delivery_management.doctype.upload_delivery_schedule.upload_delivery_schedule.get_template",
+			'?cmd=%(cmd)s&from_date=%(from_date)s&to_date=%(to_date)s', {
+				cmd: "delivery_management.delivery_management.doctype.delivery_schedule_upload.delivery_schedule_upload.get_template",
+				from_date: this.frm.doc.delivery_from_date,
+				to_date: this.frm.doc.delivery_to_date,
 			});
 	},
 
@@ -24,7 +35,7 @@ delivery_management.delivery_management.UploadCn = frappe.ui.form.Controller.ext
 		frappe.upload.make({
 			parent: $wrapper,
 			args: {
-				method: 'delivery_management.delivery_management.doctype.upload_delivery_schedule.upload_delivery_schedule.upload'
+				method: 'delivery_management.delivery_management.doctype.delivery_schedule_upload.delivery_schedule_upload.upload'
 			},
 			sample_url: "e.g. http://hafary.digitalprizm.net/somefile.csv",
 			callback: function(attachment, r) {
