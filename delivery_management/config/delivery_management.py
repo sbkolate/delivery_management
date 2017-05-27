@@ -41,6 +41,11 @@ def get_data():
 				},
 				{
 					"type": "doctype",
+					"name": "Delivery Schedule",
+					"description": _("Schedule"),
+				},
+				{
+					"type": "doctype",
 					"name": "Product",
 					"description": _("Product"),
 				},
@@ -53,6 +58,23 @@ def get_data():
 					"type": "doctype",
 					"name": "User",
 					"description": _("User"),
+				},
+			]
+		},
+
+		{
+			"label": _("Tools"),
+			"icon": "fa fa-star",
+			"items": [
+				{
+					"type": "doctype",
+					"name": "Upload Customer",
+					"description": _("Upload Customer"),
+				},
+				{
+					"type": "doctype",
+					"name": "Upload Delivery Schedule",
+					"description": _("Upload Delivery Schedule"),
 				},
 			]
 		},

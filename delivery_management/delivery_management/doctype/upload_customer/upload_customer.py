@@ -13,7 +13,6 @@ from frappe.model.document import Document
 class UploadCustomer(Document):
 	pass
 
-
 @frappe.whitelist()
 def get_template():
 	if not frappe.has_permission("Customer", "create"):
@@ -25,6 +24,7 @@ def get_template():
 	w = add_header(w)
 
 	w = add_data(w, args)
+	w = add_address(w, args)
 
 	# write out response as a type csv
 	frappe.response['result'] = cstr(w.getvalue())
@@ -37,12 +37,29 @@ def add_header(w):
 	w.writerow(["Status should be one of these values: "])
 	w.writerow(["If you are overwriting existing attendance records, 'ID' column mandatory"])
 	w.writerow(["ID", "Customer Name", "Customer Group", "Type",
-		 "Territory", "Address Line 1", "Address Line 2", "Address Line 3", 
-		 "Pin Code", "Contact No", "Mobile No", "Email", "Fax"])
+		 "Territory", "Address Title", "Address Line 1", "Address Line 2", "Address Line 3", 
+		 "City", "Pin Code", "Contact No", "First Name", "Last Name", "Mobile No", "Email", "Fax"])
 	return w
 
 def add_data(w, args):
 	customers = get_active_customers()
+	existing_customer_records = get_existing_customer_records(args)
+	for customer in customers:
+		existing_customer = {}
+		if existing_customer_records \
+			and tuple([name, customer.customer_name]) in existing_customer_records:
+				existing_customer = existing_customer_records[tuple([name, customer.customer_name])]
+		row = [
+			existing_customer and existing_customer.name or "",
+			customer.name, customer.customer_name, date,
+			existing_customer and existing_customer.status or "",
+			existing_customer and existing_customer.leave_type or "", customer.customer_name,
+			existing_customer and existing_customer.naming_series or get_naming_series(),
+		]
+		w.writerow(row)
+	return w
+
+def add_address(w, args):
 	existing_customer_records = get_existing_customer_records(args)
 	for customer in customers:
 		existing_customer = {}

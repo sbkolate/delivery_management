@@ -13,14 +13,6 @@ def get_data():
 		},
 
 		{
-			"module_name": "Upload Delivery Schedule",
-			"color": "#669999",
-			"icon": "fa fa-upload",
-			"type": "module",
-			"label": _("Upload Delivery Schedule")
-		},
-
-		{
 			"module_name": "Carrier",
 			"_doctype": "Carrier",
 			"color": "#607D8B",
@@ -80,5 +72,30 @@ def get_data():
 			"icon": "fa fa-product-hunt",
 			"type": "link",
 			"link": "List/Delivery Order Item"
+		},
+
+		{
+			"module_name": "Delivery Schedule",
+			"_doctype": "Delivery Schedule",
+			"color": "#c3a94a",
+			"icon": "fa fa-calendar",
+			"type": "link",
+			"link": "List/Delivery Schedule"
+		},
+		{
+			"module_name": "Upload Delivery Schedule",
+			"_doctype": "Upload Delivery Schedule",
+			"color": "#669999",
+			"icon": "fa fa-upload",
+			"type": "link",
+			"link": "List/Upload Delivery Schedule"
+		},
+		{
+			"module_name": "Upload Customer",
+			"_doctype": "Upload Customer",
+			"color": "#03A9F4",
+			"icon": "fa fa-upload",
+			"type": "link",
+			"link": "List/Upload Customer"
 		},
 	]
