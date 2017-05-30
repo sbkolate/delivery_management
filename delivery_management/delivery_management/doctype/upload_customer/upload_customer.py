@@ -31,10 +31,6 @@ def get_template():
 	frappe.response['doctype'] = "Customer"
 
 def add_header(w):
-	w.writerow(["Notes:"])
-	w.writerow(["Please do not change the template headings"])
-	w.writerow(["Status should be one of these values: "])
-	w.writerow(["If you are overwriting existing attendance records, 'ID' column mandatory"])
 	w.writerow(["ID", "Customer Name", "Customer Group", "Type",
 		 "Territory", "Address Title", "Address Line 1", "Address Line 2", "Address Line 3", "City",
 		 "Pin Code", "First Name", "Last Name", "Email", "Phone", "Mobile No", "Fax"])

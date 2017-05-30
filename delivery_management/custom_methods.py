@@ -11,12 +11,12 @@ def set_contact_full_name(doc, method):
 
 @frappe.whitelist()
 def create_address(doc, method):
-	if not doc.address_title or not doc.address_line_1 or not doc.city:
-		frappe.throw("Address Title, Address Line 1 and City are mandatory fields, Please fill all mandatory fields.")
+	# if not doc.address_title or not doc.address_line_1 or not doc.city:
+	# 	frappe.msgprint("Address Title, Address Line 1 and City are mandatory")
 
-	existing_address_title = frappe.db.get_value("Address", doc.address_title)
-	if existing_address_title == doc.address_title:
-		frappe.throw("Duplicate entry for {0} " + doc.address_title + " Address Title must be unique")
+	# existing_address_title = frappe.db.get_value("Address", doc.address_title)
+	# if existing_address_title == doc.address_title:
+	# 	frappe.msgprint("Duplicate entry for {0} " + doc.address_title + " Address Title must be unique")
 	
 	if doc.address_title and doc.address_line_1 and doc.city:
 		address_doc = frappe.new_doc("Address")
@@ -26,17 +26,20 @@ def create_address(doc, method):
 		address_doc.address_line3 = doc.address_line_3
 		address_doc.city = doc.city
 		address_doc.pincode = doc.pin_code
+
+		customer_link = {
+			"doctype": "Dynamic Link",
+			"link_doctype": "Customer",
+			"link_name": doc.name,
+			"link_title": doc.customer_name,
+			}
+		address_doc.append("links", customer_link)
 		address_doc.save(ignore_permissions=True)
-		return frappe.msgprint("Address is created for " + address_doc.address_title)
+		# frappe.msgprint("Address is created for " + address_doc.address_title)
 
-@frappe.whitelist()
-def create_contact(doc, method):
-	if not doc.first_name:
-		frappe.throw("First Name is a mandatory field, Please fill the mandatory field.")
-
-	existing_first_name = frappe.db.get_value("Contact", doc.first_name)
-	if existing_first_name == doc.first_name:
-		frappe.throw("Duplicate entry for {0} " + doc.first_name + " Contact Person's first name must be unique")
+	# existing_first_name = frappe.db.get_value("Contact", doc.first_name)
+	# if existing_first_name == doc.first_name:
+	# 	frappe.msgprint("Duplicate entry for {0} " + doc.first_name + " Contact Person's first name must be unique")
 		
 	if doc.first_name:
 		contact_doc = frappe.new_doc("Contact")
@@ -46,5 +49,13 @@ def create_contact(doc, method):
 		contact_doc.status = "Passive"
 		contact_doc.phone = doc.phone
 		contact_doc.mobile_no = doc.mobile_no
+
+		customer_link = {
+			"doctype": "Dynamic Link",
+			"link_doctype": "Customer",
+			"link_name": doc.name,
+			"link_title": doc.customer_name,
+			}
+		contact_doc.append("links", customer_link)
 		contact_doc.save(ignore_permissions=True)
-		return frappe.msgprint("Contact is created " + contact_doc.first_name)
+		# frappe.msgprint("Contact is created " + contact_doc.first_name)
