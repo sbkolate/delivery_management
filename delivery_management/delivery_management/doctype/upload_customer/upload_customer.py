@@ -31,6 +31,8 @@ def get_template():
 	frappe.response['doctype'] = "Customer"
 
 def add_header(w):
+	w.writerow(["Notes:"])
+	w.writerow(["Please do not change the template headings"])
 	w.writerow(["ID", "Customer Name", "Customer Group", "Type",
 		 "Territory", "Address Title", "Address Line 1", "Address Line 2", "Address Line 3", "City",
 		 "Pin Code", "First Name", "Last Name", "Email", "Phone", "Mobile No", "Fax"])
@@ -89,7 +91,7 @@ def upload():
 	if not rows:
 		msg = [_("Please select a csv file")]
 		return {"messages": msg, "error": msg}
-	columns = [scrub(f) for f in rows[4]]
+	columns = [scrub(f) for f in rows[2]]
 	columns[0] = "name"
 	columns[1] = "customer_name"
 	ret = []
@@ -97,9 +99,9 @@ def upload():
 
 	from frappe.utils.csvutils import check_record, import_doc
 
-	for i, row in enumerate(rows[5:]):
+	for i, row in enumerate(rows[3:]):
 		if not row: continue
-		row_idx = i + 5
+		row_idx = i + 3
 		d = frappe._dict(zip(columns, row))
 		d["doctype"] = "Customer"
 		if d.name:

@@ -45,7 +45,7 @@ def create_address(doc, method):
 		contact_doc = frappe.new_doc("Contact")
 		contact_doc.first_name = doc.first_name
 		contact_doc.last_name = doc.last_name
-		contact_doc.email_id = doc.email_address
+		contact_doc.email_id = doc.email
 		contact_doc.status = "Passive"
 		contact_doc.phone = doc.phone
 		contact_doc.mobile_no = doc.mobile_no
