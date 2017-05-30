@@ -36,8 +36,8 @@ def add_header(w):
 	w.writerow(["Status should be one of these values: "])
 	w.writerow(["If you are overwriting existing attendance records, 'ID' column mandatory"])
 	w.writerow(["ID", "Customer Name", "Customer Group", "Type",
-		 "Territory", "Address Title", "Address Line 1", "Address Line 2", "Address Line 3", 
-		 "City", "Pin Code", "Contact No", "First Name", "Last Name", "Mobile No", "Email", "Fax"])
+		 "Territory", "Address Title", "Address Line 1", "Address Line 2", "Address Line 3", "City",
+		 "Pin Code", "First Name", "Last Name", "Email", "Phone", "Mobile No", "Fax"])
 	return w
 
 def add_data(w, args):

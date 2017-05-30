@@ -79,6 +79,9 @@ doc_events = {
 	"Contact": {
 		"validate": "delivery_management.custom_methods.set_contact_full_name",
 	},
+	"Customer": {
+		"validate": ["delivery_management.custom_methods.create_address","delivery_management.custom_methods.create_contact"]
+	},
 }
 
 # doc_events = {
