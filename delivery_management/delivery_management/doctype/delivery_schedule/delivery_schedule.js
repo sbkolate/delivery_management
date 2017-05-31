@@ -26,8 +26,8 @@ frappe.ui.form.on('Delivery Schedule', {
 //     }
 // });
 
-// cur_frm.fields_dict.customer.get_query = function(doc) {
-//  	return {
-//  		filters: {"address": doc.address_html}
-//  	}
-// }
+cur_frm.fields_dict.address.get_query = function(doc) {
+ 	return {
+ 		filters: {"customer": doc.customer_ref}
+ 	}
+}

@@ -18,14 +18,18 @@ def create_address(doc, method):
 	# if existing_address_title == doc.address_title:
 	# 	frappe.msgprint("Duplicate entry for {0} " + doc.address_title + " Address Title must be unique")
 	
-	if doc.address_title and doc.address_line_1 and doc.city:
+	if doc.address_line_1:
 		address_doc = frappe.new_doc("Address")
-		address_doc.address_title = doc.address_title
+		address_doc.address_title = doc.company_name
 		address_doc.address_line1 = doc.address_line_1
 		address_doc.address_line2 = doc.address_line_2
 		address_doc.address_line3 = doc.address_line_3
 		address_doc.city = doc.city
 		address_doc.pincode = doc.pin_code
+		address_doc.email_id = doc.email
+		address_doc.mobile_no = doc.mobile_no
+		address_doc.phone = doc.phone
+		address_doc.fax = doc.fax
 
 		customer_link = {
 			"doctype": "Dynamic Link",
@@ -41,10 +45,13 @@ def create_address(doc, method):
 	# if existing_first_name == doc.first_name:
 	# 	frappe.msgprint("Duplicate entry for {0} " + doc.first_name + " Contact Person's first name must be unique")
 		
+	
+@frappe.whitelist()
+def create_delivery_contact(doc, method):
 	if doc.first_name:
 		contact_doc = frappe.new_doc("Contact")
-		contact_doc.first_name = doc.first_name
-		contact_doc.last_name = doc.last_name
+		contact_doc.first_name = doc.contact_name
+		contact_doc.last_name = " "
 		contact_doc.email_id = doc.email
 		contact_doc.status = "Passive"
 		contact_doc.phone = doc.phone
@@ -52,7 +59,7 @@ def create_address(doc, method):
 
 		customer_link = {
 			"doctype": "Dynamic Link",
-			"link_doctype": "Customer",
+			"link_doctype": "Delivery Schedule",
 			"link_name": doc.name,
 			"link_title": doc.customer_name,
 			}
@@ -60,4 +67,4 @@ def create_address(doc, method):
 		contact_doc.save(ignore_permissions=True)
 		# frappe.msgprint("Contact is created " + contact_doc.first_name)
 
-		
+

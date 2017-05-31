@@ -33,9 +33,9 @@ def get_template():
 def add_header(w):
 	w.writerow(["Notes:"])
 	w.writerow(["Please do not change the template headings"])
-	w.writerow(["ID", "Customer Name", "Customer Group", "Type",
-		 "Territory", "Address Title", "Address Line 1", "Address Line 2", "Address Line 3", "City",
-		 "Pin Code", "First Name", "Last Name", "Email", "Phone", "Mobile No", "Fax"])
+	w.writerow(["ID", "Customer Ref", "Company Name", "Customer Group", "Type",
+		 "Territory", "Address Line 1", "Address Line 2", "Address Line 3", "City",
+		 "Pin Code", "Email", "Phone", "Mobile No", "Fax"])
 	return w
 
 def add_data(w, args):
