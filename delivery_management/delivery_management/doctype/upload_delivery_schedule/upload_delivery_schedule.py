@@ -32,8 +32,6 @@ def get_template():
 def add_header(w):
 	w.writerow(["Notes:"])
 	w.writerow(["Please do not change the template headings"])
-	w.writerow(["Status should be one of these values: "])
-	w.writerow(["If you are overwriting existing attendance records, 'ID' column mandatory"])
 	w.writerow(["ID", "Date", "Customer Ref", "Delivery Note No", "Lorry No", "Trip",
 		 "Contact Person Name", "Address Line 1", "Address Line 2", "Address Line 3", 
 		 "Pin Code", "Contact No", "Mobile No", "Email", "Remarks"])
@@ -92,7 +90,7 @@ def upload():
 	if not rows:
 		msg = [_("Please select a csv file")]
 		return {"messages": msg, "error": msg}
-	columns = [scrub(f) for f in rows[4]]
+	columns = [scrub(f) for f in rows[2]]
 	columns[0] = "name"
 	columns[1] = "date"
 	ret = []
@@ -100,9 +98,9 @@ def upload():
 
 	from frappe.utils.csvutils import check_record, import_doc
 
-	for i, row in enumerate(rows[5:]):
+	for i, row in enumerate(rows[3:]):
 		if not row: continue
-		row_idx = i + 5
+		row_idx = i + 3
 		d = frappe._dict(zip(columns, row))
 		d["doctype"] = "Delivery Schedule"
 		if d.name:
