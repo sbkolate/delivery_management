@@ -92,8 +92,9 @@ def upload():
 		msg = [_("Please select a csv file")]
 		return {"messages": msg, "error": msg}
 	columns = [scrub(f) for f in rows[2]]
-	columns[0] = "name"
-	columns[1] = "customer_name"
+	columns[0] = "customer_name"
+	columns[1] = "customer_ref"
+	columns[2] = "company_name"
 	ret = []
 	error = False
 

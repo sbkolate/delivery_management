@@ -11,13 +11,14 @@ def set_contact_full_name(doc, method):
 
 @frappe.whitelist()
 def create_address(doc, method):
+	doc.customer_name = doc.company_name
+	doc.save(ignore_permissions=True)
 	# if not doc.address_title or not doc.address_line_1 or not doc.city:
 	# 	frappe.msgprint("Address Title, Address Line 1 and City are mandatory")
 
 	# existing_address_title = frappe.db.get_value("Address", doc.address_title)
 	# if existing_address_title == doc.address_title:
 	# 	frappe.msgprint("Duplicate entry for {0} " + doc.address_title + " Address Title must be unique")
-	
 	if doc.address_line_1:
 		address_doc = frappe.new_doc("Address")
 		address_doc.address_title = doc.company_name
