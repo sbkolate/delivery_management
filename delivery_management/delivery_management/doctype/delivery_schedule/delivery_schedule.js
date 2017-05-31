@@ -11,5 +11,23 @@ cur_frm.add_fetch('address', 'phone', 'contact_no');
 frappe.ui.form.on('Delivery Schedule', {
 	refresh: function(frm) {
 
-	}
+	},
+	address: function(frm, cdt, cdn) {
+		erpnext.utils.get_address_display(frm, 'address', 'address_display', false);
+	},
 });
+
+
+// cur_frm.set_query('distributor', function () {
+//     return {
+//         filters: {
+//             'party_type': 'Distributor'
+//         }
+//     }
+// });
+
+// cur_frm.fields_dict.customer.get_query = function(doc) {
+//  	return {
+//  		filters: {"address": doc.address_html}
+//  	}
+// }

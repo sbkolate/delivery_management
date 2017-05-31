@@ -59,3 +59,5 @@ def create_address(doc, method):
 		contact_doc.append("links", customer_link)
 		contact_doc.save(ignore_permissions=True)
 		# frappe.msgprint("Contact is created " + contact_doc.first_name)
+
+		
