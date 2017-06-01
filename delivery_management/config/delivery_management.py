@@ -88,11 +88,6 @@ def get_data():
 					"name": "Delivery Schedule Details",
 					"doctype": "Delivery Schedule"
 				},
-				{
-					"type": "doctype",
-					"name": "Upload Delivery Schedule",
-					"description": _("Upload Delivery Schedule"),
-				},
 			]
 		},
 	]
