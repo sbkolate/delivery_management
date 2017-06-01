@@ -11,6 +11,8 @@ def set_contact_full_name(doc, method):
 
 @frappe.whitelist()
 def create_address(doc, method):
+	if doc.company_name:
+		doc.customer_name = doc.company_name
 	doc.save(ignore_permissions=True)
 	# if not doc.address_title or not doc.address_line_1 or not doc.city:
 	# 	frappe.msgprint("Address Title, Address Line 1 and City are mandatory")
