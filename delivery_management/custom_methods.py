@@ -20,7 +20,7 @@ def create_address(doc, method):
 	# 	frappe.msgprint("Duplicate entry for {0} " + doc.address_title + " Address Title must be unique")
 	if doc.address_line_1:
 		address_doc = frappe.new_doc("Address")
-		address_doc.address_title = doc.company_name
+		address_doc.address_title = doc.customer_name
 		address_doc.address_line1 = doc.address_line_1
 		address_doc.address_line2 = doc.address_line_2
 		address_doc.address_line3 = doc.address_line_3
