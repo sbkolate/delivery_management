@@ -8,6 +8,11 @@
 // cur_frm.add_fetch('address', 'pincode', 'pin_code');
 // cur_frm.add_fetch('address', 'phone', 'contact_no');
 
+cur_frm.add_fetch('lorry_no', 'driver', 'driver');
+cur_frm.add_fetch('driver', 'user_id', 'driver_user_id');
+cur_frm.add_fetch('driver', 'full_name', 'driver_full_name');
+
+
 frappe.ui.form.on('Delivery Schedule', {
 	refresh: function(frm) {
 
