@@ -93,8 +93,8 @@ def upload():
 		return {"messages": msg, "error": msg}
 	columns = [scrub(f) for f in rows[2]]
 	columns[0] = "customer_ref"
-	columns[1] = "customer_ref"
-	columns[2] = "customer_name"
+	columns[1] = "customer_name"
+	columns[2] = "customer_ref"
 	ret = []
 	error = False
 
@@ -105,6 +105,10 @@ def upload():
 		row_idx = i + 3
 		d = frappe._dict(zip(columns, row))
 		d["doctype"] = "Customer"
+		if not d.customer_group:
+			d["customer_group"] = "Commercial"
+		if not d.territory:
+			d["territory"] = "Singapore"
 		if d.name:
 			d["docstatus"] = frappe.db.get_value("Customer", d.name, "docstatus")
 

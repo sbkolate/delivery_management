@@ -25,7 +25,7 @@ def create_address(doc, method):
 		address_doc.address_title = doc.customer_name
 		address_doc.address_line1 = doc.address_line_1
 		address_doc.address_line2 = doc.address_line_2
-		address_doc.address_line3 = doc.address_line_3
+		address_doc.address_line_3 = doc.address_line_3
 		address_doc.city = doc.city
 		address_doc.pincode = doc.pin_code
 		address_doc.email_id = doc.email

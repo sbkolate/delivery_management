@@ -85,7 +85,7 @@ def get_data():
 		{
 			"module_name": "Upload Delivery Schedule",
 			"_doctype": "Upload Delivery Schedule",
-			"color": "#669999",
+			"color": "#03A9F4",
 			"icon": "fa fa-upload",
 			"type": "link",
 			"link": "List/Upload Delivery Schedule"

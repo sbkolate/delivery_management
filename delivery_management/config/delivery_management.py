@@ -78,4 +78,21 @@ def get_data():
 				},
 			]
 		},
+		{
+			"label": _("Reports"),
+			"icon": "fa fa-star",
+			"items": [
+				{
+					"type": "report",
+					"is_query_report": True,
+					"name": "Delivery Schedule Details",
+					"doctype": "Delivery Schedule"
+				},
+				{
+					"type": "doctype",
+					"name": "Upload Delivery Schedule",
+					"description": _("Upload Delivery Schedule"),
+				},
+			]
+		},
 	]
