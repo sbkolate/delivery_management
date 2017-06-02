@@ -58,6 +58,7 @@ def get_driver_details_from_email(user_id=None):
 		"Full Name": driver.full_name,
 		"Email ": driver.email_address,
 		"Contact Number" : driver.contact_number,
+		"Profile Picture": driver.profile_picture,
 		"Assigned Vehicle No.": driver.carrier,
 		}
 	return driver_details
@@ -68,6 +69,7 @@ def get_delivery_order_customer_details(name=None):
 	customer_details = {
 		"ID" : delivery_order.name,
 		"Full Name": delivery_order.customer,
+		"Profile Picture": driver.profile_picture,
 		"Email ": delivery_order.customer,
 		"Contact Number" : driver.contact_number,
 		"Assigned Vehicle No.": driver.vehicle_no
