@@ -34,15 +34,33 @@ def get_driver_details(first_name=None):
 	driver = frappe.get_doc("Driver", first_name)
 	if not driver:
 		frappe.throw("Driver " + name +" not found...")
+
 	driver_details = {
 		"ID" : driver.name,
-		"Full Name": driver.first_name + " " + driver.last_name,
+		"Full Name": driver.full_name,
 		"Email ": driver.email_address,
 		"Contact Number" : driver.contact_number,
-		"Assigned Vehicle No.": driver.vehicle_no,
+		"Assigned Vehicle No.": driver.carrier,
 		}
 	return driver_details
 
+@frappe.whitelist(allow_guest=True)
+def get_driver_details_from_email(user_id=None):
+	driver_id = frappe.db.get_value("Driver", {"user_id":user_id}, "name")
+	print "aaa\n\n"
+	print driver_id
+	driver = frappe.get_doc("Driver", driver_id)
+	if not driver:
+		frappe.throw("Driver " + name +" not found...")
+
+	driver_details = {
+		"ID" : driver.name,
+		"Full Name": driver.full_name,
+		"Email ": driver.email_address,
+		"Contact Number" : driver.contact_number,
+		"Assigned Vehicle No.": driver.carrier,
+		}
+	return driver_details
 
 @frappe.whitelist(allow_guest=True)
 def get_delivery_order_customer_details(name=None):
@@ -50,7 +68,7 @@ def get_delivery_order_customer_details(name=None):
 	customer_details = {
 		"ID" : delivery_order.name,
 		"Full Name": delivery_order.customer,
-		"Email ": delivery_order.customer.,
+		"Email ": delivery_order.customer,
 		"Contact Number" : driver.contact_number,
 		"Assigned Vehicle No.": driver.vehicle_no
 		
