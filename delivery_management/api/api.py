@@ -76,3 +76,12 @@ def get_delivery_order_customer_details(name=None):
 		
 	}
 	return customer_details
+
+@frappe.whitelist(allow_guest=True)
+def get_delivery_schedule_list():
+	ds_list = frappe.db.sql("select name, customer_ref,delivery_note_no,date, address, address_display  from `tabDelivery Schedule`", as_dict=1)
+
+	return ds_list
+
+
+
