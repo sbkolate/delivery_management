@@ -13,4 +13,8 @@ def update_carrier_location(name=None, lat=None, lon=None):
 		carrier.latitude = lat
 		carrier.longitude = lon
 		carrier.save(ignore_permissions=True)
-		return "Location updated for Carrier " + carrier.name
+		frappe.db.commit()
+		if carrier.name:
+			return "Location updated for Carrier " + carrier.name
+		else: 
+			return "carrier not found"
