@@ -7,6 +7,18 @@ def ping():
 	return "pong"
 
 @frappe.whitelist(allow_guest=True)
+def update_img_in_delivery_schedule(name=None,img_1=None):
+	ds_doc = frappe.get_doc("Delivery Schedule", name)
+	if ds_doc.name:
+		ds_doc.flags.ignore_permissions = True
+		ds_doc.img_1 = img_1
+		# ds_doc.longitude = lon
+		ds_doc.save(ignore_permissions=True)
+		frappe.db.commit()
+		return "Delivery Schedule is updated for " + ds_doc.name
+	
+
+@frappe.whitelist(allow_guest=True)
 def update_location_for_carrier(name=None,lat=None,lon=None):
 	carrier = frappe.get_doc("Carrier", name)
 	if carrier.name:
