@@ -96,4 +96,33 @@ def get_delivery_schedule_list():
 	return ds_list
 
 
+@frappe.whitelist(allow_guest=True)
+def update_start_loc_in_ds(name=None,lat=None,lon=None):
+	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
+	if ds_doc.name:
+		ds_doc.start_lat = lat
+		ds_doc.start_long = lon
+		ds_doc.save(ignore_permissions=True)
+		frappe.db.commit()
+		return "Location updated for the Delivery Shedule Latitude " + ds_doc.start_lat+" Longitude "+ds_doc.start_long
+	
+	
+
+@frappe.whitelist(allow_guest=True)
+def update_stop_loc_in_ds(name=None,lat=None,lon=None):
+	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
+	if ds_doc.name:
+		ds_doc.stop_lat = lat
+		ds_doc.stop_long = lon
+		ds_doc.save(ignore_permissions=True)
+		frappe.db.commit()
+		return "Location updated for the Delivery Shedule Latitude " + ds_doc.stop_lat+" Longitude "+ds_doc.stop_long
+
+
+@frappe.whitelist(allow_guest=True)
+def get_demo():
+	get_demo="demo api"
+	return get_demo
+
+
 
