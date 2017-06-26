@@ -101,10 +101,10 @@ def update_start_loc_in_ds(name=None,lat=None,lon=None):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
 	if ds_doc.name:
 		ds_doc.start_lat = lat
-		ds_doc.start_lon = lon
+		ds_doc.start_long = lon
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
-		return "Location updated for the Delivery Shedule Latitude " + ds_doc.start_lat+" Longitude "+ds_doc.start_lon
+		return "Location updated for the Delivery Shedule Latitude " + ds_doc.start_lat+" Longitude "+ds_doc.start_long
 	
 	
 
