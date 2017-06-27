@@ -117,6 +117,29 @@ def update_stop_loc_in_ds(name=None,lat=None,lon=None):
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
 		return "Location updated for the Delivery Shedule Latitude " + ds_doc.stop_lat+" Longitude "+ds_doc.stop_long
+#update path
+@frappe.whitelist(allow_guest=True)
+def update_driving_in_ds(name=None,lat=None,lon=None,):
+	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
+	if ds_doc.driving_path:
+		import ast
+		path_list = ast.literal_eval(ds_doc.driving_path)
+		mylist = []
+		mylist = [lat,lon]
+		path_list.append(mylist)
+		ds_doc.driving_path = str(path_list)
+		ds_doc.save(ignore_permissions=True)
+		frappe.db.commit()
+	else:
+		path_list=[]
+		driving_path_list = []
+		path_list.append(lat)
+		path_list.append(lon)
+		driving_path_list.append(path_list)
+		ds_doc.driving_path = str(driving_path_list)
+		ds_doc.save(ignore_permissions=True)
+		frappe.db.commit()
+	return "Location updated for the Delivery Shedule for Dring Path "
 
 
 @frappe.whitelist(allow_guest=True)
