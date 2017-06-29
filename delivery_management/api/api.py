@@ -7,6 +7,18 @@ def ping():
 	return "pong"
 
 @frappe.whitelist(allow_guest=True)
+def update_img_in_delivery_schedule(name=None,img_1=None):
+	ds_doc = frappe.get_doc("Delivery Schedule", name)
+	if ds_doc.name:
+		ds_doc.flags.ignore_permissions = True
+		ds_doc.img_1 = img_1
+		# ds_doc.longitude = lon
+		ds_doc.save(ignore_permissions=True)
+		frappe.db.commit()
+		return "Delivery Schedule is updated for " + ds_doc.name
+	
+
+@frappe.whitelist(allow_guest=True)
 def update_location_for_carrier(name=None,lat=None,lon=None):
 	carrier = frappe.get_doc("Carrier", name)
 	if carrier.name:
@@ -82,6 +94,58 @@ def get_delivery_schedule_list():
 	ds_list = frappe.db.sql("select name, customer_ref,delivery_note_no,date, address, address_display  from `tabDelivery Schedule`", as_dict=1)
 
 	return ds_list
+
+
+@frappe.whitelist(allow_guest=True)
+def update_start_loc_in_ds(name=None,lat=None,lon=None):
+	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
+	if ds_doc.name:
+		ds_doc.start_lat = lat
+		ds_doc.start_long = lon
+		ds_doc.save(ignore_permissions=True)
+		frappe.db.commit()
+		return "Location updated for the Delivery Shedule Latitude " + ds_doc.start_lat+" Longitude "+ds_doc.start_long
+	
+	
+
+@frappe.whitelist(allow_guest=True)
+def update_stop_loc_in_ds(name=None,lat=None,lon=None):
+	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
+	if ds_doc.name:
+		ds_doc.stop_lat = lat
+		ds_doc.stop_long = lon
+		ds_doc.save(ignore_permissions=True)
+		frappe.db.commit()
+		return "Location updated for the Delivery Shedule Latitude " + ds_doc.stop_lat+" Longitude "+ds_doc.stop_long
+#update path
+@frappe.whitelist(allow_guest=True)
+def update_driving_in_ds(name=None,lat=None,lon=None,):
+	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
+	if ds_doc.driving_path:
+		import ast
+		path_list = ast.literal_eval(ds_doc.driving_path)
+		mylist = []
+		mylist = [lat,lon]
+		path_list.append(mylist)
+		ds_doc.driving_path = str(path_list)
+		ds_doc.save(ignore_permissions=True)
+		frappe.db.commit()
+	else:
+		path_list=[]
+		driving_path_list = []
+		path_list.append(lat)
+		path_list.append(lon)
+		driving_path_list.append(path_list)
+		ds_doc.driving_path = str(driving_path_list)
+		ds_doc.save(ignore_permissions=True)
+		frappe.db.commit()
+	return "Location updated for the Delivery Shedule for Dring Path "
+
+
+@frappe.whitelist(allow_guest=True)
+def get_demo():
+	get_demo="demo api"
+	return get_demo
 
 
 
