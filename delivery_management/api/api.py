@@ -148,4 +148,15 @@ def get_demo():
 	return get_demo
 
 
+@frappe.whitelist(allow_guest=True)
+def get_single_delivery_shedule(name=None):
+	single_delivery_shedule = frappe.get_doc("Delivery Schedule", str(name))
+	delivery_shedule = {
+		"ID" : single_delivery_shedule.name,
+		"Customer Ref": single_delivery_shedule.customer_ref,
+		"Date": single_delivery_shedule.date,
+	  "Address Disply":single_delivery_shedule.address_line_1+" "+single_delivery_shedule.address_line_2
+	}
+	return delivery_shedule
+
 
