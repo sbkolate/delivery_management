@@ -91,7 +91,7 @@ def get_delivery_order_customer_details(name=None):
 
 @frappe.whitelist(allow_guest=True)
 def get_delivery_schedule_list():
-	ds_list = frappe.db.sql("select name, customer_ref,delivery_note_no,date, address, address_display  from `tabDelivery Schedule`", as_dict=1)
+	ds_list = frappe.db.sql("select name, customer_ref,delivery_note_no,date,trip,CONCAT(address_line_1,' ',address_line_2)AS Address from `tabDelivery Schedule`", as_dict=1)
 
 	return ds_list
 
@@ -155,7 +155,13 @@ def get_single_delivery_shedule(name=None):
 		"ID" : single_delivery_shedule.name,
 		"Customer Ref": single_delivery_shedule.customer_ref,
 		"Date": single_delivery_shedule.date,
-	  "Address Disply":single_delivery_shedule.address_line_1+" "+single_delivery_shedule.address_line_2
+	  	"Address Disply":single_delivery_shedule.address_line_1+" "+single_delivery_shedule.address_line_2,
+	  	"Driver ID": single_delivery_shedule.driver_user_id,
+	  	"Driver Name": single_delivery_shedule.driver_full_name,
+	  	"Trip": single_delivery_shedule.trip,
+	  	"Delivery Note": single_delivery_shedule.delivery_note_no,
+
+
 	}
 	return delivery_shedule
 
