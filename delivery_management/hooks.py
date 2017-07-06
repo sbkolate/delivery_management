@@ -51,7 +51,7 @@ fixtures = ['Custom Field', 'Property Setter', "Custom Script", "Print Format"]
 # Installation
 # ------------
 
-before_install = "delivery_management.install.create_new_role"
+before_install = "delivery_management.setup.install.create_new_role"
 # after_install = "delivery_management.install.after_install"
 
 # Desk Notifications
