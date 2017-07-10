@@ -4,11 +4,11 @@ from . import __version__ as app_version
 
 app_name = "delivery_management"
 app_title = "Delivery Management"
-app_publisher = "DPI-Sagar"
+app_publisher = "DPI"
 app_description = "Delivery Management"
 app_icon = "octicon octicon-file-directory"
 app_color = "grey"
-app_email = "sagar@digitalprizm.net"
+app_email = "contact@digitalprizm.net"
 app_license = "MIT"
 
 # Includes in <head>
@@ -28,6 +28,10 @@ app_include_js = "/assets/delivery_management/js/customer_import_tool.js"
 
 # Home Pages
 # ----------
+website_context = {
+	"favicon": 	"/assets/erpnext/images/cargo-truck.png",
+	"splash_image": "/assets/erpnext/images/cargo-truck.png"
+}
 
 # application home page (will override Website Settings)
 # home_page = "login"
