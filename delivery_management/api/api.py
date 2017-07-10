@@ -65,6 +65,10 @@ def get_driver_details_from_email(user_id=None):
 	if not driver:
 		frappe.throw("Driver " + name +" not found...")
 
+	carrier_type = ""
+	if driver.carrier:
+		carrier_type = frappe.db.get_value("Carrier",driver.carrier,"type")
+	
 	driver_details = {
 		"ID" : driver.name,
 		"Full Name": driver.full_name,
@@ -72,6 +76,7 @@ def get_driver_details_from_email(user_id=None):
 		"Contact Number" : driver.contact_number,
 		"Profile Picture": driver.profile_picture,
 		"Assigned Vehicle No.": driver.carrier,
+		"carrier_type": carrier_type,
 		}
 	return driver_details
 
