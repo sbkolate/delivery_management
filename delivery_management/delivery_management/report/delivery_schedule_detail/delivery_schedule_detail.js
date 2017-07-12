@@ -9,5 +9,17 @@ frappe.query_reports["Delivery Schedule Detail"] = {
 			"fieldtype": "Date",
 			// "default": frappe.datetime.get_today(),
 		},
+
+		{
+			"fieldname":"driver",
+			"label": __("Driver"),
+			"fieldtype": "Link",
+			"options": "Driver",
+			// "default": frappe.datetime.get_today(),
+		},
 	]
+
+
 }
+
+

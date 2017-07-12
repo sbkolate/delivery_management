@@ -1,0 +1,68 @@
+<div style="margin-bottom: 7px;" class="text-center">
+	Delivery Schedule
+</div>
+<h2 class="text-center">{%= __("Trip No. 1") %}</h2>
+<h4 class="text-center">Date 01/04/2017</h4>
+<h5 class="text-center">
+
+</h5>
+<hr>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+		
+		<!-- 	<th style="width: 2%">{%= __("Date") %}</th>
+			<th style="width: 5%">{%= __("Customer Ref") %}</th>
+			<th style="width: 5%">{%= __("Delivery Note No") %}</th>
+			<th style="width: 3%">{%= __("Lorry No") %}</th>
+			<th style="width: 2%">{%= __("Trip") %}</th>
+			<th style="width: 7%">{%= __("Contact Person Name") %}</th>
+			<th style="width: 10%">{%= __("Address") %}</th>
+			
+			<th style="width: 3%">{%= __("Mobile No") %}</th>
+			<th style="width: 7%">{%= __("Email") %}</th>
+			<th style="width: 3%">{%= __("Contact No") %}</th>
+			<th style="width: 5%">{%= __("Remarks") %}</th> -->
+
+
+			<th>{%= __("Date") %}</th>
+			<th>{%= __("Customer Ref") %}</th>
+			<th>{%= __("Delivery Note No") %}</th>
+			<th>{%= __("Lorry No") %}</th>
+			<th>{%= __("Trip") %}</th>
+			<th>{%= __("Contact Person Name") %}</th>
+			<th>{%= __("Address") %}</th>
+			<th>{%= __("Mobile No") %}</th>
+			<th>{%= __("Email") %}</th>
+			<th>{%= __("Contact No") %}</th>
+			<th>{%= __("Remarks") %}</th>
+
+			
+		</tr>
+	</thead>
+	<tbody>
+	{% for(var i=0, l=data.length; i<l; i++) { %}
+		<tr>
+			
+			<td>
+				{%= dateutil.str_to_user(data[i][__("Date")]) %}
+			</td>
+			<td>{%= data[i][__("Customer Ref")]  %}</td>
+			<td>{%= data[i][__("Delivery Note")]  %}</td>
+			<td>{%= data[i][__("Lorry No")]  %} </td>
+			<td>{%= data[i][__("Trip")]  %}</td>
+			<td>{%= data[i][__("Contact Person Name")]  %}</td>
+			<td>{%= data[i][__("Address Line 1")]  %} {%= data[i][__("Address Line 2")]  %} {%= data[i][__("Address Line 3")]  %} {%= data[i][__("Pin Code")]  %}</td>
+			<td>{%= data[i][__("Mobile No")]  %}</td>
+			<td>{%= data[i][__("Email")]  %}</td>
+			<td>{%= data[i][__("Contact No")]  %}</td>
+			<td>{%= data[i][__("Remark")]  %}</td>
+		</tr>
+	{% } %}
+	</tbody>
+</table>
+<p class="text-right text-muted">Thanks</p>
+
+
+
+

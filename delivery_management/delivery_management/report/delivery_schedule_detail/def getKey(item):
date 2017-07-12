@@ -1,0 +1,49 @@
+ def getKey(item):
+        return item[1]
+
+data= sorted(data, key=getKey)
+from collections import defaultdict
+d = defaultdict(list)
+for row in data:
+    d[row[1]].append(row)
+
+my_list = [[]]
+for key in d.values():
+    if len(key)>1:
+        print my_list.extend(key)
+
+print "\nmy_list",my_list
+print "\data",data
+
+ my_new_list = []
+    my_list.remove(my_list[0])
+    j=0
+    lp=my_list[0][1]
+    item = ""
+    # print "\n\nmy_list[j][1]",my_list[0][1]
+    for i in my_list:
+        if len(i)>0:
+            if lp != i[1]:
+                item = my_list[j][1]
+                k=j-1
+                my_new_list.append(["","<b>Balance Qty</b>",my_list[k][9],"","","","",""])
+                my_new_list.append(["","","","","","","",""])
+
+                #my_list.insert((j+1),["","Balance Qty",balance_qty,"","","",""])    
+                lp = i[1]
+        my_new_list.append(i)
+        j = j+1
+    my_new_list.append(["","<b>Balance Qty</b>",my_list[-1][9],"","","","",""])
+
+    # y = 0
+
+    print "\n\nmynewlist",my_new_list
+    # for x in my_list:
+    #     if len(x)>0:
+    #         print "\n",my_list[y]
+    #         my_list.insert((y),["","","","","","","",""])
+
+    #     y += 1
+    # my_list.remove(my_list[0])
+    # print "data",data
+    return columns, my_new_list
