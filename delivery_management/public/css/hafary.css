@@ -48,6 +48,7 @@ a.module-link[data-name="Website"],
 a.module-link[data-name="Manufacturing"],
 a.module-link[data-name="Projects"], 
 a.module-link[data-name="Schools"], 
+a.module-link[data-name="Contacts"], 
 a.module-link[data-name="Developer"], 
 a.module-link[data-name="Support"], 
 a.module-link[data-name="Maintenance"], 
@@ -58,6 +59,10 @@ a.module-link[data-name="Integrations"]{
 .help-message-wrapper {
     display: none!important;
 }
+.dropdown-help {
+	display: none!important;
+}
+
 /*a[href="https://css-tricks.com"] {
   color: #E18728;
 }*/
