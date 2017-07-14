@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
 import frappe, os, json
 
+import base64 
+
+from frappe.utils import strip, get_files_path
 
 @frappe.whitelist(allow_guest=True)
 def ping():
@@ -12,8 +15,27 @@ def update_img_in_delivery_schedule(name=None,img_1=None):
 	if ds_doc.name:
 		ds_doc.flags.ignore_permissions = True
 		ds_doc.img_1 = img_1
-		# ds_doc.longitude = lon
 		ds_doc.save(ignore_permissions=True)
+		file_url = get_files_path ()
+		file_url += "/"
+		file_url += name 
+		file_url += "_img1.png"
+		image_64_decode = base64.decodestring(img_1)
+		image_result = open(file_url, 'wb')
+		image_result.write(image_64_decode)
+
+		file_doc = frappe.new_doc("File")
+		file_doc.file_name = name + "_img1.png"
+		# file_doc.file_size = info.file_size
+		file_doc.folder = "Home/Attachments"
+		file_doc.attached_to_doctype = "Delivery Schedule"
+		file_doc.attached_to_name = ds_doc.name
+		file_url_attach = get_files_path ()
+
+
+		file_doc.file_url = "files/" + name + "_img1.png"
+		file_doc.validate()
+		file_doc.insert()
 		frappe.db.commit()
 		return "Delivery Schedule is updated for " + ds_doc.name
 	
