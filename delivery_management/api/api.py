@@ -6,6 +6,7 @@ import base64
 from frappe.utils import strip, get_files_path
 
 from frappe.utils import flt, time_diff_in_hours, get_datetime, getdate, today, cint, get_datetime_str
+from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
 
 @frappe.whitelist(allow_guest=True)
 def ping():
@@ -209,8 +210,34 @@ def get_single_delivery_shedule(name=None):
 
 @frappe.whitelist(allow_guest=True)
 def get_driver_locations():
-	ds_list = frappe.db.sql(""" select carrier_number,driver,user_id,latitude,longitude from `tabCarrier` """.format(),as_dict=1)
+	driver_locations = frappe.db.sql(""" select carrier_number,driver,user_id,latitude,longitude from `tabCarrier` """.format(),as_dict=1)
 
-	return ds_list
+	return driver_locations
+
+
+@frappe.whitelist(allow_guest=True)
+def get_path_delivery_schedule(delivery_note_no=None):
+	path_delivery_schedule = frappe.db.sql("""select delivery_note_no, start_lat,stop_lat,driving_path
+		from `tabDelivery Schedule` WHERE delivery_note_no='{0}' """.format(delivery_note_no),as_dict=1)
+	
+	return path_delivery_schedule
+
+
+
+@frappe.whitelist(allow_guest=True)
+def send_message_api(mobile_no=None,message=None):
+	ds_sms = frappe.new_doc("SMS History")
+	if mobile_no:
+		ds_sms.flags.ignore_permissions = True
+		ds_sms.send_to = mobile_no
+		ds_sms.message = message
+		ds_sms.save(ignore_permissions=True)
+		frappe.db.commit()
+	send_sms([mobile_no],message)
+	return "success"
+
+
+
+
 
 
