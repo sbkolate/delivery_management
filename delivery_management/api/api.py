@@ -26,6 +26,7 @@ def update_img_in_delivery_schedule(name=None,img_1=None):
 		file_url += name 
 		img_count = int(ds_doc.img_count) + 1
 		img_name = "_img"+ str(img_count) +".png"
+		ds_doc.img_1 = img_1
 		ds_doc.img_count = img_count
 
 		file_url += img_name
