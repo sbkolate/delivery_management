@@ -16,7 +16,6 @@ def update_img_in_delivery_schedule(name=None,img_1=None):
 	ds_doc = frappe.get_doc("Delivery Schedule", name)
 	if ds_doc.name:
 		ds_doc.flags.ignore_permissions = True
-		ds_doc.img_1 = img_1
 		ds_doc.save(ignore_permissions=True)
 		file_url = get_files_path ()
 		file_url += "/"
