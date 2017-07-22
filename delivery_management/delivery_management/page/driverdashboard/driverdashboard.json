@@ -1,0 +1,19 @@
+{
+ "content": null, 
+ "creation": "2017-07-21 19:31:35.648469", 
+ "docstatus": 0, 
+ "doctype": "Page", 
+ "idx": 0, 
+ "modified": "2017-07-21 19:31:35.648469", 
+ "modified_by": "Administrator", 
+ "module": "Delivery Management", 
+ "name": "driverdashboard", 
+ "owner": "Administrator", 
+ "page_name": "DriverDashboard", 
+ "roles": [], 
+ "script": null, 
+ "standard": "Yes", 
+ "style": null, 
+ "system_page": 0, 
+ "title": "DriverDashboard"
+}
