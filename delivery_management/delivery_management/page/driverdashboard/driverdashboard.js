@@ -1,5 +1,5 @@
 frappe.provide('delivery_management');
-frappe.require("/assets/delivery_management/js/googlemap.js");
+// frappe.require("/assets/delivery_management/js/googlemap.js");
 
 
 frappe.pages['driverdashboard'].on_page_load = function(wrapper) {
@@ -39,6 +39,10 @@ delivery_management.Dashboard = Class.extend({
 
     	var me = this;
 	setTimeout(function(){
+//set time out start
+$.getScript( "http://maps.google.com/maps/api/js?key=AIzaSyCGWFz53x4ukwNmX8B0U51qa9W0t5_df3Y&&sensor=false", function( data, textStatus, jqxhr ) {
+  console.log( "Load was performed." );
+
 		
 		locations = me.get_all_location();
 		b = JSON.parse(locations["responseText"])
@@ -52,17 +56,17 @@ delivery_management.Dashboard = Class.extend({
 
 		var html = frappe.render_template("maptemplate", {"data":"this is encripted data"})
 		$("#myGrid1").html(html)
-		var locations;
+		var locations =[];
 		for(i=0;i<b.message.length;i++)
 		{
 			console.log(b.message[i].latitude);
 			console.log(b.message[i].longitude)
-			locations[i] = [b.message[i].carrier_number, b.message[i].latitude, b.message[i].longitude, i];
+			locations.push([b.message[i].carrier_number, parseFloat(b.message[i].latitude), parseFloat(b.message[i].longitude), i]);
 		}
+
 		
-		console.log(locations,"sasdas")
     var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 10,
+      zoom: 8,
       center: new google.maps.LatLng(18.89, 73.97),
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
@@ -73,6 +77,8 @@ delivery_management.Dashboard = Class.extend({
     var marker, i;
 
     for (i = 0; i < locations.length; i++) { 
+    	console.log("############");
+    	console.log(locations[i][2]);
       marker = new google.maps.Marker({
         position: new google.maps.LatLng(locations[i][1], locations[i][2]),
         map: map,
@@ -87,6 +93,8 @@ delivery_management.Dashboard = Class.extend({
       })(marker, i));
     }
 
+});
+//end time out and get script
 	}, 100)
 
 
