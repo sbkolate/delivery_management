@@ -59,6 +59,11 @@ def get_data():
 					"name": "User",
 					"description": _("User"),
 				},
+				{
+					"type": "doctype",
+					"name": "User",
+					"description": _("User"),
+				},
 			]
 		},
 
@@ -75,6 +80,13 @@ def get_data():
 					"type": "doctype",
 					"name": "Upload Delivery Schedule",
 					"description": _("Upload Delivery Schedule"),
+				},
+
+				{
+					"type": "page",
+					"name": "driverdashboard",
+					"label": _("Driver Dashboard"),
+					"icon": "fa fa-bar-chart",
 				},
 			]
 		},

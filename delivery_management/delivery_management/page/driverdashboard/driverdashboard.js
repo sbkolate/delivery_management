@@ -19,7 +19,7 @@ frappe.pages['driverdashboard'].on_page_load = function(wrapper) {
 	$("<br><div class='row'><div class='party-area col-xs-4' style='margin-left:10px;'> </div> <div class='party-area col-xs-8'> </div><br><br></div>\
   <div class='row'>\
 	  	<div class='party-area col-xs-12'>\
-			hi<div id='myGrid1' style='width:100%;height:500px;''></div>\
+			<div id='myGrid1' style='width:100%;height:500px;''></div>\
 		</div>\
 	</div>").appendTo($(wrapper).find('.layout-main-section'));
 
