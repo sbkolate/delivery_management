@@ -13,8 +13,13 @@ def ping():
 	return "pong"
 
 @frappe.whitelist(allow_guest=True)
-def update_img_in_delivery_schedule(name=None,img_1=None):
+def update_img_in_delivery_schedule(name=None,img_1=None,img_2=None,img_3=None,img_4=None):
 	ds_doc = frappe.get_doc("Delivery Schedule", name)
+	file_url = get_files_path ()
+	file_url += "/"
+	file_url += name
+	img_count = int(ds_doc.img_count) 
+	
 	if ds_doc.name:
 		ds_doc.flags.ignore_permissions = True
 		ds_doc.save(ignore_permissions=True)
@@ -43,7 +48,80 @@ def update_img_in_delivery_schedule(name=None,img_1=None):
 		file_doc.insert(ignore_permissions=True)
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
-		return "Delivery Schedule is updated for " + ds_doc.name
+	
+	if img_2:
+		img_count = int(ds_doc.img_count) + 1
+		img_name = "_img"+ str(img_count) +".png"
+		ds_doc.img_2 = img_2
+		ds_doc.img_count = img_count
+
+		file_url += img_name
+		image_64_decode = base64.decodestring(img_2)
+		image_result = open(file_url, 'wb')
+		image_result.write(image_64_decode)
+
+		file_doc = frappe.new_doc("File")
+		file_doc.file_name = name + img_name
+		file_doc.folder = "Home/Attachments"
+		file_doc.attached_to_doctype = "Delivery Schedule"
+		file_doc.attached_to_name = ds_doc.name
+		file_url_attach = get_files_path ()
+
+		file_doc.file_url = "files/" + name + img_name
+		file_doc.validate()
+		file_doc.insert(ignore_permissions=True)
+		ds_doc.save(ignore_permissions=True)
+		frappe.db.commit()
+
+	if img_3:
+		img_count = int(ds_doc.img_count) + 1
+		img_name = "_img"+ str(img_count) +".png"
+		ds_doc.img_3 = img_3
+		ds_doc.img_count = img_count
+
+		file_url += img_name
+		image_64_decode = base64.decodestring(img_3)
+		image_result = open(file_url, 'wb')
+		image_result.write(image_64_decode)
+
+		file_doc = frappe.new_doc("File")
+		file_doc.file_name = name + img_name
+		file_doc.folder = "Home/Attachments"
+		file_doc.attached_to_doctype = "Delivery Schedule"
+		file_doc.attached_to_name = ds_doc.name
+		file_url_attach = get_files_path ()
+
+		file_doc.file_url = "files/" + name + img_name
+		file_doc.validate()
+		file_doc.insert(ignore_permissions=True)
+		ds_doc.save(ignore_permissions=True)
+		frappe.db.commit()
+
+	if img_4:
+		img_count = int(ds_doc.img_count) + 1
+		img_name = "_img"+ str(img_count) +".png"
+		ds_doc.img_4 = img_4
+		ds_doc.img_count = img_count
+
+		file_url += img_name
+		image_64_decode = base64.decodestring(img_4)
+		image_result = open(file_url, 'wb')
+		image_result.write(image_64_decode)
+
+		file_doc = frappe.new_doc("File")
+		file_doc.file_name = name + img_name
+		file_doc.folder = "Home/Attachments"
+		file_doc.attached_to_doctype = "Delivery Schedule"
+		file_doc.attached_to_name = ds_doc.name
+		file_url_attach = get_files_path ()
+
+		file_doc.file_url = "files/" + name + img_name
+		file_doc.validate()
+		file_doc.insert(ignore_permissions=True)
+		ds_doc.save(ignore_permissions=True)
+		frappe.db.commit()
+	
+	return "Delivery Schedule is updated for " + ds_doc.name
 	
 
 @frappe.whitelist(allow_guest=True)
