@@ -61,8 +61,8 @@ def get_data():
 				},
 				{
 					"type": "doctype",
-					"name": "User",
-					"description": _("User"),
+					"name": "About",
+					"description": _("About"),
 				},
 			]
 		},

@@ -34,7 +34,7 @@ delivery_management.Dashboard = Class.extend({
 		this.page.main.find(".page").css({"padding-top": "0px"});
 	},
 	make_fun: function(){
-            this.page.set_title(__("Dashboard") + " - " + __("Driver Locatios"));
+            this.page.set_title(__("Dashboard") + " - " + __("Driver Location"));
 
 
     	var me = this;
