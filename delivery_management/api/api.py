@@ -319,11 +319,17 @@ def send_message_api(mobile_no=None,message=None):
 
 @frappe.whitelist(allow_guest=True)
 def get_about():
-	about = frappe.db.sql("""select field, value 
+	data = frappe.db.sql("""select field, value 
 		from tabSingles 
 		where doctype ='About' 
 		and (field = 'title' 
 			 OR field = 'description')""", as_dict=1)
+
+	about = {}
+	for item in data:
+		about.update({item['field']: item['value']})
+
+
 	return about
 
 
