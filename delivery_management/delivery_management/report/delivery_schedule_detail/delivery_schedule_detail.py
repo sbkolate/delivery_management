@@ -12,9 +12,13 @@ def execute(filters=None):
 	return columns, data
 
 def  get_colums():
-	columns = columns = ["Delivery Note No:Link/Delivery Schedule:80"]+["Date:Date:95"]+ ["Customer Ref:Data:60"]+ ["Delivery Note:90"]\
-	+["Lorry No:100"]+["Driver:Link/Driver:100"]+["Trip:Data:100"]+ ["Contact Person Name:Data:80"]+["Address:Data:150"]\
-	+["Pin Code:60"]+["Contact No:60"]+["Mobile No:60"]+["Email:60"]+["Remark:60"]
+	# columns = columns = ["Delivery Note No:Link/Delivery Schedule:80"]+["Date:Date:95"]+ ["Customer Ref:Data:60"]+ ["Delivery Note:90"]\
+	# +["Lorry No:100"]+["Driver:Link/Driver:100"]+["Trip:Data:100"]+ ["Contact Person Name:Data:80"]+["Address:Data:150"]\
+	# +["Pin Code:60"]+["Contact No:60"]+["Mobile No:60"]+["Email:60"]+["Remark:60"]
+	# return columns
+
+	columns = columns =["Date.:90"]+["Driver:60"]+["Customer:80"]+["Address:Data:150"]+["Contact No:60"]\
+						 +["D/O No.:90"]+["Remark:60"]#+["Trip:60"]+["Lorry No:60"]
 	return columns
 
 def get_data(filters):
@@ -27,8 +31,7 @@ def get_data(filters):
 	elif filters.get("driver"):
 		filter_condition += " where driver = '" + filters.get("driver") + "'"
 	
-	dl = frappe.db.sql("""select name,date,customer_ref,delivery_note_no,lorry_no,driver,trip,
-		contact_person_name,CONCAT(address_line_1,' ',address_line_2,' ',address_line_3)AS Address,pin_code,contact_no,mobile_no,email,remarks
+	dl = frappe.db.sql("""select date,driver,customer_ref,CONCAT(address_line_1,' ',address_line_2,' ',address_line_3)AS Address,contact_no,delivery_note_no,remarks,trip,lorry_no
 		from `tabDelivery Schedule`
 		{0} 
 		 ORDER BY driver,trip,modified desc""".format(filter_condition),as_list=1)
@@ -36,19 +39,19 @@ def get_data(filters):
 	k=""
 	t=""
 	for i in dl:
-		print i[5]
-		if k!= i[5]:
-			dl.insert(dl.index(i),["<b>Date</b>",i[1],"Trip No",i[6],"Lorry No",i[4],"","","","","","","","",])
+		# print i[1]
+		if k!= i[1]:
+			dl.insert(dl.index(i),["<b>Date</b>",i[0],"Trip No",i[7],"Lorry No",i[8],"",i[7],""])
 
-		k = i[5]
+		k = i[1]
 
 	
 	if dl:
-		k = dl[0][6]
-	for i in dl:
-		print i[6]
-		if k!= i[6]:
-			dl.insert(dl.index(i),["","","","","","","Trip No",i[6],"","","","","","","",""])
-
-		k = i[6]
+		k = dl[1][7]
+	for i in range(1, len(dl)):
+		if k!= dl[i][7]:
+			k = dl[i][7]
+			dl.insert(dl.index(dl[i]),["","","Trip No",dl[i][7],"","","","","","","",""])
+		else:
+			k = dl[i][7]
 	return dl
