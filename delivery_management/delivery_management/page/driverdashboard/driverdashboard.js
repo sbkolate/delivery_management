@@ -16,7 +16,7 @@ frappe.pages['driverdashboard'].on_page_load = function(wrapper) {
 	$(html).appendTo($(wrapper).find('.layout-main'));
 	// frappe.breadcrumbs.add("Clinic Dashboard");
 
-	$("<br><div class='row'><div class='party-area col-xs-4' style='margin-left:10px;'> </div> <div class='party-area col-xs-8'> </div><br><br></div>\
+	$("<br><div class='row'><div class='party-area col-xs-4' style='margin-left:10px;z-index: 12;'> </div> <div class='party-area col-xs-8'> </div><br><br></div>\
   <div class='row'>\
 	  	<div class='party-area col-xs-12'>\
 			<div id='myGrid1' style='width:100%;height:500px;''></div>\
@@ -26,64 +26,82 @@ frappe.pages['driverdashboard'].on_page_load = function(wrapper) {
 
 }
 
-delivery_management.Dashboard = Class.extend({
-	init: function(opts, wrapper,page) {
-		$.extend(this, opts);
-
-		this.make_fun();
-		this.page.main.find(".page").css({"padding-top": "0px"});
-	},
-	make_fun: function(){
-            this.page.set_title(__("Dashboard") + " - " + __("Driver Location"));
-
-
-    	var me = this;
-	setTimeout(function(){
-//set time out start
-$.getScript( "http://maps.google.com/maps/api/js?key=AIzaSyCGWFz53x4ukwNmX8B0U51qa9W0t5_df3Y&&sensor=false", function( data, textStatus, jqxhr ) {
-  console.log( "Load was performed." );
-
-		
-		locations = me.get_all_location();
-		b = JSON.parse(locations["responseText"])
-		console.log(b.message)
-
-		
-
-
-		
-
-
-		var html = frappe.render_template("maptemplate", {"data":"this is encripted data"})
-		$("#myGrid1").html(html)
-		var locations =[];
-		for(i=0;i<b.message.length;i++)
+delivery_management.Dashboard = Class.extend
+	({
+		init: function(opts, wrapper,page)
 		{
-			console.log(b.message[i].latitude);
-			console.log(b.message[i].longitude)
-			locations.push([b.message[i].carrier_number, parseFloat(b.message[i].latitude), parseFloat(b.message[i].longitude), i]);
-		}
+			$.extend(this, opts);
+			this.add_filter()
+			this.make_fun();
+			this.page.main.find(".page").css({"padding-top": "0px"});
+		},
+		add_filter: function(opts, wrapper,page){
+			console.log("in make party");
+    		var me = this;
+			console.log(me.page.wrapper.find("#party-area"));
+	
+			setTimeout(function(){
+					this.party_field = frappe.ui.form.make_control({
+						df: {
+							"fieldtype": "Link",
+							"options": "Driver",
+							"label": "Driver",
+							"fieldname": "pos_party",
+							"Link": "Driver",
+							"placeholder": "Driver",
+						},
+						parent: me.page.wrapper.find(".party-area"),
+						only_input: true,
+					});
+					this.party_field.make_input();
+					this.party_field.$input.on("change", function() {
+								me.so_number = this.value;
+								console.log(me.so_number);
+								me.make_fun();
+					});
+			}, 300)
 
-		
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 8,
-      center: new google.maps.LatLng(18.89, 73.97),
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
 
-    var infowindow = new google.maps.InfoWindow();
-// var image = 'img/truck.png';
+		},
+		make_fun: function(){
+		this.page.set_title(__("Dashboard") + " - " + __("Driver Location"));
+		var me = this;
+		setTimeout(function(){
+			$.getScript( "http://maps.google.com/maps/api/js?key=AIzaSyCGWFz53x4ukwNmX8B0U51qa9W0t5_df3Y&&sensor=false", function( data, textStatus, jqxhr ) {
+  			console.log( "Load was performed." );
+
+			locations = me.get_all_location();
+			b = JSON.parse(locations["responseText"])
+			console.log(b.message)
+
+			var html = frappe.render_template("maptemplate", {"data":"this is encripted data"})
+			$("#myGrid1").html(html)
+			var locations =[];
+			for(i=0;i<b.message.length;i++)
+				{
+					console.log(b.message[i].latitude);
+					console.log(b.message[i].longitude)
+					locations.push([b.message[i].carrier_number, parseFloat(b.message[i].latitude), parseFloat(b.message[i].longitude), i]);
+				}
+				var map = new google.maps.Map(document.getElementById('map'),
+				{
+      				zoom: 8,
+      				center: new google.maps.LatLng(18.89, 73.97),
+     				mapTypeId: google.maps.MapTypeId.ROADMAP
+    			});
+
+    				var infowindow = new google.maps.InfoWindow();
+    				var marker, i;
+
+    			for (i = 0; i < locations.length; i++)
+    			{ 
+    				console.log("############");
+    				console.log(locations[i][2]);
+      				marker = new google.maps.Marker({
+        			position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+        			map: map,
         
-    var marker, i;
-
-    for (i = 0; i < locations.length; i++) { 
-    	console.log("############");
-    	console.log(locations[i][2]);
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-        map: map,
-        // icon: image
-      });
+      			});
 
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
@@ -91,7 +109,9 @@ $.getScript( "http://maps.google.com/maps/api/js?key=AIzaSyCGWFz53x4ukwNmX8B0U51
           infowindow.open(map, marker);
         }
       })(marker, i));
+
     }
+
 
 });
 //end time out and get script
