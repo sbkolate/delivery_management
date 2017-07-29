@@ -7,28 +7,11 @@ def get_data():
 			"label": _("Documents"),
 			"icon": "fa fa-star",
 			"items": [
-				# {
-				# 	"type": "doctype",
-				# 	"name": "Delivery Request",
-				# 	"description": _("Delivery Request"),
-				# },
-				# {
-				# 	"type": "doctype",
-				# 	"name": "Delivery Order",
-				# 	"description": _("Delivery Order"),
-				# },
-				# {
-				# 	"type": "doctype",
-				# 	"name": "Upload Delivery Schedule",
-				# 	"description": _("Upload Delivery Schedule"),
-				# },											
-			]
-		},
-
-		{
-			"label": _("Master"),
-			"icon": "fa fa-star",
-			"items": [
+				{
+					"type": "doctype",
+					"name": "Delivery Schedule",
+					"description": _("Schedule"),
+				},
 				{
 					"type": "doctype",
 					"name": "Carrier",
@@ -38,17 +21,7 @@ def get_data():
 					"type": "doctype",
 					"name": "Driver",
 					"description": _("Driver"),
-				},
-				{
-					"type": "doctype",
-					"name": "Delivery Schedule",
-					"description": _("Schedule"),
-				},
-				{
-					"type": "doctype",
-					"name": "Product",
-					"description": _("Product"),
-				},
+				},				
 				{
 					"type": "doctype",
 					"name": "Customer",
@@ -58,11 +31,6 @@ def get_data():
 					"type": "doctype",
 					"name": "User",
 					"description": _("User"),
-				},
-				{
-					"type": "doctype",
-					"name": "About",
-					"description": _("About"),
 				},
 			]
 		},
@@ -81,17 +49,10 @@ def get_data():
 					"name": "Upload Delivery Schedule",
 					"description": _("Upload Delivery Schedule"),
 				},
-
-				{
-					"type": "page",
-					"name": "driverdashboard",
-					"label": _("Driver Dashboard"),
-					"icon": "fa fa-bar-chart",
-				},
 			]
 		},
 		{
-			"label": _("Reports"),
+			"label": _("Reports & Dashboard"),
 			"icon": "fa fa-star",
 			"items": [
 				{
@@ -100,6 +61,31 @@ def get_data():
 					"name": "Delivery Schedule Details",
 					"doctype": "Delivery Schedule"
 				},
+				{
+					"type": "page",
+					"name": "driverdashboard",
+					"label": _("Driver Dashboard"),
+					"icon": "fa fa-bar-chart",
+				},
+
+				{
+					"type": "page",
+					"name": "driverdashboardroute",
+					"label": _("Driver Route Dashboard"),
+					"icon": "fa fa-bar-chart",
+				},
+			]
+		},
+		{
+			"label": _("App Page"),
+			"icon": "fa fa-star",
+			"items": [
+				{
+					"type": "doctype",
+					"name": "About",
+					"description": _("About"),
+				},
+
 			]
 		},
 	]
