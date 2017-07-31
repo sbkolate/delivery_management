@@ -72,17 +72,30 @@ delivery_management.Dashboard = Class.extend
 
 			locations = me.get_all_location();
 			b = JSON.parse(locations["responseText"])
+			console.log("@@@@@@@@@@@@@@")
 			console.log(b.message)
 
 			var html = frappe.render_template("maptemplate", {"data":"this is encripted data"})
 			$("#myGrid1").html(html)
+
+			
+			console.log(b.message);
 			var locations =[];
-			for(i=0;i<b.message.length;i++)
-				{
-					console.log(b.message[i].latitude);
-					console.log(b.message[i].longitude)
-					locations.push([b.message[i].carrier_number, parseFloat(b.message[i].latitude), parseFloat(b.message[i].longitude), i]);
-				}
+			// for(i=0;i<b.message.length;i++)
+			// 	{
+			// 		console.log(b.message[i].latitude);
+			// 		console.log(b.message[i].longitude)
+			// 		locations.push([b.message[i].carrier_number, parseFloat(b.message[i].latitude), parseFloat(b.message[i].longitude), i]);
+			// 	}
+			console.log(b.message[0].carrier_number)
+			console.log(b.message[0].latitude)
+			console.log(b.message[0].longitude)
+			locations.push([b.message[0].carrier_number, parseFloat(b.message[0].latitude), parseFloat(b.message[0].longitude)]);
+			  
+
+
+
+			
 				var map = new google.maps.Map(document.getElementById('map'),
 				{
       				zoom: 8,
@@ -95,8 +108,8 @@ delivery_management.Dashboard = Class.extend
 
     			for (i = 0; i < locations.length; i++)
     			{ 
-    				console.log("############");
-    				console.log(locations[i][2]);
+    				
+    				// console.log(locations[i][2]);
       				marker = new google.maps.Marker({
         			position: new google.maps.LatLng(locations[i][1], locations[i][2]),
         			map: map,
@@ -121,11 +134,18 @@ delivery_management.Dashboard = Class.extend
      },
      get_all_location: function(){
      	var me = this;
+     	console.log("###")
+     	console.log(me.so_number)
 		
 		return frappe.call({
 			method: "delivery_management.delivery_management.page.driverdashboard.driverdashboard.get_driver_locations",
 			async:false,
-			callback: function(r) {
+		args: {
+				"driver": me.so_number
+
+			  },
+		callback: function(r)
+			{
 				return  r.message
 			}
 		});

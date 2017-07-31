@@ -32,32 +32,32 @@ delivery_management.Dashboard = Class.extend
 		this.add_filter();
 		this.page.main.find(".page").css({"padding-top": "0px"});
 	},
-	add_filter: function(opts, wrapper,page)
-		{
+	add_filter: function(opts, wrapper,page){
 			console.log("in make party");
     		var me = this;
 			console.log(me.page.wrapper.find("#party-area"));
 	
-	setTimeout(function(){
-		this.party_field = frappe.ui.form.make_control({
-			df: {
-				"fieldtype": "Link",
-				"options": "Delivery Schedule",
-				"label": "Delivery Schedule",
-				"fieldname": "pos_party",
-				"Link": "Delivery Schedule",
-				"placeholder": "Delivery Schedule",
-			},
-			parent: me.page.wrapper.find(".party-area"),
-			only_input: true,
-		});
-		this.party_field.make_input();
-		this.party_field.$input.on("change", function() {
-					me.so_number = this.value;
-					console.log(me.so_number);
-					me.make_fun();
-		});
-	}, 300)
+			setTimeout(function(){
+					this.party_field = frappe.ui.form.make_control({
+						df: {
+							"fieldtype": "Link",
+							"options": "Delivery Schedule",
+							"label": "Delivery Schedule",
+							"fieldname": "pos_party",
+							"Link": "Delivery Schedule",
+							"placeholder": "Delivery Schedule",
+						},
+						parent: me.page.wrapper.find(".party-area"),
+						only_input: true,
+					});
+					this.party_field.make_input();
+					this.party_field.$input.on("change", function() {
+								me.so_number = this.value;
+								console.log("################")
+								console.log(me.so_number);
+								me.make_fun();
+					});
+			}, 300)
 
 
 	},
