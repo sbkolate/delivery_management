@@ -15,10 +15,13 @@ def ping():
 @frappe.whitelist(allow_guest=True)
 def update_img_in_delivery_schedule(name=None,img_1=None,img_2=None,img_3=None,img_4=None):
 	ds_doc = frappe.get_doc("Delivery Schedule", name)
+	
 	file_url = get_files_path ()
+
 	file_url += "/"
 	file_url += name
 	img_count = int(ds_doc.img_count) 
+
 	
 	if ds_doc.name:
 		ds_doc.flags.ignore_permissions = True

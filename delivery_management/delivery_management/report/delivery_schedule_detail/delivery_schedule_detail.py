@@ -28,8 +28,15 @@ def get_data(filters):
 		filter_condition += " where date = '" + filters.get("date") + "'"
 	if filters.get("driver") and filters.get("date"):
 		filter_condition += " and driver = '" + filters.get("driver") +"'"
+	
+	if filters.get("lorry_no") and filters.get("date"):
+		filter_condition += " and lorry_no = '" + filters.get("lorry_no") +"'"
+
 	elif filters.get("driver"):
 		filter_condition += " where driver = '" + filters.get("driver") + "'"
+
+	elif filters.get("lorry_no"):
+		filter_condition += " where lorry_no = '" + filters.get("lorry_no") + "'"
 	
 	dl = frappe.db.sql("""select date,driver,customer_ref,CONCAT(address_line_1,' ',address_line_2,' ',address_line_3)AS Address,contact_no,delivery_note_no,remarks,trip,lorry_no
 		from `tabDelivery Schedule`
