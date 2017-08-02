@@ -103,3 +103,13 @@ def create_delivery_contact(doc, method):
 		# frappe.msgprint("Contact is created " + contact_doc.first_name)
 
 
+@frappe.whitelist()
+def show_route(doc):
+	doc = json.loads(doc)
+	frappe.get_doc('Delivery Schedule','Show Route')
+	frappe.msgprint("hi show route")
+
+
+
+
+

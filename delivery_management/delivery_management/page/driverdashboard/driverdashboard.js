@@ -59,6 +59,11 @@ delivery_management.Dashboard = Class.extend
 								console.log(me.so_number);
 								me.make_fun();
 					});
+					console.log("#############")
+					console.log(window.location.href)
+					driver= window.location.href.split("/")[5]
+					console.log(driver)
+					$('input[data-fieldname="pos_party"]').val(driver).change();
 			}, 300)
 
 
