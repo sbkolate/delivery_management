@@ -14,5 +14,10 @@ cur_frm.add_fetch('user_id', 'gender', 'gender');
 frappe.ui.form.on('Driver', {
 	refresh: function(frm) {
 		
-	}
+	},
+	after_save: function(frm) {
+		console.log("after_save")
+		frappe.set_route("List", "Driver");
+	},
+
 });
