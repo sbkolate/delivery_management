@@ -31,6 +31,9 @@ delivery_management.Dashboard = Class.extend
 		this.make_fun();
 		this.add_filter();
 		this.page.main.find(".page").css({"padding-top": "0px"});
+
+
+
 	},
 	add_filter: function(opts, wrapper,page){
 			console.log("in make party");
@@ -53,10 +56,23 @@ delivery_management.Dashboard = Class.extend
 					this.party_field.make_input();
 					this.party_field.$input.on("change", function() {
 								me.so_number = this.value;
-								console.log("################")
+								
 								console.log(me.so_number);
 								me.make_fun();
 					});
+
+					// setTimeout(function(){
+					
+					// 	Set value
+					console.log("#############")
+					console.log(window.location.href)
+					delivery_no= window.location.href.split("/")[5]
+					console.log(delivery_no)
+
+					$('input[data-fieldname="pos_party"]').val(delivery_no).change();
+					// }, 300)
+
+
 			}, 300)
 
 
@@ -74,9 +90,9 @@ $.getScript( "http://maps.google.com/maps/api/js?key=AIzaSyCGWFz53x4ukwNmX8B0U51
 		
 		locations = me.get_all_location();
 		b = JSON.parse(locations["responseText"])
-		console.log("##############")
+	
 		console.log(b.message)
-		console.log("##############")
+		
 
 		var html = frappe.render_template("drivermaptemplate", {"data":"this is encripted data"})
 		$("#myGrid1").html(html)
