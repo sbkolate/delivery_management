@@ -26,7 +26,7 @@ frappe.pages['driverdashboardroute'].on_page_load = function(wrapper)
 delivery_management.Dashboard = Class.extend
 ({
 		init: function(opts, wrapper,page) {
-			$.extend(this, opts);
+			$.extend(this, opts); 
 
 		this.make_fun();
 		this.add_filter();

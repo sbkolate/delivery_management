@@ -3,6 +3,7 @@
 
 from __future__ import unicode_literals
 import frappe
+from frappe.utils import cint, cstr, date_diff, flt, formatdate, getdate, get_link_to_form
 
 def execute(filters=None):
 	columns, data = [], []
@@ -17,8 +18,8 @@ def  get_colums():
 	# +["Pin Code:60"]+["Contact No:60"]+["Mobile No:60"]+["Email:60"]+["Remark:60"]
 	# return columns
 
-	columns = columns =["Date.:90"]+["Driver:60"]+["Customer:80"]+["Address:Data:150"]+["Contact No:60"]\
-						 +["D/O No.:90"]+["Remark:60"]#+["Trip:60"]+["Lorry No:60"]
+	columns =["Date.:Data:95"]+["Driver:data:120"]+["Customer:data:120"]+["Address:data:200"]+["Contact No:data:90"]\
+						 +["D/O No.:data:80"]+["Remark:data:250"]#+["Trip:60"]+["Lorry No:60"]
 	return columns
 
 def get_data(filters):
@@ -26,6 +27,7 @@ def get_data(filters):
 	filter_condition = ""
 	if filters.get("date"):
 		filter_condition += " where date = '" + filters.get("date") + "'"
+	
 	if filters.get("driver") and filters.get("date"):
 		filter_condition += " and driver = '" + filters.get("driver") +"'"
 	
@@ -38,17 +40,17 @@ def get_data(filters):
 	elif filters.get("lorry_no"):
 		filter_condition += " where lorry_no = '" + filters.get("lorry_no") + "'"
 	
-	dl = frappe.db.sql("""select date,driver,customer_ref,CONCAT(address_line_1,' ',address_line_2,' ',address_line_3)AS Address,contact_no,delivery_note_no,remarks,trip,lorry_no
+	dl = frappe.db.sql("""select DATE_FORMAT(date,"%d-%m-%Y"),driver_full_name,customer_ref,CONCAT(address_line_1,' ',address_line_2,' ',address_line_3)AS Address,contact_no,delivery_note_no,remarks,trip,lorry_no
 		from `tabDelivery Schedule`
 		{0} 
-		 ORDER BY driver,trip,modified desc""".format(filter_condition),as_list=1)
+		 ORDER BY driver,trip,modified desc""".format(filter_condition),as_list=1,debug=1)
 	
 	k=""
 	t=""
 	for i in dl:
 		# print i[1]
 		if k!= i[1]:
-			dl.insert(dl.index(i),["<b>Date</b>",i[0],"Trip No",i[7],"Lorry No",i[8],"",i[7],""])
+			dl.insert(dl.index(i),["<b>Date</b>",formatdate(i[0]),"Trip No",i[7],"Lorry No",i[8],"",i[7],""])
 
 		k = i[1]
 
