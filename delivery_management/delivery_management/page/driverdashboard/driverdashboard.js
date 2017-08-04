@@ -2,7 +2,8 @@ frappe.provide('delivery_management');
 // frappe.require("/assets/delivery_management/js/googlemap.js");
 
 
-frappe.pages['driverdashboard'].on_page_load = function(wrapper) {
+frappe.pages['driverdashboard'].on_page_lo
+ad = function(wrapper) {
 	var page = frappe.ui.make_app_page({
 		parent: wrapper,
 		title: 'Driver Dashboard',
@@ -64,6 +65,7 @@ delivery_management.Dashboard = Class.extend
 					driver= window.location.href.split("/")[5]
 					console.log(driver)
 					$('input[data-fieldname="pos_party"]').val(driver).change();
+
 			}, 300)
 
 

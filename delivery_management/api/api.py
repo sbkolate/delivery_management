@@ -336,4 +336,13 @@ def get_about():
 	return about
 
 
+@frappe.whitelist(allow_guest=True)
+def get_about_demo():
+	return "about"
+
+
+
+
+
+
 

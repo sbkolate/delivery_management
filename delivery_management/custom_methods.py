@@ -104,11 +104,18 @@ def create_delivery_contact(doc, method):
 
 
 @frappe.whitelist()
-def show_route(doc):
-	doc = json.loads(doc)
-	frappe.get_doc('Delivery Schedule','Show Route')
-	frappe.msgprint("hi show route")
+def send_email(name,email):
 
+	frappe.msgprint(name)
+	frappe.msgprint(email)
+	frappe.sendmail(recipients=email, sender=None, subject="Delivery Report",
+			message="Your Order is Dispatched",  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Standard")])
+	
+	
+	# frappe.sendmail(recipients=self.email_to, sender=None, subject=self.subject,
+	# 		message=self.get_message(), attachments=[frappe.attach_print(self.reference_doctype,
+	# 		self.reference_name, file_name=self.reference_name, print_format=self.print_format)])
+	return "success"
 
 
 
