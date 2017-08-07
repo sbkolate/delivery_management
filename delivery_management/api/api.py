@@ -205,7 +205,7 @@ def get_delivery_order_customer_details(name=None):
 def get_delivery_schedule_list(user_id=None):
 	date=today()
 	ds_list = frappe.db.sql("""select name, customer_ref,
-		delivery_note_no,date,trip,mobile_no,contact_no,
+		delivery_note_no,date,trip,mobile_no,contact_no,status,
 		CONCAT(address_line_1,' ',address_line_2)AS Address 
 		from `tabDelivery Schedule` WHERE driver_user_id='{0}' and date='{1}' order by trip""".format(user_id,date),as_dict=1)
 	
