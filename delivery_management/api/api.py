@@ -215,12 +215,21 @@ def get_delivery_schedule_list(user_id=None):
 @frappe.whitelist(allow_guest=True)
 def update_start_loc_in_ds(name=None,lat=None,lon=None):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
+	
 	if ds_doc.name:
 		ds_doc.start_lat = lat
 		ds_doc.start_long = lon
 		ds_doc.status='In Transit'
+		frappe.sendmail(recipients=ds_doc.email, sender=None, subject="Delivery Report",
+			message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.name +" is dispatched.<br>"
+			"Kindly Find the attachment.",attachments=[frappe.attach_print("Delivery Schedule", ds_doc.name, file_name=ds_doc.name,print_format="Standard")])
+		
+	
+
+
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
+		print(ds_doc.email)
 		return "Location updated for the Delivery Shedule Latitude " + ds_doc.start_lat+" Longitude "+ds_doc.start_long
 	
 	
