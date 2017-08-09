@@ -4,6 +4,7 @@ import frappe, os, json
 import base64 
 
 from frappe.utils import strip, get_files_path
+from frappe.desk.form.load import get_attachments
 
 from frappe.utils import flt, time_diff_in_hours, get_datetime, getdate, today, cint, get_datetime_str
 from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
@@ -346,12 +347,35 @@ def get_about():
 
 
 @frappe.whitelist(allow_guest=True)
-def get_about_demo():
-	return "about"
+def get_delivery_schedule_list1():
+	ds_list = frappe.db.sql("""select name, customer_ref,
+		delivery_note_no 
+		from `tabDelivery Schedule`""".format(),as_dict=1)
+	
+	return ds_list
 
 
 
 
+# @frappe.whitelist(allow_guest=True)
+# def get_single_delivery(name=None):
+# 	single_delivery_shedule = frappe.get_doc("Delivery Schedule", str(name))
+# 	addr = ""
+# 	seq = (str(single_delivery_shedule.address_line_1)," ",str(single_delivery_shedule.address_line_2))
+# 	addr = addr.join(seq)
+# 	delivery_shedule = {
+# 		"ID" : single_delivery_shedule.name,
+# 		"Customer Ref": single_delivery_shedule.customer_ref
+		
+
+# 	}
+# 	return delivery_shedule
+
+
+
+
+	
+	
 
 
 
