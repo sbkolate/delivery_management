@@ -429,7 +429,7 @@
    "no_copy": 0, 
    "permlevel": 0, 
    "precision": "", 
-   "print_hide": 0, 
+   "print_hide": 1, 
    "print_hide_if_no_value": 0, 
    "read_only": 1, 
    "remember_last_selected_value": 0, 
@@ -1272,7 +1272,7 @@
    "no_copy": 0, 
    "permlevel": 0, 
    "precision": "", 
-   "print_hide": 0, 
+   "print_hide": 1, 
    "print_hide_if_no_value": 0, 
    "read_only": 0, 
    "remember_last_selected_value": 0, 
@@ -1323,7 +1323,11 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
+<<<<<<< HEAD
  "modified": "2017-08-07 15:13:08.244593", 
+=======
+ "modified": "2017-08-07 18:55:06.063910", 
+>>>>>>> c8ee321c34c23574104a88abb80d6ff0d5aa8a58
  "modified_by": "Administrator", 
  "module": "Delivery Management", 
  "name": "Delivery Schedule", 
