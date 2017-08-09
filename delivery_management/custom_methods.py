@@ -100,14 +100,13 @@ def create_delivery_contact(doc, method):
 
 			address_doc.append("links", customer_link)
 			address_doc.save(ignore_permissions=True)
-		# frappe.msgprint("Contact is created " + contact_doc.first_name)
+	
 
 
 @frappe.whitelist()
 def send_email(name,email):
 
-	frappe.msgprint(name)
-	frappe.msgprint(email)
+	
 	frappe.sendmail(recipients=email, sender=None, subject="Delivery Report",
 			message="Your Order is Dispatched",  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Standard")])
 	
