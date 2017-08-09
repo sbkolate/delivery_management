@@ -1323,7 +1323,11 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
+<<<<<<< HEAD
+ "modified": "2017-08-07 15:13:08.244593", 
+=======
  "modified": "2017-08-07 18:55:06.063910", 
+>>>>>>> c8ee321c34c23574104a88abb80d6ff0d5aa8a58
  "modified_by": "Administrator", 
  "module": "Delivery Management", 
  "name": "Delivery Schedule", 
