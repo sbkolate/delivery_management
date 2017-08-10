@@ -40,11 +40,21 @@ def get_data(filters):
 	elif filters.get("lorry_no"):
 		filter_condition += " where lorry_no = '" + filters.get("lorry_no") + "'"
 	
-	dl = frappe.db.sql("""select DATE_FORMAT(date,"%d-%m-%Y"),driver_full_name,customer_ref,CONCAT(address_line_1,' ',address_line_2,' ',address_line_3)AS Address,contact_no,delivery_note_no,remarks,trip,lorry_no
+	dl = frappe.db.sql("""select 
+		DATE_FORMAT(date,"%d-%m-%Y"),driver_full_name,
+		customer_ref,
+		CONCAT(address_line_1,' ',address_line_2,' ',address_line_3)AS Address,
+		contact_no,delivery_note_no,
+		remarks,trip,
+		CASE         
+		WHEN driver IS NOT NULL
+		THEN (select name from tabCarrier where driver = driver limit 1)         
+		ELSE ""
+		END AS lorry_no
 		from `tabDelivery Schedule`
 		{0} 
 		 ORDER BY driver,trip,modified desc""".format(filter_condition),as_list=1,debug=1)
-	
+	print "\n\nddl",dl
 	k=""
 	t=""
 	for i in dl:
