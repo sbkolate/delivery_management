@@ -231,24 +231,46 @@ def get_delivery_schedule_list(user_id=None):
 @frappe.whitelist(allow_guest=True)
 def update_start_loc_in_ds(name=None,lat=None,lon=None):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
-	import ast
-	path_list = ast.literal_eval(ds_doc.driving_path)
-	loc=path_list[1]
-	latitude=loc[0]
-	longitude=loc[1]
+	print "hi"
 	if ds_doc.name:
 		ds_doc.start_lat = lat
 		ds_doc.start_long = lon
 		ds_doc.status='In Transit'
-		frappe.sendmail(recipients=ds_doc.email, sender=None, subject="Delivery Report",
-			message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.name +" is dispatched.<br>"
-			"Kindly Find the attachment.",attachments=[frappe.attach_print("Delivery Schedule", ds_doc.name, file_name=ds_doc.name,print_format="Standard")])
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
-		print(ds_doc.email)
+		send_delivery_dispatch_alert(ds_doc.name)
 		return "Location updated for the Delivery Shedule Latitude " + ds_doc.start_lat+" Longitude "+ds_doc.start_long
-	
-	
+from bitly import ping
+
+import json
+import requests
+def short_url(url):
+	base_url = "https://hafardev/name="
+	url = base_url + url
+	post_url = 'https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyDaTiY50Ly3rLN5Ox8R3jpADtri2RT6fcU'
+	params = json.dumps({'longUrl': url})
+	response = requests.post(post_url,params,headers={'Content-Type': 'application/json'})
+	google_url = response.json()
+	return google_url['id']
+
+def send_delivery_dispatch_alert(name):
+	ds_doc = frappe.get_doc("Delivery Schedule", name)
+	#send email
+	frappe.sendmail(recipients=ds_doc.email, sender=None, subject="Delivery Report",
+			message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.name +" is dispatched.<br>"
+			"Kindly Find the attachment.",attachments=[frappe.attach_print("Delivery Schedule", ds_doc.name, file_name=ds_doc.name,print_format="Standard")])
+	# ds_doc.save(ignore_permissions=True)
+	#send sms
+	message = ""
+	message += "Hello your order "
+	message += ds_doc.delivery_note_no
+	message += " is dispatched. please see details "
+	ds_name = ds_doc.name
+	short_url_link = short_url(ds_name)
+	message += short_url_link
+	send_message_api(ds_doc.mobile_no,message)
+
+
 
 @frappe.whitelist(allow_guest=True)
 def update_stop_loc_in_ds(name=None,lat=None,lon=None):
@@ -267,12 +289,10 @@ def update_driving_in_ds(name=None,lat=None,lon=None,):
 	
 	if ds_doc.start_lat:
 		ds_doc.start_lat = lat
-	if ds_doc.start_long:
+	if not ds_doc.start_long:
 		ds_doc.start_long = lon
 		ds_doc.status='In Transit'
-		frappe.sendmail(recipients=ds_doc.email, sender=None, subject="Delivery Report",
-			message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.name +" is dispatched.<br>"
-			"Kindly Find the attachment.",attachments=[frappe.attach_print("Delivery Schedule", ds_doc.name, file_name=ds_doc.name,print_format="Standard")])
+		send_delivery_dispatch_alert(ds_doc.name)
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
 
