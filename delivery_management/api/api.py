@@ -8,6 +8,7 @@ from frappe.desk.form.load import get_attachments
 
 from frappe.utils import flt, time_diff_in_hours, get_datetime, getdate, today, cint, get_datetime_str
 from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
+import ast
 
 @frappe.whitelist(allow_guest=True)
 def ping():
@@ -25,6 +26,10 @@ def update_img_in_delivery_schedule(name=None,img_1=None,img_2=None,img_3=None,i
 
 	
 	if ds_doc.name:
+		ds_doc.img_1=img_1
+		print("##########################")
+		print(ds_doc.img_1)
+
 		ds_doc.flags.ignore_permissions = True
 		ds_doc.save(ignore_permissions=True)
 		file_url = get_files_path ()
@@ -54,6 +59,10 @@ def update_img_in_delivery_schedule(name=None,img_1=None,img_2=None,img_3=None,i
 		frappe.db.commit()
 	
 	if img_2:
+		ds_doc.img_2=img_2
+		print("##########################")
+		print(ds_doc.img_2)
+
 		img_count = int(ds_doc.img_count) + 1
 		img_name = "_img"+ str(img_count) +".png"
 		ds_doc.img_2 = img_2
@@ -78,6 +87,9 @@ def update_img_in_delivery_schedule(name=None,img_1=None,img_2=None,img_3=None,i
 		frappe.db.commit()
 
 	if img_3:
+		ds_doc.img_3=img_3
+		print("##########################")
+		print(ds_doc.img_3)
 		img_count = int(ds_doc.img_count) + 1
 		img_name = "_img"+ str(img_count) +".png"
 		ds_doc.img_3 = img_3
@@ -102,6 +114,9 @@ def update_img_in_delivery_schedule(name=None,img_1=None,img_2=None,img_3=None,i
 		frappe.db.commit()
 
 	if img_4:
+		ds_doc.img_4=img_4
+		print("##########################")
+		print(ds_doc.img_4)
 		img_count = int(ds_doc.img_count) + 1
 		img_name = "_img"+ str(img_count) +".png"
 		ds_doc.img_4 = img_4
@@ -216,7 +231,11 @@ def get_delivery_schedule_list(user_id=None):
 @frappe.whitelist(allow_guest=True)
 def update_start_loc_in_ds(name=None,lat=None,lon=None):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
-	
+	import ast
+	path_list = ast.literal_eval(ds_doc.driving_path)
+	loc=path_list[1]
+	latitude=loc[0]
+	longitude=loc[1]
 	if ds_doc.name:
 		ds_doc.start_lat = lat
 		ds_doc.start_long = lon
@@ -224,10 +243,6 @@ def update_start_loc_in_ds(name=None,lat=None,lon=None):
 		frappe.sendmail(recipients=ds_doc.email, sender=None, subject="Delivery Report",
 			message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.name +" is dispatched.<br>"
 			"Kindly Find the attachment.",attachments=[frappe.attach_print("Delivery Schedule", ds_doc.name, file_name=ds_doc.name,print_format="Standard")])
-		
-	
-
-
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
 		print(ds_doc.email)
@@ -249,8 +264,19 @@ def update_stop_loc_in_ds(name=None,lat=None,lon=None):
 @frappe.whitelist(allow_guest=True)
 def update_driving_in_ds(name=None,lat=None,lon=None,):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
+	
+	if ds_doc.start_lat:
+		ds_doc.start_lat = lat
+	if ds_doc.start_long:
+		ds_doc.start_long = lon
+		ds_doc.status='In Transit'
+		frappe.sendmail(recipients=ds_doc.email, sender=None, subject="Delivery Report",
+			message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.name +" is dispatched.<br>"
+			"Kindly Find the attachment.",attachments=[frappe.attach_print("Delivery Schedule", ds_doc.name, file_name=ds_doc.name,print_format="Standard")])
+		ds_doc.save(ignore_permissions=True)
+		frappe.db.commit()
+
 	if ds_doc.driving_path:
-		import ast
 		path_list = ast.literal_eval(ds_doc.driving_path)
 		mylist = []
 		mylist = [lat,lon]

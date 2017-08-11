@@ -1,4 +1,4 @@
-<div style="margin-bottom: 7px;" class="text-center">
+<div style="font-size: 60px !important;" class="text-center">
 	Delivery Schedule
 </div>
 <h2 class="text-center">{%= __("Trip No. 1") %}</h2>
@@ -7,7 +7,7 @@
 
 </h5>
 <hr>
-<table class="table table-bordered">
+<table class="table table-bordered" style="font-size: 60px !important;">
 	<thead>
 		<tr>
 		
@@ -27,11 +27,11 @@
 
 			<th>{%= __("Date") %}</th>
 			<th>{%= __("Customer Ref") %}</th>
-			<th>{%= __("Delivery Note No") %}</th>
+<!-- 			<th>{%= __("Delivery Note No") %}</th>
 			<th>{%= __("Lorry No") %}</th>
 			<th>{%= __("Trip") %}</th>
 			<th>{%= __("Contact Person Name") %}</th>
-			<th>{%= __("Address") %}</th>
+			<th>{%= __("Address") %}</th> -->
 			<th>{%= __("Mobile No") %}</th>
 			<th>{%= __("Email") %}</th>
 			<th>{%= __("Contact No") %}</th>
@@ -47,22 +47,31 @@
 			<td>
 				{%= dateutil.str_to_user(data[i][__("Date")]) %}
 			</td>
-			<td>{%= data[i][__("Customer Ref")]  %}</td>
+	<!-- 		<td>{%= data[i][__("Customer Ref")]  %}</td>
 			<td>{%= data[i][__("Delivery Note")]  %}</td>
 			<td>{%= data[i][__("Lorry No")]  %} </td>
 			<td>{%= data[i][__("Trip")]  %}</td>
-			<td>{%= data[i][__("Contact Person Name")]  %}</td>
+
+			<td>{%= data[i][__("Contact Person Name")]  %}</td> -->
 			<td>{%= data[i][__("Address Line 1")]  %} {%= data[i][__("Address Line 2")]  %} {%= data[i][__("Address Line 3")]  %} {%= data[i][__("Pin Code")]  %}</td>
 			<td>{%= data[i][__("Mobile No")]  %}</td>
 			<td>{%= data[i][__("Email")]  %}</td>
 			<td>{%= data[i][__("Contact No")]  %}</td>
 			<td>{%= data[i][__("Remark")]  %}</td>
+			 <div class="page-break"></div> 
+			 			 <div class="page-break"></div> 
+
 		</tr>
 	{% } %}
 	</tbody>
 </table>
 <p class="text-right text-muted">Thanks</p>
 
+<div class="page-break"></div> 
+
+<div style="font-size: 60px !important;" class="text-center">
+	Delivery Schedule3333
+</div>
 
 
 
