@@ -9,13 +9,18 @@ from frappe.desk.form.load import get_attachments
 from frappe.utils import flt, time_diff_in_hours, get_datetime, getdate, today, cint, get_datetime_str
 from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
 import ast
+from bitly import ping
+
+import json
+import requests
+from frappe.desk.form.load import get_attachments
 
 @frappe.whitelist(allow_guest=True)
 def ping():
 	return "pong"
 
 @frappe.whitelist(allow_guest=True)
-def update_img_in_delivery_schedule(name=None,img_1=None,img_2=None,img_3=None,img_4=None):
+def update_img_in_delivery_schedule(name=None,img_1=None):
 	ds_doc = frappe.get_doc("Delivery Schedule", name)
 	
 	file_url = get_files_path ()
@@ -58,87 +63,87 @@ def update_img_in_delivery_schedule(name=None,img_1=None,img_2=None,img_3=None,i
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
 	
-	if img_2:
-		ds_doc.img_2=img_2
-		print("##########################")
-		print(ds_doc.img_2)
+	# if img_2:
+	# 	ds_doc.img_2=img_2
+	# 	print("##########################")
+	# 	print(ds_doc.img_2)
 
-		img_count = int(ds_doc.img_count) + 1
-		img_name = "_img"+ str(img_count) +".png"
-		ds_doc.img_2 = img_2
-		ds_doc.img_count = img_count
+	# 	img_count = int(ds_doc.img_count) + 1
+	# 	img_name = "_img"+ str(img_count) +".png"
+	# 	ds_doc.img_2 = img_2
+	# 	ds_doc.img_count = img_count
 
-		file_url += img_name
-		image_64_decode = base64.decodestring(img_2)
-		image_result = open(file_url, 'wb')
-		image_result.write(image_64_decode)
+	# 	file_url += img_name
+	# 	image_64_decode = base64.decodestring(img_2)
+	# 	image_result = open(file_url, 'wb')
+	# 	image_result.write(image_64_decode)
 
-		file_doc = frappe.new_doc("File")
-		file_doc.file_name = name + img_name
-		file_doc.folder = "Home/Attachments"
-		file_doc.attached_to_doctype = "Delivery Schedule"
-		file_doc.attached_to_name = ds_doc.name
-		file_url_attach = get_files_path ()
+	# 	file_doc = frappe.new_doc("File")
+	# 	file_doc.file_name = name + img_name
+	# 	file_doc.folder = "Home/Attachments"
+	# 	file_doc.attached_to_doctype = "Delivery Schedule"
+	# 	file_doc.attached_to_name = ds_doc.name
+	# 	file_url_attach = get_files_path ()
 
-		file_doc.file_url = "files/" + name + img_name
-		file_doc.validate()
-		file_doc.insert(ignore_permissions=True)
-		ds_doc.save(ignore_permissions=True)
-		frappe.db.commit()
+	# 	file_doc.file_url = "files/" + name + img_name
+	# 	file_doc.validate()
+	# 	file_doc.insert(ignore_permissions=True)
+	# 	ds_doc.save(ignore_permissions=True)
+	# 	frappe.db.commit()
 
-	if img_3:
-		ds_doc.img_3=img_3
-		print("##########################")
-		print(ds_doc.img_3)
-		img_count = int(ds_doc.img_count) + 1
-		img_name = "_img"+ str(img_count) +".png"
-		ds_doc.img_3 = img_3
-		ds_doc.img_count = img_count
+	# if img_3:
+	# 	ds_doc.img_3=img_3
+	# 	print("##########################")
+	# 	print(ds_doc.img_3)
+	# 	img_count = int(ds_doc.img_count) + 1
+	# 	img_name = "_img"+ str(img_count) +".png"
+	# 	ds_doc.img_3 = img_3
+	# 	ds_doc.img_count = img_count
 
-		file_url += img_name
-		image_64_decode = base64.decodestring(img_3)
-		image_result = open(file_url, 'wb')
-		image_result.write(image_64_decode)
+	# 	file_url += img_name
+	# 	image_64_decode = base64.decodestring(img_3)
+	# 	image_result = open(file_url, 'wb')
+	# 	image_result.write(image_64_decode)
 
-		file_doc = frappe.new_doc("File")
-		file_doc.file_name = name + img_name
-		file_doc.folder = "Home/Attachments"
-		file_doc.attached_to_doctype = "Delivery Schedule"
-		file_doc.attached_to_name = ds_doc.name
-		file_url_attach = get_files_path ()
+	# 	file_doc = frappe.new_doc("File")
+	# 	file_doc.file_name = name + img_name
+	# 	file_doc.folder = "Home/Attachments"
+	# 	file_doc.attached_to_doctype = "Delivery Schedule"
+	# 	file_doc.attached_to_name = ds_doc.name
+	# 	file_url_attach = get_files_path ()
 
-		file_doc.file_url = "files/" + name + img_name
-		file_doc.validate()
-		file_doc.insert(ignore_permissions=True)
-		ds_doc.save(ignore_permissions=True)
-		frappe.db.commit()
+	# 	file_doc.file_url = "files/" + name + img_name
+	# 	file_doc.validate()
+	# 	file_doc.insert(ignore_permissions=True)
+	# 	ds_doc.save(ignore_permissions=True)
+	# 	frappe.db.commit()
 
-	if img_4:
-		ds_doc.img_4=img_4
-		print("##########################")
-		print(ds_doc.img_4)
-		img_count = int(ds_doc.img_count) + 1
-		img_name = "_img"+ str(img_count) +".png"
-		ds_doc.img_4 = img_4
-		ds_doc.img_count = img_count
+	# if img_4:
+	# 	ds_doc.img_4=img_4
+	# 	print("##########################")
+	# 	print(ds_doc.img_4)
+	# 	img_count = int(ds_doc.img_count) + 1
+	# 	img_name = "_img"+ str(img_count) +".png"
+	# 	ds_doc.img_4 = img_4
+	# 	ds_doc.img_count = img_count
 
-		file_url += img_name
-		image_64_decode = base64.decodestring(img_4)
-		image_result = open(file_url, 'wb')
-		image_result.write(image_64_decode)
+	# 	file_url += img_name
+	# 	image_64_decode = base64.decodestring(img_4)
+	# 	image_result = open(file_url, 'wb')
+	# 	image_result.write(image_64_decode)
 
-		file_doc = frappe.new_doc("File")
-		file_doc.file_name = name + img_name
-		file_doc.folder = "Home/Attachments"
-		file_doc.attached_to_doctype = "Delivery Schedule"
-		file_doc.attached_to_name = ds_doc.name
-		file_url_attach = get_files_path ()
+	# 	file_doc = frappe.new_doc("File")
+	# 	file_doc.file_name = name + img_name
+	# 	file_doc.folder = "Home/Attachments"
+	# 	file_doc.attached_to_doctype = "Delivery Schedule"
+	# 	file_doc.attached_to_name = ds_doc.name
+	# 	file_url_attach = get_files_path ()
 
-		file_doc.file_url = "files/" + name + img_name
-		file_doc.validate()
-		file_doc.insert(ignore_permissions=True)
-		ds_doc.save(ignore_permissions=True)
-		frappe.db.commit()
+	# 	file_doc.file_url = "files/" + name + img_name
+	# 	file_doc.validate()
+	# 	file_doc.insert(ignore_permissions=True)
+	# 	ds_doc.save(ignore_permissions=True)
+	# 	frappe.db.commit()
 	
 	return "Delivery Schedule is updated for " + ds_doc.name
 	
@@ -231,7 +236,6 @@ def get_delivery_schedule_list(user_id=None):
 @frappe.whitelist(allow_guest=True)
 def update_start_loc_in_ds(name=None,lat=None,lon=None):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
-	print "hi"
 	if ds_doc.name:
 		ds_doc.start_lat = lat
 		ds_doc.start_long = lon
@@ -240,12 +244,9 @@ def update_start_loc_in_ds(name=None,lat=None,lon=None):
 		frappe.db.commit()
 		send_delivery_dispatch_alert(ds_doc.name)
 		return "Location updated for the Delivery Shedule Latitude " + ds_doc.start_lat+" Longitude "+ds_doc.start_long
-from bitly import ping
 
-import json
-import requests
 def short_url(url):
-	base_url = "https://hafardev/name="
+	base_url = "https://hafarydev.digitalprizm.net/name="
 	url = base_url + url
 	post_url = 'https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyDaTiY50Ly3rLN5Ox8R3jpADtri2RT6fcU'
 	params = json.dumps({'longUrl': url})
@@ -256,15 +257,24 @@ def short_url(url):
 def send_delivery_dispatch_alert(name):
 	ds_doc = frappe.get_doc("Delivery Schedule", name)
 	#send email
+	
+	# attachments = get_attachments("Delivery Schedule","DSCH00028")
+	attachments = [d.name for d in get_attachments("Delivery Schedule", "DSCH00028")]
+	attachments.append(frappe.attach_print("Delivery Schedule", "DSCH00028", print_format="Standard"))	# attachments.append(frappe.attach_print("Delivery Schedule", "DSCH00028", file_name="DSCH00028",print_format="Standard"))
+	print(attachments)
+	print("#####################")
+
 	frappe.sendmail(recipients=ds_doc.email, sender=None, subject="Delivery Report",
 			message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.name +" is dispatched.<br>"
-			"Kindly Find the attachment.",attachments=[frappe.attach_print("Delivery Schedule", ds_doc.name, file_name=ds_doc.name,print_format="Standard")])
-	# ds_doc.save(ignore_permissions=True)
+			"Kindly Find the attachment.",attachments=attachments)
+
+
+	ds_doc.save(ignore_permissions=True)
 	#send sms
 	message = ""
 	message += "Hello your order "
 	message += ds_doc.delivery_note_no
-	message += " is dispatched. please see details "
+	message += " is dispatched.\nPlease see details \n"
 	ds_name = ds_doc.name
 	short_url_link = short_url(ds_name)
 	message += short_url_link

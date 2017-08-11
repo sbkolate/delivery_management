@@ -105,8 +105,6 @@ def create_delivery_contact(doc, method):
 
 @frappe.whitelist()
 def send_email(name,email):
-
-	
 	frappe.sendmail(recipients=email, sender=None, subject="Delivery Report",
 			message="Your Order is Dispatched",  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Standard")])
 	
