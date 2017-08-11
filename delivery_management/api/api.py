@@ -246,7 +246,7 @@ def update_start_loc_in_ds(name=None,lat=None,lon=None):
 		return "Location updated for the Delivery Shedule Latitude " + ds_doc.start_lat+" Longitude "+ds_doc.start_long
 
 def short_url(url):
-	base_url = "https://hafarydev.digitalprizm.net/name="
+	base_url = "https://hafarydev.digitalprizm.net/myorder?name="
 	url = base_url + url
 	post_url = 'https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyDaTiY50Ly3rLN5Ox8R3jpADtri2RT6fcU'
 	params = json.dumps({'longUrl': url})
