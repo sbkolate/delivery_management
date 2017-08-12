@@ -248,7 +248,9 @@ def update_start_loc_in_ds(name=None,lat=None,lon=None):
 		return "Location updated for the Delivery Shedule Latitude " + ds_doc.start_lat+" Longitude "+ds_doc.start_long
 
 def short_url(url):
+
 	base_url = "http://hafarydev.digitalprizm.net/myorder?name="
+
 	url = base_url + url
 	post_url = 'https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyDaTiY50Ly3rLN5Ox8R3jpADtri2RT6fcU'
 	params = json.dumps({'longUrl': url})
@@ -261,7 +263,7 @@ def send_delivery_dispatch_alert(name):
 	ds_doc = frappe.get_doc("Delivery Schedule", name)
 	subject = _("Your hafary order is dispatched")
 	sender = frappe.session.user not in STANDARD_USERS and frappe.session.user or None
-	message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.name +" is dispatched.<br>"+"Kindly Find the attachment."
+	message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.delivery_note_no +" is dispatched.<br>"+"Kindly Find the attachment."
 	attachments = ds_doc.get_attachments()
 	recipients = ds_doc.email
 	
@@ -411,23 +413,34 @@ def get_delivery_schedule_list1():
 
 
 
+
+
 @frappe.whitelist(allow_guest=True)
 def get_single_delivery(name=None):
 	single_delivery_shedule = frappe.get_doc("Delivery Schedule", str(name))
-	addr = ""
-	seq = (str(single_delivery_shedule.address_line_1)," ",str(single_delivery_shedule.address_line_2))
-	addr = addr.join(seq)
+
+	ds_list = frappe.db.sql("""select name,customer_ref,date,driver_user_id,
+		trip,driver_full_name,
+		ifnull(mobile_no, '') AS mobile_no,
+		ifnull(contact_no, '') AS contact_no,
+		ifnull(delivery_note_no, '') AS delivery_note_no,
+		CONCAT(address_line_1,' ',address_line_2) AS address 
+		from `tabDelivery Schedule` WHERE name='{0}' """.format(name),as_dict=1)
+	
+	if ds_list:
+		ds_list = ds_list[0]
+	
 	delivery_shedule = {
-		"ID" : single_delivery_shedule.name,
-		"Customer Ref": single_delivery_shedule.customer_ref,
-		"Date": single_delivery_shedule.date,
-		"Address Disply": addr,
-		"Driver ID": single_delivery_shedule.driver_user_id,
-		"Driver Name": single_delivery_shedule.driver_full_name,
-		"Trip": single_delivery_shedule.trip,
-		"Delivery Note": single_delivery_shedule.delivery_note_no,
-		"Mobile No": single_delivery_shedule.mobile_no,
-		"Contact No": single_delivery_shedule.contact_no 
+		"ID" : ds_list.name,
+		"Customer Ref": ds_list.customer_ref,
+		"Date": ds_list.date,	
+		"Driver ID": ds_list.driver_user_id,
+		"Driver Name": ds_list.driver_full_name,
+		"Trip": ds_list.trip,
+		"Delivery Note": ds_list.delivery_note_no,
+		"Mobile No": ds_list.mobile_no,
+		"Contact No": ds_list.contact_no,
+		"Address Disply": ds_list.address
 
 	}
 

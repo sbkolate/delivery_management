@@ -10,6 +10,13 @@ from frappe.desk.form.load import get_attachments
 from frappe.core.doctype.communication.email import make
 
 class DeliverySchedule(Document):
+	def validate(self):
+		k = frappe.db.get_value("Driver", {"carrier": self.carrier})
+		if k:
+			self.driver = k
+			self.driver_full_name = frappe.db.get_value("Driver", {"carrier": self.carrier}, "full_name")
+			self.driver_user_id = frappe.db.get_value("Driver", {"carrier": self.carrier}, "user_id")
+
 	def get_attachments(self):
 		attachments = [d.name for d in get_attachments(self.doctype, self.name)]
 		attachments.append(frappe.attach_print(self.doctype, self.name, doc=self))

@@ -1,6 +1,9 @@
 cur_frm.add_fetch('lorry_no', 'driver', 'driver');
 cur_frm.add_fetch('driver', 'user_id', 'driver_user_id');
 cur_frm.add_fetch('driver', 'full_name', 'driver_full_name');
+cur_frm.add_fetch('driver', 'carrier', 'carrier');
+
+
 
 
 frappe.ui.form.on('Delivery Schedule', {
