@@ -13,14 +13,14 @@ cur_frm.add_fetch('user_id', 'gender', 'gender');
 
 frappe.ui.form.on('Driver', {
 	refresh: function(frm) {
+		if(frm.doc.__islocal == 1) {
+			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Show Route" style=""> Cancel</i>'),
+			function () { frappe.set_route("/"); }, 'fa fa-home btn-default', 'btn-danger')
+		}
 		
 	},
 	onload: function(frm, cdt, cdn) {
-		if(frm.doc.__islocal == 1) {
-			if($('#cancelredirect').length == 0) {
-				$(".page-actions").append("<button type='button' id='cancelredirect' class='btn btn-default'>Cancel</button>")
-			}
-		}
+
 	},
 	after_save: function(frm) {
 		console.log("after_save")
