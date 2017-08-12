@@ -412,6 +412,20 @@ def get_delivery_schedule_list1():
 
 
 
+def sc_get_item_for_list_in_html(context):
+	# add missing absolute link in files
+	# user may forget it during upload
+	if (context.get("website_image") or "").startswith("files/"):
+		context["website_image"] = "/" + urllib.quote(context["website_image"])
+
+	products_template = 'templates/include/my_product_list.html'
+	if cint(frappe.db.get_single_value('Products Settings', 'products_as_list')):
+		products_template = 'templates/include/my_product_list.html'
+
+	print "\nsc_get_item_for_list_in_html"
+	print products_template
+	print context
+	return frappe.get_template(products_template).render(context)
 
 
 
@@ -446,8 +460,11 @@ def get_single_delivery(name=None):
 
 	attachments = get_attachments("Delivery Schedule", single_delivery_shedule.name)
 	# attachments.append(frappe.attach_print(self.doctype, self.name, doc=self))
-	
-	delivery_shedule.update({"attachments":attachments})
+	data = attachments
+	k = [sc_get_item_for_list_in_html(r) for r in data]
+	k = "".join(k)
+
+	delivery_shedule.update({"attachments":"<h3>Product Images:</h3>"+k})
 	print "helllo\n\n"
 	print attachments
 	return delivery_shedule

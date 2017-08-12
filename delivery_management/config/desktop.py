@@ -65,6 +65,15 @@ def get_data():
 			"module_name": "Delivery Management",
 			"color": "#d83da8",
 			"icon": "fa fa-th",
+			"icon": "fa fa-car",
+			"type": "page",
+			"link": "Delivery Management",
+			"label": _("Delivery Management")
+		},
+		{
+			"module_name": "Driver Dashboard",
+			"color": "#589494",
+			"icon": "fa fa-th",
 			"icon": "fa fa-map-signs",
 			"type": "page",
 			"link": "driverdashboard",

@@ -72,21 +72,23 @@ window.render_product_list = function(data) {
     			<td>Contact No</td><td>"
     html += data["Contact No"]
     html +=  "</td></tr>"
+    html +=  "</table>"
+    html +=  data["attachments"]
 
-	html += "</table></br></br>Product Images: <br>"
+	// html += "</br></br>Product Images: <br>"
 
-	html +=  "<div style='width:830; background-color:white; height:120px; overflow:scroll; overflow-x: scroll;overflow-y: hidden;'>"
-	for (i = 0; i < Object.keys(data["attachments"]).length; i++) {
-		     html += "<img style=' float:left; display:inline; margin-right: 25px; padding:10px;border: 1px solid gray' src='"
-		    html += data["attachments"][i]["file_url"]
+	// html +=  "<div style='width:830; background-color:white; height:120px; overflow:scroll; overflow-x: scroll;overflow-y: hidden;'>"
+	// for (i = 0; i < Object.keys(data["attachments"]).length; i++) {
+	// 	     html += "<img style=' float:left; display:inline; margin-right: 25px; padding:10px;border: 1px solid gray' src='"
+	// 	    html += data["attachments"][i]["file_url"]
 
-		     //html += "http://qa.shopchemical.com/files/imgpsh_fullsize.png"
-		     html += "' width='160' height='90' alt='Product Image' />"
-	}
-	html += "</div>"
+	// 	     //html += "http://qa.shopchemical.com/files/imgpsh_fullsize.png"
+	// 	     html += "' width='160' height='90' alt='Product Image' />"
+	// }
+	// html += "</div>"
 
 
-	$("#delivery_details").append(JSON.stringify(data));
+	// $("#delivery_details").append(JSON.stringify(data));
 	$("#delivery_details").append(html);
 
 	// if(data.length) {
