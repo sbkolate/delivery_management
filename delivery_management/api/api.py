@@ -243,7 +243,7 @@ def update_start_loc_in_ds(name=None,lat=None,lon=None):
 		return "Location updated for the Delivery Shedule Latitude " + ds_doc.start_lat+" Longitude "+ds_doc.start_long
 
 def short_url(url):
-	base_url = "https://hafarydev.digitalprizm.net/name="
+	base_url = "https://hafarydev.digitalprizm.net/myorder?name="
 	url = base_url + url
 	post_url = 'https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyDaTiY50Ly3rLN5Ox8R3jpADtri2RT6fcU'
 	params = json.dumps({'longUrl': url})
@@ -410,19 +410,33 @@ def get_delivery_schedule_list1():
 
 
 
-# @frappe.whitelist(allow_guest=True)
-# def get_single_delivery(name=None):
-# 	single_delivery_shedule = frappe.get_doc("Delivery Schedule", str(name))
-# 	addr = ""
-# 	seq = (str(single_delivery_shedule.address_line_1)," ",str(single_delivery_shedule.address_line_2))
-# 	addr = addr.join(seq)
-# 	delivery_shedule = {
-# 		"ID" : single_delivery_shedule.name,
-# 		"Customer Ref": single_delivery_shedule.customer_ref
-		
+@frappe.whitelist(allow_guest=True)
+def get_single_delivery(name=None):
+	single_delivery_shedule = frappe.get_doc("Delivery Schedule", str(name))
+	addr = ""
+	seq = (str(single_delivery_shedule.address_line_1)," ",str(single_delivery_shedule.address_line_2))
+	addr = addr.join(seq)
+	delivery_shedule = {
+		"ID" : single_delivery_shedule.name,
+		"Customer Ref": single_delivery_shedule.customer_ref,
+		"Date": single_delivery_shedule.date,
+		"Address Disply": addr,
+		"Driver ID": single_delivery_shedule.driver_user_id,
+		"Driver Name": single_delivery_shedule.driver_full_name,
+		"Trip": single_delivery_shedule.trip,
+		"Delivery Note": single_delivery_shedule.delivery_note_no,
+		"Mobile No": single_delivery_shedule.mobile_no,
+		"Contact No": single_delivery_shedule.contact_no 
 
-# 	}
-# 	return delivery_shedule
+	}
+
+	attachments = get_attachments("Delivery Schedule", single_delivery_shedule.name)
+	# attachments.append(frappe.attach_print(self.doctype, self.name, doc=self))
+	
+	delivery_shedule.update({"attachments":attachments})
+	print "helllo\n\n"
+	print attachments
+	return delivery_shedule
 
 
 
