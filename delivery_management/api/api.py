@@ -1,7 +1,8 @@
 from __future__ import unicode_literals
-import frappe, os, json
+import frappe, os, json, json
 
 import base64 
+from frappe import _
 
 from frappe.utils import strip, get_files_path
 from frappe.desk.form.load import get_attachments
@@ -14,6 +15,10 @@ from bitly import ping
 import json
 import requests
 from frappe.desk.form.load import get_attachments
+from frappe.core.doctype.communication.email import make
+
+STANDARD_USERS = ("Guest", "Administrator")
+
 
 @frappe.whitelist(allow_guest=True)
 def ping():
@@ -254,19 +259,29 @@ def short_url(url):
 	google_url = response.json()
 	return google_url['id']
 
+
+
+
 def send_delivery_dispatch_alert(name):
 	ds_doc = frappe.get_doc("Delivery Schedule", name)
 	#send email
+
+
 	
 	# attachments = get_attachments("Delivery Schedule","DSCH00028")
-	attachments = [d.name for d in get_attachments("Delivery Schedule", "DSCH00028")]
-	attachments.append(frappe.attach_print("Delivery Schedule", "DSCH00028", print_format="Standard"))	# attachments.append(frappe.attach_print("Delivery Schedule", "DSCH00028", file_name="DSCH00028",print_format="Standard"))
-	print(attachments)
-	print("#####################")
 
-	frappe.sendmail(recipients=ds_doc.email, sender=None, subject="Delivery Report",
-			message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.name +" is dispatched.<br>"
-			"Kindly Find the attachment.",attachments=attachments)
+	# attachments.append(frappe.attach_print("Delivery Schedule", "DSCH00028", print_format="Standard"))	# attachments.append(frappe.attach_print("Delivery Schedule", "DSCH00028", file_name="DSCH00028",print_format="Standard"))
+	# print(attachments)
+	print("#####################")
+	subject = _("Your hafary order is dispatched")
+	sender = frappe.session.user not in STANDARD_USERS and frappe.session.user or None
+	message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.name +" is dispatched.<br>"+"Kindly Find the attachment."
+	attachments = ds_doc.get_attachments()
+	recipients = ds_doc.email
+	
+	ds_doc.send_email(recipients, sender, subject, message, attachments)
+
+	# frappe.sendmail(recipients=ds_doc.email, sender=None, subject="Delivery Report",message= message,attachments=attachments)
 
 
 	ds_doc.save(ignore_permissions=True)
