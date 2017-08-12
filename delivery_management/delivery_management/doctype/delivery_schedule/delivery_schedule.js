@@ -14,9 +14,14 @@ frappe.ui.form.on('Delivery Schedule', {
 			function () {
 				cur_frm.cscript.send_email(frm); }, 'fa fa-retweet', 'btn-default')
 
-
 	},
-
+	onload: function(frm, cdt, cdn) {
+		if(frm.doc.__islocal == 1) {
+			if($('#cancelredirect').length == 0) {
+				$(".page-actions").append("<button type='button' id='cancelredirect' class='btn btn-default'>Cancel</button>")
+			}
+		}
+	},
 	address: function(frm, cdt, cdn) {
 		erpnext.utils.get_address_display(frm, 'address', 'address_display', false);
 	},

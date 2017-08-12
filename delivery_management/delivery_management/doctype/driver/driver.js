@@ -15,6 +15,13 @@ frappe.ui.form.on('Driver', {
 	refresh: function(frm) {
 		
 	},
+	onload: function(frm, cdt, cdn) {
+		if(frm.doc.__islocal == 1) {
+			if($('#cancelredirect').length == 0) {
+				$(".page-actions").append("<button type='button' id='cancelredirect' class='btn btn-default'>Cancel</button>")
+			}
+		}
+	},
 	after_save: function(frm) {
 		console.log("after_save")
 		frappe.set_route("List", "Driver");

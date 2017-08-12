@@ -17,8 +17,7 @@ app_license = "MIT"
 # include js, css files in header of desk.html
 app_include_css = "/assets/delivery_management/css/hafary.css"
 # app_include_js = "/assets/delivery_management/js/delivery_management.js"
-app_include_js = "/assets/delivery_management/js/data_import_tool.js"
-app_include_js = "/assets/delivery_management/js/customer_import_tool.js"
+app_include_js = "/assets/delivery_management/js/hafary.js"
 
 # app_include_js = "/delivery_management/page/customer_import_tool/customer_import_tool.js"
 
