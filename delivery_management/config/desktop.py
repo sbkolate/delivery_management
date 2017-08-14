@@ -25,7 +25,7 @@ def get_data():
 		{
 			"module_name": "Driver",
 			"_doctype": "Driver",
-			"color": "#CD853F",
+			"color": "#cb3fcd",
 			"icon": "fa fa-user-circle-o",
 			"type": "link",
 			"link": "List/Driver"
@@ -72,7 +72,7 @@ def get_data():
 		},
 		{
 			"module_name": "Driver Dashboard",
-			"color": "#589494",
+			"color": "#ecd843",
 			"icon": "fa fa-th",
 			"icon": "fa fa-map-marker",
 			"type": "page",
@@ -81,7 +81,7 @@ def get_data():
 		},
 		{
 			"module_name": "Driver Route Dashboard",
-			"color": "#5a9c27",
+			"color": "#ffa414",
 			"icon": "fa fa-th",
 			"icon": "fa fa-map-pin",
 			"type": "page",
