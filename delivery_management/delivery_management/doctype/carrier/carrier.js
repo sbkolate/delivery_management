@@ -7,16 +7,16 @@ frappe.ui.form.on('Carrier', {
 	refresh: function(frm) {
 
 		if(frm.doc.__islocal == 1) {
-			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Back" style=""> Cancel</i>'),
+			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Back" style="margin-left: 10px;color: red;"> Cancel</i>'),
 			function () { frappe.set_route("/"); }, 'fa fa-home btn-default', 'btn-danger')
 
 		}
 		else{
-			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Back" style=""> Cancel</i>'),
-			function () { frappe.set_route("/"); }, 'fa fa-home btn-default', 'btn-danger')
 
 			cur_frm.add_custom_button(__('<i class="fa fa-street-view" title="Show Route" style=""> Driver Location</i>'),
 			function () { cur_frm.cscript.show_route(frm); }, 'fa fa-retweet', 'btn-default')
+			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Back" style="margin-left: 10px;color: red;"> Cancel</i>'),
+			function () { frappe.set_route("/"); }, 'fa fa-home btn-default', 'btn-danger')
 
 		}
 	},

@@ -9,13 +9,11 @@ cur_frm.add_fetch('driver', 'carrier', 'carrier');
 frappe.ui.form.on('Delivery Schedule', {
 	refresh: function(frm) {
 		if(frm.doc.__islocal == 1) {
-			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Back" style=""> Cancel</i>'),
+			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Back" style="margin-left: 10px;color: red;"> Cancel</i>'),
 			function () { frappe.set_route("/"); }, 'fa fa-home btn-default', 'btn-danger')
 
 		}
 		else{
-			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Back" style=""> Cancel</i>'),
-			function () { frappe.set_route("/"); }, 'fa fa-home btn-default', 'btn-danger')
 
 			cur_frm.add_custom_button(__('<i class="fa fa-map" title="Show Route" style=""> Show Route</i>'),
 				function () { 
@@ -25,6 +23,9 @@ frappe.ui.form.on('Delivery Schedule', {
 			cur_frm.add_custom_button(__('<i class="fa fa-envelope" title="Show Route" style=""> Send Email</i>'),
 				function () {
 					cur_frm.cscript.send_email(frm); }, 'fa fa-retweet', 'btn-default')
+			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Back" style="margin-left: 10px;color: red;"> Cancel</i>'),
+			function () { frappe.set_route("/"); }, 'fa fa-home btn-default', 'btn-danger')
+
 		}
 	},
 	onload: function(frm, cdt, cdn) {

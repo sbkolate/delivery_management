@@ -13,8 +13,8 @@ cur_frm.add_fetch('user_id', 'gender', 'gender');
 
 frappe.ui.form.on('Driver', {
 	refresh: function(frm) {
-			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Back" style=""> Cancel</i>'),
-			function () { frappe.set_route("/"); }, 'fa fa-home btn-default', 'btn-danger')
+			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Back" style="margin-left: 10px;color: red;"> Cancel</i>'),
+			function () { frappe.set_route("/"); }, 'fa fa-home btn-danger', 'btn-danger')
 		
 		
 	},
