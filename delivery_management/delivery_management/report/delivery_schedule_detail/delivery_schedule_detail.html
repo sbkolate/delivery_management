@@ -2,7 +2,7 @@
 	Delivery Schedule
 </div>
 <h2 class="text-center">{%= __("Trip No. 1") %}</h2>
-<h4 class="text-center">Date 01/04/2017</h4>
+<h4 class="text-center">{%= frappe.datetime.str_to_user(filters.date) %}</h4>
 <hr>
 <table class="table table-bordered" style="font-size: 10px !important;">
 	<thead>
@@ -34,10 +34,16 @@
 			 			 <div class="page-break"></div> --> 
 
 		</tr>
-		{% if (data[i][__("Driver")]===data[i][__("Date")]) {-%}
+		{% if (data[i][__("Driver")]===frappe.datetime.str_to_user(filters.date))  {-%}
 		</tbody>
 		</table>
 		<div class="page-break"></div> 
+		<div style="font-size: 20px !important;" class="text-center">
+			Delivery Schedule
+		</div>
+		<h2 class="text-center">{%= __("Trip No. 1") %}</h2>
+		<h4 class="text-center">{%= frappe.datetime.str_to_user(filters.date) %}</h4>
+		<hr>
 		<table class="table table-bordered" style="font-size: 10px !important;">
 			<thead>
 			<tr>
@@ -52,14 +58,15 @@
 			</tr>
 		</thead>
 		{% } %}
+		{%= [i]-1 %}
 	{% } %}
 	</tbody>
 </table>
 <p class="text-right text-muted">Thanks</p>
 
-<div class="page-break"></div> 
+<!-- <div class="page-break"></div> 
 
 <div style="font-size: 15px !important;" class="text-center">
 	Delivery Schedule3333
-</div>
+</div> -->
 

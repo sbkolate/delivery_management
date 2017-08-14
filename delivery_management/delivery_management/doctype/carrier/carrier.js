@@ -5,16 +5,27 @@ cur_frm.add_fetch('driver', 'user_id', 'user_id');
 
 frappe.ui.form.on('Carrier', {
 	refresh: function(frm) {
-		cur_frm.add_custom_button(__('<i class="fa fa-street-view" title="Show Route" style=""> Driver Location</i>'),
-			function () { cur_frm.cscript.show_route(frm); }, 'fa fa-retweet', 'btn-default')
 
+		if(frm.doc.__islocal == 1) {
+			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Back" style="margin-left: 10px;color: red;"> Cancel</i>'),
+			function () { frappe.set_route("/"); }, 'fa fa-home btn-default', 'btn-danger')
+
+		}
+		else{
+
+			cur_frm.add_custom_button(__('<i class="fa fa-street-view" title="Show Route" style=""> Driver Location</i>'),
+			function () { cur_frm.cscript.show_route(frm); }, 'fa fa-retweet', 'btn-default')
+			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Back" style="margin-left: 10px;color: red;"> Cancel</i>'),
+			function () { frappe.set_route("/"); }, 'fa fa-home btn-default', 'btn-danger')
+
+		}
 	},
 	onload: function(frm, cdt, cdn) {
-		if(frm.doc.__islocal == 1) {
-			if($('#cancelredirect').length == 0) {
-				$(".page-actions").append("<button type='button' id='cancelredirect' class='btn btn-default'>Cancel</button>")
-			}
-		}
+		// if(frm.doc.__islocal == 1) {
+		// 	if($('#cancelredirect').length == 0) {
+		// 		$(".page-actions").append("<button type='button' id='cancelredirect' class='btn btn-default'>Cancel</button>")
+		// 	}
+		// }
 	},
 	after_save: function(frm) {
 		console.log("after_save")

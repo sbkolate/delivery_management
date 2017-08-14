@@ -1,19 +1,16 @@
 {% from "erpnext/templates/includes/macros.html" import product_image_square %}
 
-
-<a class="product-link product-list-link" href="{{ route|abs_url }}">
-	<div class='row'>
-		<div class='col-xs-3 col-sm-2 product-image-wrapper'>
-			{{ product_image_square(thumbnail or website_image) }}
-		</div>
-		<div class='col-xs-9 col-sm-10 text-left'>a
-			<div class="ellipsis product-text strong">item name{{ item_name }}</div>
-			{% set website_description = website_description or description %}
-			{% if website_description != item_name %}
-				<div class="ellipsis text-muted">aaa{{ website_description or description }}</div>
-			{% elif item_code != item_name %}
-				<div class="ellipsis text-muted">aaaa{{ _('Item Code') }}: {{ item_code }}</div>
-			{% endif %}
-		</div>
+<div class="col-md-3 col-sm-6 col-xs-6">
+	<div class="container-main">
+		<a class="thumbnail" href="{{ file_url|abs_url }}" target="black" rel="nofollow" style="box-shadow: 0px 1px 5px 0px #404040;">
+			<article class="caption">
+				<div class="product-image product-image-square
+					 " style="background-image: url('{{ file_url|abs_url }}');display: block;background-size: 100% 100%;">
+				</div>				
+				<div class="caption__overlay">
+				</div>
+			</article>
+		</a>
 	</div>
-</a>
+</div>
+

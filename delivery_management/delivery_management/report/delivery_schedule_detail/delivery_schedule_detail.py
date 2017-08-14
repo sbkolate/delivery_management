@@ -60,7 +60,7 @@ def get_data(filters):
 	for i in dl:
 		# print i[1]
 		if k!= i[1]:
-			dl.insert(dl.index(i),["<b>Date</b>",formatdate(i[0]),"Trip No",i[7],"Lorry No",i[8],"",i[7],""])
+			dl.insert(dl.index(i),["",(i[0]),"Trip No",i[7],"Lorry No",i[8],"",i[7],""])
 
 		k = i[1]
 
