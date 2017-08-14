@@ -44,11 +44,11 @@ delivery_management.Dashboard = Class.extend
 					this.party_field = frappe.ui.form.make_control({
 						df: {
 							"fieldtype": "Link",
-							"options": "Driver",
-							"label": "Driver",
+							"options": "Carrier",
+							"label": "Carrier",
 							"fieldname": "pos_party",
-							"Link": "Driver",
-							"placeholder": "Driver",
+							"Link": "Carrier",
+							"placeholder": "Carrier",
 						},
 						parent: me.page.wrapper.find(".party-area"),
 						only_input: true,
@@ -147,7 +147,7 @@ delivery_management.Dashboard = Class.extend
 			method: "delivery_management.delivery_management.page.driverdashboard.driverdashboard.get_driver_locations",
 			async:false,
 		args: {
-				"driver": me.so_number
+				"carrier": me.so_number
 
 			  },
 		callback: function(r)

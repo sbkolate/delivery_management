@@ -442,7 +442,8 @@ def get_single_delivery(name=None):
 		ifnull(mobile_no, '') AS mobile_no,
 		ifnull(contact_no, '') AS contact_no,
 		ifnull(delivery_note_no, '') AS delivery_note_no,
-		CONCAT(address_line_1,' ',address_line_2) AS address 
+		CONCAT(address_line_1,' ',address_line_2) AS address,
+		ifnull(address,' ') AS address
 		from `tabDelivery Schedule` WHERE name='{0}' """.format(name),as_dict=1)
 	
 	if ds_list:
