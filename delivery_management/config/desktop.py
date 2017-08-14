@@ -74,7 +74,7 @@ def get_data():
 			"color": "#d83da8",
 			"icon": "fa fa-th",
 			"icon": "fa fa-car",
-			"type": "page",
+			"type": "module",
 			"link": "Delivery Management",
 			"label": _("Delivery Management")
 		},
