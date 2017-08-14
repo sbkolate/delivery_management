@@ -9,11 +9,14 @@ cur_frm.add_fetch('driver', 'carrier', 'carrier');
 frappe.ui.form.on('Delivery Schedule', {
 	refresh: function(frm) {
 		if(frm.doc.__islocal == 1) {
-			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Show Route" style=""> Cancel</i>'),
+			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Back" style=""> Cancel</i>'),
 			function () { frappe.set_route("/"); }, 'fa fa-home btn-default', 'btn-danger')
 
 		}
 		else{
+			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Back" style=""> Cancel</i>'),
+			function () { frappe.set_route("/"); }, 'fa fa-home btn-default', 'btn-danger')
+
 			cur_frm.add_custom_button(__('<i class="fa fa-map" title="Show Route" style=""> Show Route</i>'),
 				function () { 
 					cur_frm.cscript.show_route(frm); }, 'fa fa-retweet', 'btn-default')

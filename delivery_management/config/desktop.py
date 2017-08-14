@@ -62,6 +62,14 @@ def get_data():
 			"link": "List/Upload Customer"
 		},
 		{
+			"module_name": "Upload Customer",
+			"_doctype": "Upload Customer",
+			"color": "#03A9F4",
+			"icon": "fa fa-upload",
+			"type": "link",
+			"link": "List/Upload Customer"
+		},
+		{
 			"module_name": "Delivery Management",
 			"color": "#d83da8",
 			"icon": "fa fa-th",
@@ -74,9 +82,27 @@ def get_data():
 			"module_name": "Driver Dashboard",
 			"color": "#589494",
 			"icon": "fa fa-th",
-			"icon": "fa fa-map-signs",
+			"icon": "fa fa-map-marker",
 			"type": "page",
 			"link": "driverdashboard",
 			"label": _("Driver Dashboard")
+		},
+		{
+			"module_name": "Driver Route Dashboard",
+			"color": "#5a9c27",
+			"icon": "fa fa-th",
+			"icon": "fa fa-map-pin",
+			"type": "page",
+			"link": "driverdashboardroute",
+			"label": _("Driver Route Dashboard")
+		},
+		{
+			"module_name": "Delivery Schedule Detail",
+			"color": "#561494",
+			"icon": "fa fa-th",
+			"icon": "fa fa-bar",
+			"type": "page",
+			"link": "query-report/Delivery Schedule Detail",
+			"label": _("Delivery Schedule Report")
 		},
 	]

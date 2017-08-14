@@ -13,10 +13,9 @@ cur_frm.add_fetch('user_id', 'gender', 'gender');
 
 frappe.ui.form.on('Driver', {
 	refresh: function(frm) {
-		if(frm.doc.__islocal == 1) {
-			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Show Route" style=""> Cancel</i>'),
+			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Back" style=""> Cancel</i>'),
 			function () { frappe.set_route("/"); }, 'fa fa-home btn-default', 'btn-danger')
-		}
+		
 		
 	},
 	onload: function(frm, cdt, cdn) {

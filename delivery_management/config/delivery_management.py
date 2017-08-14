@@ -60,7 +60,7 @@ def get_data():
 				{
 					"type": "report",
 					"is_query_report": True,
-					"name": "Delivery Schedule Details",
+					"name": "Delivery Schedule Detail",
 					"doctype": "Delivery Schedule"
 				},
 				{
