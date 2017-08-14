@@ -270,15 +270,17 @@ def send_delivery_dispatch_alert(name):
 	ds_doc.send_email(recipients, sender, subject, message, attachments)
 
 	ds_doc.save(ignore_permissions=True)
+
 	#send sms
-	message = ""
-	message += "Hello your order "
-	message += ds_doc.delivery_note_no
-	message += " is dispatched.\nPlease see details \n"
-	ds_name = ds_doc.name
-	short_url_link = short_url(ds_name)
-	message += short_url_link
-	send_message_api(ds_doc.mobile_no,message)
+	if ds_doc.mobile_no:
+		message = ""
+		message += "Hello your order "
+		message += ds_doc.delivery_note_no
+		message += " is dispatched.\nPlease see details \n"
+		ds_name = ds_doc.name
+		short_url_link = short_url(ds_name)
+		message += short_url_link
+		send_message_api(ds_doc.mobile_no,message)
 
 
 
@@ -380,8 +382,10 @@ def send_message_api(mobile_no=None,message=None):
 		ds_sms.message = message
 		ds_sms.save(ignore_permissions=True)
 		frappe.db.commit()
-	send_sms([mobile_no],message)
-	return "success"
+		send_sms([mobile_no],message)
+		return "success"
+	else:
+		return "SMS not send"
 
 
 
