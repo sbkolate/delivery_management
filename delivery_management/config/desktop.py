@@ -7,7 +7,8 @@ def get_data():
 		{
 			"module_name": "Delivery Management",
 			"color": "#0080ff",
-			"icon": "octicon octicon-file-directory",
+			"icon": "fa fa-th",
+			"icon": "fa fa-car",
 			"type": "module",
 			"label": _("Delivery Management")
 		},
@@ -68,15 +69,6 @@ def get_data():
 			"icon": "fa fa-upload",
 			"type": "link",
 			"link": "List/Upload Customer"
-		},
-		{
-			"module_name": "Delivery Management",
-			"color": "#d83da8",
-			"icon": "fa fa-th",
-			"icon": "fa fa-car",
-			"type": "module",
-			"link": "Delivery Management",
-			"label": _("Delivery Management")
 		},
 		{
 			"module_name": "Driver Dashboard",
