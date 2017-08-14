@@ -39,7 +39,7 @@ frappe.ui.form.on('Carrier', {
 
 cur_frm.cscript.show_route = function (frm) {
 
-	window.location.hash =  'driverdashboard/Driver/' + frm.doc.driver;
+	window.location.hash =  'driverdashboard/Carrier/' + frm.doc.name;
 	window.location.reload()
 		// frappe.set_route("driverdashboardroute","delivery_schedule",frm.doc.name);
 
