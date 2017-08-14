@@ -1384,7 +1384,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-08-12 19:36:55.392148", 
+ "modified": "2017-08-14 18:58:10.484457", 
  "modified_by": "Administrator", 
  "module": "Delivery Management", 
  "name": "Delivery Schedule", 
@@ -1472,7 +1472,7 @@
    "write": 1
   }
  ], 
- "quick_entry": 1, 
+ "quick_entry": 0, 
  "read_only": 0, 
  "read_only_onload": 0, 
  "show_name_in_global_search": 0, 
