@@ -255,9 +255,9 @@ def update_stop_loc_in_ds(name=None,lat=None,lon=None):
 		ds_doc.stop_lat = lat
 		ds_doc.stop_long = lon
 		ds_doc.status='Delivered'
+		send_delivery_dispatch_alert(ds_doc.name)
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
-		send_delivery_dispatch_alert(ds_doc.name)
 		return "Location updated for the Delivery Shedule Latitude " + ds_doc.stop_lat+" Longitude "+ds_doc.stop_long
 
 
@@ -314,7 +314,7 @@ def update_driving_in_ds(name=None,lat=None,lon=None,):
 	if not ds_doc.start_long:
 		ds_doc.start_long = lon
 		ds_doc.status='In Transit'
-		send_delivery_dispatch_alert(ds_doc.name)
+		# send_delivery_dispatch_alert(ds_doc.name)
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
 
