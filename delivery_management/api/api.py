@@ -309,7 +309,7 @@ def send_delivery_dispatch_alert(name):
 def update_driving_in_ds(name=None,lat=None,lon=None,):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
 	
-	if ds_doc.start_lat:
+	if not ds_doc.start_lat:
 		ds_doc.start_lat = lat
 	if not ds_doc.start_long:
 		ds_doc.start_long = lon
