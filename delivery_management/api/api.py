@@ -352,8 +352,7 @@ def get_single_delivery_shedule(name=None):
 		ifnull(trip, '') AS trip,
 		ifnull(contact_no, '') AS contact_no,
 		ifnull(delivery_note_no, '') AS delivery_note_no,
-		CONCAT(address_line_1,' ',address_line_2) AS address,
-		ifnull(address,' ') AS address
+		CONCAT(ifnull(address_line_1, ''),' ',ifnull(address_line_2, ''), ' ', ifnull(address_line_3, '')) AS address
 		from `tabDelivery Schedule` WHERE name='{0}' """.format(name),as_dict=1)
 	
 	if single_delivery_shedule:
