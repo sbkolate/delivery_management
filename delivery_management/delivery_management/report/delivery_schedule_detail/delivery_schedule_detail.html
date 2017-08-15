@@ -3,7 +3,8 @@
 {% for(var i=0, l=data.length; i<l; i++) { %}
 
 {% if (data[i][__("Remark")] =="-")  {-%}
-
+<br>
+<br>
 <table class="table table-bordered" style="font-size: 10px !important;">
 	<tbody>
 		<tr>
@@ -11,7 +12,9 @@
 			<b> Date </b>
 				
 			</td>
-			<td>{%= frappe.datetime.str_to_user(data[i][__("Date")]) %}</td>
+			<td>
+			{%= data[i][__("Date")] %}
+			</td>
 			<td><b></b></td>
 			<td><b>Lorry:</b></td>
 			<td>{%= data[i][__("D/O No")]  %}</td>
