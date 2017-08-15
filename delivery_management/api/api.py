@@ -286,7 +286,7 @@ def send_delivery_dispatch_alert(name):
 	# attachments = ds_doc.get_attachments()
 	recipients = ds_doc.email
 	
-	ds_doc.send_email(recipients, sender, subject, message, attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Standard")])
+	ds_doc.send_email(recipients, sender, subject, message, attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
 
 	ds_doc.save(ignore_permissions=True)
 
