@@ -281,17 +281,18 @@ def send_delivery_dispatch_alert(name):
 	ds_name = ds_doc.name
 	url_link = short_url(ds_name)
 	subject = _("Your hafary order is delivered")
-	sender = frappe.session.user not in STANDARD_USERS and frappe.session.user or None
+	# sender = frappe.session.user not in STANDARD_USERS and frappe.session.user or None
+	sender = "contact@digitalprizm.net"
 	message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.delivery_note_no +" is delivered.<br>For more info click here   "+url_link+"<br>"+"Kindly Find the attachment."
 	# attachments = ds_doc.get_attachments()
 	recipients = ds_doc.email
-	
+	print "\nasdasdasdsa",recipients
 	# ds_doc.send_email(recipients, sender, subject, message, attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
 	frappe.sendmail(recipients=recipients, sender=sender, subject=subject,
 			message=message,  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
 	
 	ds_doc.save(ignore_permissions=True)
-
+	print "aftersave"
 	#send sms
 	if ds_doc.mobile_no:
 		message = ""
