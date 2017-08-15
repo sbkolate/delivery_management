@@ -93,10 +93,13 @@ delivery_management.Dashboard = Class.extend
 			// 		console.log(b.message[i].longitude)
 			// 		locations.push([b.message[i].carrier_number, parseFloat(b.message[i].latitude), parseFloat(b.message[i].longitude), i]);
 			// 	}
+
+			console.log("@@@@@@######@@@@@")
+			console.log(b.message[0].mydriver)
 			console.log(b.message[0].carrier_number)
 			console.log(b.message[0].latitude)
 			console.log(b.message[0].longitude)
-			locations.push([b.message[0].carrier_number, parseFloat(b.message[0].latitude), parseFloat(b.message[0].longitude)]);
+			locations.push([b.message[0].carrier_number+b.message[0].mydriver, parseFloat(b.message[0].latitude), parseFloat(b.message[0].longitude)]);
 			  
 
 
