@@ -244,8 +244,23 @@ def update_start_loc_in_ds(name=None,lat=None,lon=None):
 		ds_doc.status='In Transit'
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
-		send_delivery_dispatch_alert(ds_doc.name)
+		
 		return "Location updated for the Delivery Shedule Latitude " + ds_doc.start_lat+" Longitude "+ds_doc.start_long
+
+
+@frappe.whitelist(allow_guest=True)
+def update_stop_loc_in_ds(name=None,lat=None,lon=None):
+	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
+	if ds_doc.name:
+		ds_doc.stop_lat = lat
+		ds_doc.stop_long = lon
+		ds_doc.status='Delivered'
+		ds_doc.save(ignore_permissions=True)
+		frappe.db.commit()
+		send_delivery_dispatch_alert(ds_doc.name)
+		return "Location updated for the Delivery Shedule Latitude " + ds_doc.stop_lat+" Longitude "+ds_doc.stop_long
+
+
 
 def short_url(url):
 
@@ -261,7 +276,7 @@ def short_url(url):
 
 def send_delivery_dispatch_alert(name):
 	ds_doc = frappe.get_doc("Delivery Schedule", name)
-	subject = _("Your hafary order is dispatched")
+	subject = _("Your hafary order is delivered")
 	sender = frappe.session.user not in STANDARD_USERS and frappe.session.user or None
 	message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.delivery_note_no +" is dispatched.<br>"+"Kindly Find the attachment."
 	attachments = ds_doc.get_attachments()
@@ -284,16 +299,7 @@ def send_delivery_dispatch_alert(name):
 
 
 
-@frappe.whitelist(allow_guest=True)
-def update_stop_loc_in_ds(name=None,lat=None,lon=None):
-	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
-	if ds_doc.name:
-		ds_doc.stop_lat = lat
-		ds_doc.stop_long = lon
-		ds_doc.status='Delivered'
-		ds_doc.save(ignore_permissions=True)
-		frappe.db.commit()
-		return "Location updated for the Delivery Shedule Latitude " + ds_doc.stop_lat+" Longitude "+ds_doc.stop_long
+
 #update path
 @frappe.whitelist(allow_guest=True)
 def update_driving_in_ds(name=None,lat=None,lon=None,):
