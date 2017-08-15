@@ -255,9 +255,9 @@ def update_stop_loc_in_ds(name=None,lat=None,lon=None):
 		ds_doc.stop_lat = lat
 		ds_doc.stop_long = lon
 		ds_doc.status='Delivered'
-		send_delivery_dispatch_alert(ds_doc.name)
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
+		send_delivery_dispatch_alert(str(name))
 		return "Location updated for the Delivery Shedule Latitude " + ds_doc.stop_lat+" Longitude "+ds_doc.stop_long
 
 
@@ -277,7 +277,7 @@ def short_url(url):
 def send_delivery_dispatch_alert(name):
 
 
-	ds_doc = frappe.get_doc("Delivery Schedule", name)
+	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
 	ds_name = ds_doc.name
 	url_link = short_url(ds_name)
 	subject = _("Your hafary order is delivered")
