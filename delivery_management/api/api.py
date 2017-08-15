@@ -275,14 +275,18 @@ def short_url(url):
 
 
 def send_delivery_dispatch_alert(name):
+
+
 	ds_doc = frappe.get_doc("Delivery Schedule", name)
+	ds_name = ds_doc.name
+	url_link = short_url(ds_name)
 	subject = _("Your hafary order is delivered")
 	sender = frappe.session.user not in STANDARD_USERS and frappe.session.user or None
-	message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.delivery_note_no +" is dispatched.<br>"+"Kindly Find the attachment."
-	attachments = ds_doc.get_attachments()
+	message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.delivery_note_no +" is delivered.<br>For more info click here   "+url_link+"<br>"+"Kindly Find the attachment."
+	# attachments = ds_doc.get_attachments()
 	recipients = ds_doc.email
 	
-	ds_doc.send_email(recipients, sender, subject, message, attachments)
+	ds_doc.send_email(recipients, sender, subject, message, attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Standard")])
 
 	ds_doc.save(ignore_permissions=True)
 
@@ -291,7 +295,7 @@ def send_delivery_dispatch_alert(name):
 		message = ""
 		message += "Hello your order "
 		message += ds_doc.delivery_note_no
-		message += " is dispatched.\nPlease see details \n"
+		message += " is delivered.\nPlease see details \n"
 		ds_name = ds_doc.name
 		short_url_link = short_url(ds_name)
 		message += short_url_link
