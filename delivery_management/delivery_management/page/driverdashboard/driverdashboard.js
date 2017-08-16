@@ -59,10 +59,10 @@ delivery_management.Dashboard = Class.extend
 								console.log(me.so_number);
 								me.make_fun();
 					});
-					console.log("#############")
+					
 					console.log(window.location.href)
 					driver= window.location.href.split("/")[5]
-					console.log(driver)
+					
 					$('input[data-fieldname="pos_party"]').val(driver).change();
 
 			}, 300)
@@ -78,8 +78,7 @@ delivery_management.Dashboard = Class.extend
 
 			locations = me.get_all_location();
 			b = JSON.parse(locations["responseText"])
-			console.log("@@@@@@@@@@@@@@")
-			console.log(b.message)
+			
 
 			var html = frappe.render_template("maptemplate", {"data":"this is encripted data"})
 			$("#myGrid1").html(html)
@@ -94,11 +93,7 @@ delivery_management.Dashboard = Class.extend
 			// 		locations.push([b.message[i].carrier_number, parseFloat(b.message[i].latitude), parseFloat(b.message[i].longitude), i]);
 			// 	}
 
-			console.log("@@@@@@######@@@@@")
-			console.log(b.message[0].mydriver)
-			console.log(b.message[0].carrier_number)
-			console.log(b.message[0].latitude)
-			console.log(b.message[0].longitude)
+			
 			locations.push([b.message[0].carrier_number+b.message[0].mydriver, parseFloat(b.message[0].latitude), parseFloat(b.message[0].longitude)]);
 			  
 
@@ -107,9 +102,10 @@ delivery_management.Dashboard = Class.extend
 			
 				var map = new google.maps.Map(document.getElementById('map'),
 				{
-      				zoom: 8,
-      				center: new google.maps.LatLng(18.89, 73.97),
+      				zoom: 13,
+      				center: new google.maps.LatLng(b.message[0].latitude, b.message[0].longitude),
      				mapTypeId: google.maps.MapTypeId.ROADMAP
+
     			});
 
     				var infowindow = new google.maps.InfoWindow();

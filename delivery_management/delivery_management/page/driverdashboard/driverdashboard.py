@@ -17,7 +17,7 @@ def get_driver_locations(carrier=None):
 		END AS mydriver,
 		user_id,latitude,longitude, 
 		driver from `tabCarrier` 
-		where name='{0}' """.format(carrier),as_dict=1,debug=1)
+		where name='{0}' """.format(carrier),as_dict=1)
 
 	# import json
 	# k = json.loads(driver_locations)
