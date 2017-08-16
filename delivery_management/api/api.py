@@ -150,15 +150,7 @@ def update_img_in_delivery_schedule(name=None,img_1=None,img_2=None,img_3=None,i
 	return "Delivery Schedule is updated for " + ds_doc.name
 	
 
-@frappe.whitelist(allow_guest=True)
-def update_location_for_carrier(name=None,lat=None,lon=None):
-	carrier = frappe.get_doc("Carrier", name)
-	if carrier.name:
-		carrier.flags.ignore_permissions = True
-		carrier.latitude = lat
-		carrier.longitude = lon
-		carrier.save(ignore_permissions=True)
-		return "Location updated for the carrier " + carrier.name
+
 	
 
 @frappe.whitelist(allow_guest=True)
@@ -495,8 +487,20 @@ def get_single_delivery(name=None):
 	return delivery_shedule
 
 
+@frappe.whitelist(allow_guest=True)
+def update_location_for_carrier(name=None,lat=None,lon=None):
+	carrier = frappe.get_doc("Carrier", name)
+	if carrier.name:
+		carrier.flags.ignore_permissions = True
+		carrier.latitude = lat
+		carrier.longitude = lon
+		carrier.save(ignore_permissions=True)
+		return "Location updated for the carrier " + carrier.name
 
 
+#depricated api
+
+#end of depricated api
 	
 	
 
