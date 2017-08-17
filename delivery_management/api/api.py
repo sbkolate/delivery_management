@@ -16,7 +16,7 @@ import json
 import requests
 from frappe.desk.form.load import get_attachments
 from frappe.core.doctype.communication.email import make
-
+from delivery_management.api.utility import update_location_for_carrier
 STANDARD_USERS = ("Guest", "Administrator")
 
 
@@ -219,11 +219,31 @@ def get_delivery_order_customer_details(name=None):
 @frappe.whitelist(allow_guest=True)
 def get_delivery_schedule_list(user_id=None):
 	date=today()
-	ds_list = frappe.db.sql("""select name, customer_ref,
-		delivery_note_no,date,trip,mobile_no,contact_no,status,
-		CONCAT(address_line_1,' ',address_line_2)AS Address 
+	ds_list = frappe.db.sql("""select name, customer_ref,status,driver_user_id,
+		delivery_note_no,
+		ifnull(date, '') AS date,
+		ifnull(trip, '') AS trip,
+		ifnull(mobile_no, '') AS mobile_no,
+		ifnull(contact_no, '') AS contact_no,
+		CONCAT(address_line_1,' ',address_line_2)AS Address,
+		ifnull(address, '') AS address 
 		from `tabDelivery Schedule` WHERE driver_user_id='{0}' and date='{1}' order by trip""".format(user_id,date),as_dict=1)
 	
+	if ds_list:
+		ds_list = ds_list[0]
+	
+	delivery_shedule = {
+		"ID" : ds_list.name,
+		"Customer Ref": ds_list.customer_ref,
+		"Date": ds_list.date,	
+		"Driver ID": ds_list.driver_user_id,
+		"Trip": ds_list.trip,
+		"Delivery Note": ds_list.delivery_note_no,
+		"Mobile No": ds_list.mobile_no,
+		"Contact No": ds_list.contact_no,
+		"Address Disply": ds_list.address
+
+	}
 	return ds_list
 
 
@@ -236,8 +256,10 @@ def update_start_loc_in_ds(name=None,lat=None,lon=None):
 		ds_doc.status='In Transit'
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
+	if ds_doc.carrier:
+		update_location_for_carrier(ds_doc.carrier,lat,lon)
 		
-		return "Location updated for the Delivery Shedule Latitude " + ds_doc.start_lat+" Longitude "+ds_doc.start_long
+	return "Location updated for the Delivery Shedule Latitude " + ds_doc.name
 
 
 @frappe.whitelist(allow_guest=True)
@@ -250,14 +272,15 @@ def update_stop_loc_in_ds(name=None,lat=None,lon=None):
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
 		send_delivery_dispatch_alert(ds_doc.name)
-		return "Location updated for the Delivery Shedule Latitude " + ds_doc.stop_lat+" Longitude "+ds_doc.stop_long
+	if ds_doc.carrier:
+		update_location_for_carrier(ds_doc.carrier,lat,lon)
+		return "Location updated for the Delivery Shedule Latitude " + ds_doc.name
 
 
 
 def short_url(url):
 
 	base_url = "http://hafarydev.digitalprizm.net/myorder?name="
-
 	url = base_url + url
 	post_url = 'https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyDaTiY50Ly3rLN5Ox8R3jpADtri2RT6fcU'
 	params = json.dumps({'longUrl': url})
@@ -280,7 +303,7 @@ def send_delivery_dispatch_alert(name):
 	
 	ds_doc.send_email(recipients, sender, subject, message, attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
 
-	ds_doc.save(ignore_permissions=True)
+	# ds_doc.save(ignore_permissions=True)
 
 	#send sms
 	if ds_doc.mobile_no:
@@ -300,33 +323,37 @@ def send_delivery_dispatch_alert(name):
 @frappe.whitelist(allow_guest=True)
 def update_driving_in_ds(name=None,lat=None,lon=None,):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
-	
-	if ds_doc.start_lat:
-		ds_doc.start_lat = lat
-	if not ds_doc.start_long:
-		ds_doc.start_long = lon
-		ds_doc.status='In Transit'
-		send_delivery_dispatch_alert(ds_doc.name)
-		ds_doc.save(ignore_permissions=True)
-		frappe.db.commit()
+	if ds_doc.name:
+		if not ds_doc.start_lat:
+			ds_doc.start_lat = lat
+		if not ds_doc.start_long:
+			ds_doc.start_long = lon
+			ds_doc.status='In Transit'
+			send_delivery_dispatch_alert(ds_doc.name)
+			# ds_doc.save(ignore_permissions=True)
+			# frappe.db.commit()
 
-	if ds_doc.driving_path:
-		path_list = ast.literal_eval(ds_doc.driving_path)
-		mylist = []
-		mylist = [lat,lon]
-		path_list.append(mylist)
-		ds_doc.driving_path = str(path_list)
+		if ds_doc.driving_path:
+			path_list = ast.literal_eval(ds_doc.driving_path)
+			mylist = []
+			mylist = [lat,lon]
+			path_list.append(mylist)
+			ds_doc.driving_path = str(path_list)
+			# ds_doc.save(ignore_permissions=True)
+			# frappe.db.commit()
+		else:
+			path_list=[]
+			driving_path_list = []
+			path_list.append(lat)
+			path_list.append(lon)
+			driving_path_list.append(path_list)
+			ds_doc.driving_path = str(driving_path_list)
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
-	else:
-		path_list=[]
-		driving_path_list = []
-		path_list.append(lat)
-		path_list.append(lon)
-		driving_path_list.append(path_list)
-		ds_doc.driving_path = str(driving_path_list)
-		ds_doc.save(ignore_permissions=True)
-		frappe.db.commit()
+		if ds_doc.carrier:
+			update_location_for_carrier(ds_doc.carrier,lat,lon)
+	
+	
 	return "Location updated for the Delivery Shedule for Dring Path "
 
 
@@ -485,15 +512,6 @@ def get_single_delivery(name=None):
 	return delivery_shedule
 
 
-@frappe.whitelist(allow_guest=True)
-def update_location_for_carrier(name=None,lat=None,lon=None):
-	carrier = frappe.get_doc("Carrier", name)
-	if carrier.name:
-		carrier.flags.ignore_permissions = True
-		carrier.latitude = lat
-		carrier.longitude = lon
-		carrier.save(ignore_permissions=True)
-		return "Location updated for the carrier " + carrier.name
 
 
 #depricated api
