@@ -272,10 +272,11 @@ def update_stop_loc_in_ds(name=None,lat=None,lon=None):
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
 		send_delivery_dispatch_alert(ds_doc.name)
-	if ds_doc.carrier:
-		update_location_for_carrier(ds_doc.carrier,lat,lon)
+		if ds_doc.carrier:
+			update_location_for_carrier(ds_doc.carrier,lat,lon)
 		return "Location updated for the Delivery Shedule Latitude " + ds_doc.name
-
+	else:
+		return "Please check server error"
 
 
 def short_url(url):
@@ -290,21 +291,20 @@ def short_url(url):
 
 
 def send_delivery_dispatch_alert(name):
-
-
-	ds_doc = frappe.get_doc("Delivery Schedule", name)
+	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
 	ds_name = ds_doc.name
 	url_link = short_url(ds_name)
 	subject = _("Your hafary order is delivered")
-	sender = frappe.session.user not in STANDARD_USERS and frappe.session.user or None
+	# sender = frappe.session.user not in STANDARD_USERS and frappe.session.user or None
+	sender = "contact@digitalprizm.net"
 	message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.delivery_note_no +" is delivered.<br>For more info click here   "+url_link+"<br>"+"Kindly Find the attachment."
 	# attachments = ds_doc.get_attachments()
 	recipients = ds_doc.email
+	print "\nasdasdasdsa",recipients
+	# ds_doc.send_email(recipients, sender, subject, message, attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
+	frappe.sendmail(recipients=recipients, sender=sender, subject=subject,
+			message=message,  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
 	
-	ds_doc.send_email(recipients, sender, subject, message, attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
-
-	# ds_doc.save(ignore_permissions=True)
-
 	#send sms
 	if ds_doc.mobile_no:
 		message = ""
@@ -348,11 +348,11 @@ def update_driving_in_ds(name=None,lat=None,lon=None,):
 			path_list.append(lon)
 			driving_path_list.append(path_list)
 			ds_doc.driving_path = str(driving_path_list)
+
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
 		if ds_doc.carrier:
 			update_location_for_carrier(ds_doc.carrier,lat,lon)
-	
 	
 	return "Location updated for the Delivery Shedule for Dring Path "
 
@@ -479,8 +479,7 @@ def get_single_delivery(name=None):
 		ifnull(mobile_no, '') AS mobile_no,
 		ifnull(contact_no, '') AS contact_no,
 		ifnull(delivery_note_no, '') AS delivery_note_no,
-		CONCAT(address_line_1,' ',address_line_2) AS address,
-		ifnull(address,' ') AS address
+		CONCAT(ifnull(address_line_1, ''),' ',ifnull(address_line_2, ''), ' ', ifnull(address_line_3, '')) AS address
 		from `tabDelivery Schedule` WHERE name='{0}' """.format(name),as_dict=1)
 	
 	if ds_list:

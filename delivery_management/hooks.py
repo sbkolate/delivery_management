@@ -29,7 +29,7 @@ app_include_js = "/assets/delivery_management/js/hafary.js"
 # ----------
 website_context = {
 	"favicon": 	"/assets/erpnext/images/cargo-truck.png",
-	"splash_image": "/assets/erpnext/images/cargo-truck.png"
+	"splash_image": "/assets/erpnext/images/hafary-favicon.png"
 }
 
 # application home page (will override Website Settings)

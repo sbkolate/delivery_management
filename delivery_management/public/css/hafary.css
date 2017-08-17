@@ -62,6 +62,9 @@ a.module-link[data-name="Integrations"]{
 .dropdown-help {
 	display: none!important;
 }
+.attachment-row>.close {
+	display: none!important;
+}
 
 /*a[href="https://css-tricks.com"] {
   color: #E18728;
