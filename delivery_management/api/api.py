@@ -232,19 +232,23 @@ def get_delivery_schedule_list(user_id=None):
 	if ds_list:
 		ds_list = ds_list[0]
 	
-	delivery_shedule = {
-		"ID" : ds_list.name,
-		"Customer Ref": ds_list.customer_ref,
-		"Date": ds_list.date,	
-		"Driver ID": ds_list.driver_user_id,
-		"Trip": ds_list.trip,
-		"Delivery Note": ds_list.delivery_note_no,
-		"Mobile No": ds_list.mobile_no,
-		"Contact No": ds_list.contact_no,
-		"Address Disply": ds_list.address
+	if ds_list:
+		delivery_shedule = {
+			"ID" : ds_list.name,
+			"Customer Ref": ds_list.customer_ref,
+			"Date": ds_list.date,	
+			"Driver ID": ds_list.driver_user_id,
+			"Trip": ds_list.trip,
+			"Delivery Note": ds_list.delivery_note_no,
+			"Mobile No": ds_list.mobile_no,
+			"Contact No": ds_list.contact_no,
+			"Address Disply": ds_list.address
 
-	}
-	return ds_list
+		}
+	if not ds_list:
+		return "Delivery Schedule not Found"
+	else:
+		return ds_list
 
 
 @frappe.whitelist(allow_guest=True)
