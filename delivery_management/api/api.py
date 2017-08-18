@@ -228,7 +228,12 @@ def get_delivery_schedule_list(user_id=None):
 		CONCAT(address_line_1,' ',address_line_2)AS Address,
 		ifnull(address, '') AS address 
 		from `tabDelivery Schedule` WHERE driver_user_id='{0}' and date='{1}' order by trip""".format(user_id,date),as_dict=1)
-	return ds_list
+	
+	if not ds_list:
+		return "Delivery Schedule not Found"
+	else:
+		return ds_list
+	
 
 
 @frappe.whitelist(allow_guest=True)
