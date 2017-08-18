@@ -229,26 +229,32 @@ def get_delivery_schedule_list(user_id=None):
 		ifnull(address, '') AS address 
 		from `tabDelivery Schedule` WHERE driver_user_id='{0}' and date='{1}' order by trip""".format(user_id,date),as_dict=1)
 	
-	if ds_list:
-		ds_list = ds_list[0]
+	# # print "jheeea\n\n"
+	# if ds_list:
+	# 	ds_list = ds_list[0]
 	
-	if ds_list:
-		delivery_shedule = {
-			"ID" : ds_list.name,
-			"Customer Ref": ds_list.customer_ref,
-			"Date": ds_list.date,	
-			"Driver ID": ds_list.driver_user_id,
-			"Trip": ds_list.trip,
-			"Delivery Note": ds_list.delivery_note_no,
-			"Mobile No": ds_list.mobile_no,
-			"Contact No": ds_list.contact_no,
-			"Address Disply": ds_list.address
+	# if ds_list:
+	# 	delivery_shedule = {
+	# 		"ID" : ds_list.name,
+	# 		"Customer Ref": ds_list.customer_ref,
+	# 		"Date": ds_list.date,	
+	# 		"Driver ID": ds_list.driver_user_id,
+	# 		"Trip": ds_list.trip,
+	# 		"Delivery Note": ds_list.delivery_note_no,
+	# 		"Mobile No": ds_list.mobile_no,
+	# 		"Contact No": ds_list.contact_no,
+	# 		"Address Disply": ds_list.address
 
-		}
+	# 	}
 	if not ds_list:
 		return "Delivery Schedule not Found"
 	else:
 		return ds_list
+		
+	# if not ds_list:
+	# 	return "Delivery Schedule not Found"
+	# else:
+	# 	return ds_list
 
 
 @frappe.whitelist(allow_guest=True)

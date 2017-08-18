@@ -11,6 +11,9 @@ from frappe.core.doctype.communication.email import make
 
 class DeliverySchedule(Document):
 	def validate(self):
+		if self.lorry_no:
+			self.carrier = self.lorry_no
+			
 		k = frappe.db.get_value("Driver", {"carrier": self.carrier})
 		if k:
 			self.driver = k
