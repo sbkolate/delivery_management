@@ -118,7 +118,7 @@ $.getScript( "http://maps.google.com/maps/api/js?key=AIzaSyCGWFz53x4ukwNmX8B0U51
 
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 8,
-      center: new google.maps.LatLng(18.89, 73.97),
+      center: new google.maps.LatLng(1.3521,103.8198),
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
 
