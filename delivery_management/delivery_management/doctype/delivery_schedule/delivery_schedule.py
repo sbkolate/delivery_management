@@ -13,6 +13,9 @@ class DeliverySchedule(Document):
 	def validate(self):
 		if self.lorry_no:
 			self.carrier = self.lorry_no
+
+		carrier_trip = "{0} - {1}".format(self.carrier,self.trip)
+		self.carrier_trip = carrier_trip
 			
 		k = frappe.db.get_value("Driver", {"carrier": self.carrier})
 		if k:
@@ -47,3 +50,7 @@ def get_indicator(self):
 		else:
 			self.indicator_color = "green"
 			self.indicator_title = _("Delivered")
+
+
+
+			
