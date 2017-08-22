@@ -506,9 +506,9 @@ def is_image_uploaded(name=None):
 	single_delivery_shedule = frappe.get_doc("Delivery Schedule", str(name))
 	attachments = get_attachments("Delivery Schedule", single_delivery_shedule.name)
 	if attachments:
-		return {"is_image":"True"}
+		return {"is_image":"uploaded"}
 	else:
-		return {"is_image":"False"}
+		return {"is_image":"not_uploaded"}
 
 
 
