@@ -15,10 +15,10 @@ class Carrier(Document):
 
 def get_carrier(doctype, txt, searchfield, start, page_len, filters):
 	conditions = []
-	return frappe.db.sql("""select name,type, 
+	return frappe.db.sql("""select name,type,registration_year, 
 		CASE
 		when 1=1
-		then (select name from tabDriver where carrier = tabCarrier.name limit 1)
+		then (select full_name from tabDriver where carrier = tabCarrier.name limit 1)
 		ELSE
 		""
 		END AS driver,
@@ -31,7 +31,10 @@ def get_carrier(doctype, txt, searchfield, start, page_len, filters):
 		from `tabCarrier`
 		where 
 			({key} like %(txt)s
-				or name like %(txt)s)
+				or name like %(txt)s 
+				or type like %(txt)s
+				or driver like %(txt)s 
+				or user_id like %(txt)s)
 			{fcond} {mcond}
 		order by
 			idx desc,
