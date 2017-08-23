@@ -254,6 +254,10 @@ def update_start_loc_in_ds(name=None,lat=None,lon=None):
 @frappe.whitelist(allow_guest=True)
 def update_stop_loc_in_ds(name=None,lat=None,lon=None):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
+	attachments = get_attachments("Delivery Schedule", ds_doc.name)
+	if not attachments:
+		return {"message":"product_image_missing"}
+
 	if ds_doc.name:
 		ds_doc.stop_lat = lat
 		ds_doc.stop_long = lon
@@ -261,11 +265,12 @@ def update_stop_loc_in_ds(name=None,lat=None,lon=None):
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
 		send_delivery_dispatch_alert(ds_doc.name)
+
 		if ds_doc.carrier:
 			update_location_for_carrier(ds_doc.carrier,lat,lon)
-		return "Location updated for the Delivery Shedule Latitude " + ds_doc.name
+		return {"message":"location_updated "}
 	else:
-		return "Please check server error"
+		return {"message":"location_not_updated "}
 
 
 def short_url(url):
