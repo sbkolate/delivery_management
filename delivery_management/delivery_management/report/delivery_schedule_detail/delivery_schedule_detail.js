@@ -24,6 +24,11 @@ frappe.query_reports["Delivery Schedule Detail"] = {
 			"label": __("Carrier"),
 			"fieldtype": "Link",
 			"options": "Carrier",
+			"get_query": function() {
+				return {
+					"query": "delivery_management.delivery_management.doctype.carrier.carrier.get_carrier",
+				}
+			}
 			// "default": frappe.datetime.get_today(),
 		},
 	]

@@ -46,11 +46,7 @@ def get_data(filters):
 		CONCAT(address_line_1,' ',address_line_2,' ',address_line_3)AS Address,
 		contact_no,delivery_note_no,
 		remarks,trip,
-		CASE         
-		WHEN driver IS NOT NULL
-		THEN (select name from tabCarrier where driver = driver limit 1)         
-		ELSE ""
-		END AS carrier, name
+		carrier, name
 		from `tabDelivery Schedule`
 		{0} 
 		 ORDER BY driver,trip,modified desc""".format(filter_condition),as_list=1,debug=1)
@@ -58,7 +54,7 @@ def get_data(filters):
 	k=""
 	t=""
 	for i in dl:
-		# print i[1]
+		# print i[7]
 		if k!= i[7]:
 			dl.insert(dl.index(i),[(i[0]),i[1],"<b>Trip No</b>",i[7],"Lorry No",i[8],"-",i[7],"flag"])
 		k = i[7]
