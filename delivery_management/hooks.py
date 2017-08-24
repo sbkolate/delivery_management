@@ -86,6 +86,9 @@ doc_events = {
 	"Customer": {
 		"after_insert": "delivery_management.custom_methods.create_address",
 	},
+	"User": {
+		"after_insert": "delivery_management.custom_methods.set_role",
+	},
 }
 
 # doc_events = {

@@ -115,5 +115,33 @@ def send_email(name,email):
 	return "success"
 
 
+@frappe.whitelist()
+def set_role(doc,method):
+	if doc.role=="Driver":
+		doc.add_roles('Driver')
+		driver_id = frappe.db.get_value("Driver", filters={"email_address":doc.email}, fieldname=["name"])
+		if driver_id:
+			frappe.permissions.add_user_permission("Driver", driver_id, doc.email, with_message=True)
+
+	
+	elif doc.role=="Admin":
+		doc.add_roles('Delivery Manager')
+		doc.add_roles('Hafary Admin')
+		doc.add_roles('Report Manager')
+		doc.add_roles('Driver')
+		doc.add_roles('Hafary Admin1')
+		doc.add_roles('System Manager')
+	
+	elif doc.role=="Delivery Manager":
+		doc.add_roles('Delivery Manager')
+		doc.add_roles('Report Manager')
+		doc.add_roles('Driver')
+
+
+
+
+
+
+
 
 
