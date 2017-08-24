@@ -25,6 +25,13 @@ frappe.ui.form.on('Delivery Schedule', {
 			cur_frm.add_custom_button(__('<i class="fa fa-home" title="Back" style="margin-left: 10px;background-color: red;padding: 6px;margin: -10px;border-radius: 5px;color: white;"> Cancel</i>'),
 			function () { frappe.set_route("/"); }, 'fa fa-home btn-default', 'btn-danger')
 		}
+		if(frm.doc.__islocal == 1) {
+			$(".ellipsis.title-text").hide()
+		}
+		else{
+			$(".ellipsis.title-text").show()
+
+		}
 	},
 	onload: function(frm, cdt, cdn) {
 		// if(frm.doc.__islocal == 1) {
