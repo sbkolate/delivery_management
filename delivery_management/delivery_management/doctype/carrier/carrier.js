@@ -18,6 +18,13 @@ frappe.ui.form.on('Carrier', {
 			function () { frappe.set_route("/"); }, 'fa fa-home btn-default', 'btn-danger');		
 
 		}
+		if(frm.doc.__islocal == 1) {
+			$(".ellipsis.title-text").hide()
+		}
+		else{
+			$(".ellipsis.title-text").show()
+
+		}
 	},
 	onload: function(frm, cdt, cdn) {
 		// if(frm.doc.__islocal == 1) {

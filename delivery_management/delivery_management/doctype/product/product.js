@@ -3,6 +3,13 @@
 
 frappe.ui.form.on('Product', {
 	refresh: function(frm) {
+		if(frm.doc.__islocal == 1) {
+			$(".ellipsis.title-text").hide()
+		}
+		else{
+			$(".ellipsis.title-text").show()
+
+		}
 
 	}
 });
