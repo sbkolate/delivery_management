@@ -34,6 +34,11 @@ frappe.ui.form.on('Delivery Schedule', {
 		}
 	},
 	onload: function(frm, cdt, cdn) {
+		cur_frm.set_query("carrier", function(){
+		return{
+				query: "delivery_management.delivery_management.doctype.carrier.carrier.get_carrier",
+			}
+		})
 		// if(frm.doc.__islocal == 1) {
 		// 	if(0 == 0) {
 		// 		$(".page-actions").append("<button type='button' id='cancelredirect' class='btn btn-default'>Cancel</button>")
