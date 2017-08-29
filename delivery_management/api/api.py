@@ -297,10 +297,15 @@ def send_delivery_dispatch_alert(name):
 	email_html = frappe.render_template("templates/include/dispatchalert.html", {"doc":ds_doc, "short_url": url_link })
 	
 	# ds_doc.send_email(recipients, sender, subject, message, attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
+	
+	#convert msg html
+	
+	
 	frappe.sendmail(recipients=recipients, sender=sender, subject=subject,
 			message=email_html,  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
 	
 	#send sms
+
 	if ds_doc.mobile_no:
 		message = ""
 		message += "Hello your order "
