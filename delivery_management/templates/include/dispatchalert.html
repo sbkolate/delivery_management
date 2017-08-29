@@ -37,6 +37,7 @@
 
                         <tr>
                           <td style="width: 40%"">Company Name :</td>
+                          <td style="width: 63%"">{{ frappe.db.get_value("Customer", doc.customer_ref,"customer_ref") or ''}}</td>
                           <td></td>
                         </tr>
 
@@ -62,7 +63,7 @@
 
                         <tr>
                           <td style="width: 37%"> Lorry No. : </td>
-                          <td style="width: 63%">{{doc.lorry_no or ""}}</td>
+                          <td style="width: 63%">{{doc.carrier or ""}}</td>
                         </tr>
 
                         <tr>
