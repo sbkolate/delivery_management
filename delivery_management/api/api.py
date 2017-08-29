@@ -298,7 +298,7 @@ def send_delivery_dispatch_alert(name):
 	# ds_doc.send_email(recipients, sender, subject, message, attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
 	
 	#convert msg html
-	frappe.render_template(“email_template”, {data:”sam”})
+	
 	
 	frappe.sendmail(recipients=recipients, sender=sender, subject=subject,
 			message=message,  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
