@@ -32,9 +32,14 @@ def get_template():
 def add_header(w):
 	w.writerow(["Notes:"])
 	w.writerow(["Please do not change the template headings"])
-	w.writerow(["ID", "Date", "Customer Ref", "Delivery Note No", "Lorry No", "Trip",
-		 "Contact Person Name", "Address Line 1", "Address Line 2", "Address Line 3", 
-		 "Pin Code", "Contact No", "Mobile No", "Email", "Remarks"])
+	w.writerow(["ID", "Date", "Customer Ref", "Address Line 1", "Address Line 2", "Address Line 3",
+		 "Contact Person Name", "Mobile No", 
+		 "Contact No", "Delivery Note No", "Email",
+		 "Lorry No",  "Trip","Remarks",
+		 "Pin Code"])
+	# w.writerow(["ID", "Date", "Customer Ref", "Delivery Note No", "Lorry No", "Trip",
+	# 	 "Contact Person Name", "Address Line 1", "Address Line 2", "Address Line 3", 
+	# 	 "Pin Code", "Contact No", "Mobile No", "Email", "Remarks"])
 	return w
 
 def add_data(w, args):
@@ -103,6 +108,8 @@ def upload():
 		row_idx = i + 3
 		d = frappe._dict(zip(columns, row))
 		d["doctype"] = "Delivery Schedule"
+		d["customer_ref"] = row[2]
+		# print "\ns",row
 		if d.name:
 			d["docstatus"] = frappe.db.get_value("Delivery Schedule", d.name, "docstatus")
 

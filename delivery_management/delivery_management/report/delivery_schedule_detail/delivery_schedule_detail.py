@@ -28,14 +28,10 @@ def get_data(filters):
 	if filters.get("date"):
 		filter_condition += " where date = '" + filters.get("date") + "'"
 	
-	if filters.get("driver") and filters.get("date"):
-		filter_condition += " and driver = '" + filters.get("driver") +"'"
-	
-	if filters.get("carrier") and filters.get("date"):
+	if filters.get("date") and filters.get("carrier"):
 		filter_condition += " and carrier = '" + filters.get("carrier") +"'"
-
-	elif filters.get("driver"):
-		filter_condition += " where driver = '" + filters.get("driver") + "'"
+		print("################")
+		print(filter_condition)
 
 	elif filters.get("carrier"):
 		filter_condition += " where carrier = '" + filters.get("carrier") + "'"
