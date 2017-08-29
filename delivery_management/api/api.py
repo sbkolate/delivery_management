@@ -294,14 +294,15 @@ def send_delivery_dispatch_alert(name):
 	message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.delivery_note_no +" is delivered.<br>For more info click here   "+url_link+"<br>"+"Kindly Find the attachment."
 	# attachments = ds_doc.get_attachments()
 	recipients = ds_doc.email
-	print "\nasdasdasdsa",recipients
+	email_html = frappe.render_template("templates/include/dispatchalert.html", {"doc":ds_doc, "short_url": url_link })
+	
 	# ds_doc.send_email(recipients, sender, subject, message, attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
 	
 	#convert msg html
 	
 	
 	frappe.sendmail(recipients=recipients, sender=sender, subject=subject,
-			message=message,  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
+			message=email_html,  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
 	
 	#send sms
 
