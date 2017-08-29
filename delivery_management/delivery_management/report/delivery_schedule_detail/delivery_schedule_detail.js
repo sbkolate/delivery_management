@@ -20,7 +20,7 @@ frappe.query_reports["Delivery Schedule Detail"] = {
 		// },
 
 		{
-			"fieldname":"lorry_no",
+			"fieldname":"carrier",
 			"label": __("Carrier"),
 			"fieldtype": "Link",
 			"options": "Carrier",
