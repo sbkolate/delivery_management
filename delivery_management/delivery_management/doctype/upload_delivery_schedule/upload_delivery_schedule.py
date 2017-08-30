@@ -8,6 +8,7 @@ from frappe.utils import cstr, add_days, date_diff
 from frappe import _
 from frappe.utils.csvutils import UnicodeWriter
 from frappe.model.document import Document
+import datetime
 
 class UploadDeliverySchedule(Document):
 	pass
@@ -109,7 +110,11 @@ def upload():
 		d = frappe._dict(zip(columns, row))
 		d["doctype"] = "Delivery Schedule"
 		d["customer_ref"] = row[2]
-		# print "\ns",row
+		d["pin_code"] = row[14]
+		import datetime
+		new_date = datetime.datetime.strptime(row[1],'%d-%b-%y').strftime('%d-%m-%Y')
+		d["date"] = new_date
+
 		if d.name:
 			d["docstatus"] = frappe.db.get_value("Delivery Schedule", d.name, "docstatus")
 
