@@ -16,7 +16,8 @@ import json
 import requests
 from frappe.desk.form.load import get_attachments
 from frappe.core.doctype.communication.email import make
-from delivery_management.api.utility import update_location_for_carrier
+from delivery_management.api.utility import update_location_for_carrier, short_url, send_delivery_dispatch_alert
+
 STANDARD_USERS = ("Guest", "Administrator")
 
 
@@ -149,10 +150,6 @@ def update_img_in_delivery_schedule(name=None,img_1=None,img_2=None,img_3=None,i
 		frappe.db.commit()
 	return "Delivery Schedule is updated for " + ds_doc.name
 	
-
-
-	
-
 @frappe.whitelist(allow_guest=True)
 def update_location_for_delivery_order(name=None, carrier=None, lat=None, lon=None):
 	delvery_order = frappe.get_doc("Delivery Order", name)
@@ -165,20 +162,22 @@ def update_location_for_delivery_order(name=None, carrier=None, lat=None, lon=No
 	return "Location updated for the Delivery Order " + delvery_order.name + " and Carrier " + delvery_order.carrier
 
 
-@frappe.whitelist(allow_guest=True)
-def get_driver_details(first_name=None):
-	driver = frappe.get_doc("Driver", first_name)
-	if not driver:
-		frappe.throw("Driver " + name +" not found...")
 
-	driver_details = {
-		"ID" : driver.name,
-		"Full Name": driver.full_name,
-		"Email ": driver.email_address,
-		"Contact Number" : driver.contact_number,
-		"Assigned Vehicle No.": driver.carrier,
-		}
-	return driver_details
+# to be delelted in seven days
+# @frappe.whitelist(allow_guest=True)
+# def get_driver_details(first_name=None):
+# 	driver = frappe.get_doc("Driver", first_name)
+# 	if not driver:
+# 		frappe.throw("Driver " + name +" not found...")
+
+# 	driver_details = {
+# 		"ID" : driver.name,
+# 		"Full Name": driver.full_name,
+# 		"Email ": driver.email_address,
+# 		"Contact Number" : driver.contact_number,
+# 		"Assigned Vehicle No.": driver.carrier,
+# 		}
+# 	return driver_details
 
 @frappe.whitelist(allow_guest=True)
 def get_driver_details_from_email(user_id=None):
@@ -202,19 +201,21 @@ def get_driver_details_from_email(user_id=None):
 		}
 	return driver_details
 
-@frappe.whitelist(allow_guest=True)
-def get_delivery_order_customer_details(name=None):
-	delivery_order = frappe.get_doc("Delivery Order", name)
-	customer_details = {
-		"ID" : delivery_order.name,
-		"Full Name": delivery_order.customer,
-		"Profile Picture": driver.profile_picture,
-		"Email ": delivery_order.customer,
-		"Contact Number" : driver.contact_number,
-		"Assigned Vehicle No.": driver.vehicle_no
+
+# to be delelted in seven days
+# @frappe.whitelist(allow_guest=True)
+# def get_delivery_order_customer_details(name=None):
+# 	delivery_order = frappe.get_doc("Delivery Order", name)
+# 	customer_details = {
+# 		"ID" : delivery_order.name,
+# 		"Full Name": delivery_order.customer,
+# 		"Profile Picture": driver.profile_picture,
+# 		"Email ": delivery_order.customer,
+# 		"Contact Number" : driver.contact_number,
+# 		"Assigned Vehicle No.": driver.vehicle_no
 		
-	}
-	return customer_details
+# 	}
+# 	return customer_details
 
 @frappe.whitelist(allow_guest=True)
 def get_delivery_schedule_list(user_id=None):
@@ -234,8 +235,6 @@ def get_delivery_schedule_list(user_id=None):
 	else:
 		return ds_list
 	
-
-
 @frappe.whitelist(allow_guest=True)
 def update_start_loc_in_ds(name=None,lat=None,lon=None):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
@@ -249,7 +248,6 @@ def update_start_loc_in_ds(name=None,lat=None,lon=None):
 		update_location_for_carrier(ds_doc.carrier,lat,lon)
 		
 	return "Location updated for the Delivery Shedule Latitude " + ds_doc.name
-
 
 @frappe.whitelist(allow_guest=True)
 def update_stop_loc_in_ds(name=None,lat=None,lon=None):
@@ -272,54 +270,6 @@ def update_stop_loc_in_ds(name=None,lat=None,lon=None):
 	else:
 		return {"message":"location_not_updated "}
 
-
-def short_url(url):
-
-	base_url = "http://hafarydev.digitalprizm.net/myorder?name="
-	url = base_url + url
-	post_url = 'https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyDaTiY50Ly3rLN5Ox8R3jpADtri2RT6fcU'
-	params = json.dumps({'longUrl': url})
-	response = requests.post(post_url,params,headers={'Content-Type': 'application/json'})
-	google_url = response.json()
-	return google_url['id']
-
-
-def send_delivery_dispatch_alert(name):
-	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
-	ds_name = ds_doc.name
-	url_link = short_url(ds_name)
-	subject = _("Your hafary order is delivered")
-	# sender = frappe.session.user not in STANDARD_USERS and frappe.session.user or None
-	sender = "contact@digitalprizm.net"
-	message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.delivery_note_no +" is delivered.<br>For more info click here   "+url_link+"<br>"+"Kindly Find the attachment."
-	# attachments = ds_doc.get_attachments()
-	recipients = ds_doc.email
-	email_html = frappe.render_template("templates/include/dispatchalert.html", {"doc":ds_doc, "short_url": url_link })
-	
-	# ds_doc.send_email(recipients, sender, subject, message, attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
-	
-	#convert msg html
-	
-	
-	frappe.sendmail(recipients=recipients, sender=sender, subject=subject,
-			message=email_html,  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
-	
-	#send sms
-
-	if ds_doc.mobile_no:
-		message = ""
-		message += "Hello your order "
-		message += ds_doc.delivery_note_no
-		message += " is delivered.\nPlease see details \n"
-		ds_name = ds_doc.name
-		short_url_link = short_url(ds_name)
-		message += short_url_link
-		send_message_api(ds_doc.mobile_no,message)
-
-
-
-
-#update path
 @frappe.whitelist(allow_guest=True)
 def update_driving_in_ds(name=None,lat=None,lon=None,):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
@@ -330,8 +280,6 @@ def update_driving_in_ds(name=None,lat=None,lon=None,):
 			ds_doc.start_long = lon
 			ds_doc.status='In Transit'
 			send_delivery_dispatch_alert(ds_doc.name)
-			# ds_doc.save(ignore_permissions=True)
-			# frappe.db.commit()
 
 		if ds_doc.driving_path:
 			path_list = ast.literal_eval(ds_doc.driving_path)
@@ -339,8 +287,7 @@ def update_driving_in_ds(name=None,lat=None,lon=None,):
 			mylist = [lat,lon]
 			path_list.append(mylist)
 			ds_doc.driving_path = str(path_list)
-			# ds_doc.save(ignore_permissions=True)
-			# frappe.db.commit()
+		
 		else:
 			path_list=[]
 			driving_path_list = []
@@ -354,15 +301,7 @@ def update_driving_in_ds(name=None,lat=None,lon=None,):
 		if ds_doc.carrier:
 			update_location_for_carrier(ds_doc.carrier,lat,lon)
 	
-	return "Location updated for the Delivery Shedule for Dring Path "
-
-
-@frappe.whitelist(allow_guest=True)
-def get_demo():
-	get_demo="demo api"
-	return get_demo
-	
-
+	return "Location updated for the Delivery Shedule for Driving Path "
 
 @frappe.whitelist(allow_guest=True)
 def get_single_delivery_shedule(name=None):
@@ -393,14 +332,11 @@ def get_single_delivery_shedule(name=None):
 	}
 	return delivery_shedule
 
-
-
 @frappe.whitelist(allow_guest=True)
 def get_driver_locations():
 	driver_locations = frappe.db.sql(""" select carrier_number,driver,user_id,latitude,longitude from `tabCarrier` """.format(),as_dict=1)
 
 	return driver_locations
-
 
 @frappe.whitelist(allow_guest=True)
 def get_path_delivery_schedule(delivery_note_no=None):
@@ -408,7 +344,6 @@ def get_path_delivery_schedule(delivery_note_no=None):
 		from `tabDelivery Schedule` WHERE delivery_note_no='{0}' """.format(delivery_note_no),as_dict=1)
 	
 	return path_delivery_schedule
-
 
 
 @frappe.whitelist(allow_guest=True)
@@ -425,9 +360,6 @@ def send_message_api(mobile_no=None,message=None):
 	else:
 		return "SMS not send"
 
-
-
-
 @frappe.whitelist(allow_guest=True)
 def get_about():
 	data = frappe.db.sql("""select field, value 
@@ -443,7 +375,6 @@ def get_about():
 
 	return about
 
-
 @frappe.whitelist(allow_guest=True)
 def get_delivery_schedule_list1():
 	ds_list = frappe.db.sql("""select name, customer_ref,
@@ -451,8 +382,6 @@ def get_delivery_schedule_list1():
 		from `tabDelivery Schedule`""".format(),as_dict=1)
 	
 	return ds_list
-
-
 
 def sc_get_item_for_list_in_html(context):
 	# add missing absolute link in files
@@ -464,12 +393,7 @@ def sc_get_item_for_list_in_html(context):
 	if cint(frappe.db.get_single_value('Products Settings', 'products_as_list')):
 		products_template = 'templates/include/my_product_list.html'
 
-	print "\nsc_get_item_for_list_in_html"
-	print products_template
-	print context
 	return frappe.get_template(products_template).render(context)
-
-
 
 @frappe.whitelist(allow_guest=True)
 def get_single_delivery(name=None):
@@ -501,17 +425,12 @@ def get_single_delivery(name=None):
 	}
 
 	attachments = get_attachments("Delivery Schedule", single_delivery_shedule.name)
-	# attachments.append(frappe.attach_print(self.doctype, self.name, doc=self))
 	data = attachments
 	k = [sc_get_item_for_list_in_html(r) for r in data]
 	k = "".join(k)
 
 	delivery_shedule.update({"attachments":"<h3>Product Images:</h3>"+k})
-	print "helllo\n\n"
-	print attachments
 	return delivery_shedule
-
-
 
 @frappe.whitelist(allow_guest=True)
 def is_image_uploaded(name=None):
@@ -524,11 +443,6 @@ def is_image_uploaded(name=None):
 
 
 
-#depricated api
-
-#end of depricated api
-	
-	
 
 
 
