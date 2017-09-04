@@ -345,7 +345,7 @@ def get_path_delivery_schedule(delivery_note_no=None):
 	
 	return path_delivery_schedule
 
-
+#used to send indivisual sms in app [do no delete]
 @frappe.whitelist(allow_guest=True)
 def send_message_api(mobile_no=None,message=None):
 	ds_sms = frappe.new_doc("SMS History")

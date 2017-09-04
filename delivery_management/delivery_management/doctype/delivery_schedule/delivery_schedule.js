@@ -3,9 +3,6 @@ cur_frm.add_fetch('driver', 'user_id', 'driver_user_id');
 cur_frm.add_fetch('driver', 'full_name', 'driver_full_name');
 cur_frm.add_fetch('driver', 'carrier', 'carrier');
 
-
-
-
 frappe.ui.form.on('Delivery Schedule', {
 	refresh: function(frm) {
 		if(frm.doc.__islocal == 1) {
@@ -39,16 +36,11 @@ frappe.ui.form.on('Delivery Schedule', {
 				query: "delivery_management.delivery_management.doctype.carrier.carrier.get_carrier",
 			}
 		})
-		// if(frm.doc.__islocal == 1) {
-		// 	if(0 == 0) {
-		// 		$(".page-actions").append("<button type='button' id='cancelredirect' class='btn btn-default'>Cancel</button>")
-		// 	}
-		// }
 	},
 	address: function(frm, cdt, cdn) {
 		erpnext.utils.get_address_display(frm, 'address', 'address_display', false);
 	},
-		after_save: function(frm) {
+	after_save: function(frm) {
 		frappe.set_route("List", "Delivery Schedule");
 	},
 	show_route: function(frm) {
@@ -66,8 +58,7 @@ frappe.ui.form.on('Delivery Schedule', {
 
 			callback: function(r) {
 				if(r.message=="success"){
-					// console.log(r.message);
-					// frappe.msgprint("Item Price updated");
+
 				}
 			}
 		})
@@ -79,7 +70,6 @@ cur_frm.cscript.show_route = function (frm) {
 
 	window.location.hash =  'driverdashboardroute/delivery_schedule/' + frm.doc.name;
 	window.location.reload()
-		// frappe.set_route("driverdashboardroute","delivery_schedule",frm.doc.name);
 
 }
 cur_frm.fields_dict.address.get_query = function(doc) {

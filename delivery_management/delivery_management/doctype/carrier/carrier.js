@@ -34,7 +34,7 @@ frappe.ui.form.on('Carrier', {
 		// }
 	},
 	after_save: function(frm) {
-		console.log("after_save")
+		console.log("after_save");
 		frappe.set_route("List", "Carrier");
 	},
 	driver_location: function(frm) {

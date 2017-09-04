@@ -17,6 +17,20 @@ from frappe.desk.form.load import get_attachments
 from frappe.core.doctype.communication.email import make
 
 @frappe.whitelist(allow_guest=True)
+def send_message_api(mobile_no=None,message=None):
+	ds_sms = frappe.new_doc("SMS History")
+	if mobile_no:
+		ds_sms.flags.ignore_permissions = True
+		ds_sms.send_to = mobile_no
+		ds_sms.message = message
+		ds_sms.save(ignore_permissions=True)
+		frappe.db.commit()
+		send_sms([mobile_no],message)
+		return "success"
+	else:
+		return "SMS not send"
+		
+@frappe.whitelist(allow_guest=True)
 def update_location_for_carrier(name=None,lat=None,lon=None):
 	carrier = frappe.get_doc("Carrier", name)
 	if carrier.name:
