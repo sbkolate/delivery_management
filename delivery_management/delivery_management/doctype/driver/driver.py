@@ -41,7 +41,7 @@ class Driver(Document):
 				# user_doc.last_name = self.last_name
 				user_doc.user_type = "System User"
 				user_doc.flags.ignore_permissions = True
-				user_doc.enabled = 0
+				user_doc.enabled = 1
 				user_doc.user_type = "System User"
 				user_doc.language = "en"
 				user_doc.send_welcome_email = 1
