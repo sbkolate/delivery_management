@@ -53,5 +53,5 @@ class Driver(Document):
 
 	def add_driver_restriction(self):
 		if self.email_address:
-			frappe.permissions.add_user_permission("Driver", self.name, self.email_address, with_message=True)
+			frappe.permissions.add_user_permission("Driver", self.name, self.email_address)
 
