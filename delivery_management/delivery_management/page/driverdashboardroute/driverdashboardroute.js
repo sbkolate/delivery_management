@@ -6,9 +6,9 @@ frappe.pages['driverdashboardroute'].on_page_load = function(wrapper)
 {
 		var page = frappe.ui.make_app_page
 			({
-				parent: wrapper,
-				title: 'DriverDashboardRoute',
-				single_column: true
+			parent: wrapper,
+			title: 'DriverDashboardRoute',
+			single_column: true
 			});
 		
 		wrapper.DriverDashboardroute = new delivery_management.Dashboard(wrapper);
@@ -26,10 +26,11 @@ frappe.pages['driverdashboardroute'].on_page_load = function(wrapper)
 delivery_management.Dashboard = Class.extend
 ({
 		init: function(opts, wrapper,page) {
-			$.extend(this, opts);
-			this.make_fun();
-			this.add_filter();
-			this.page.main.find(".page").css({"padding-top": "0px"});
+			$.extend(this, opts); 
+
+		this.make_fun();
+		this.add_filter();
+		this.page.main.find(".page").css({"padding-top": "0px"});
 
 
 
@@ -63,9 +64,10 @@ delivery_management.Dashboard = Class.extend
 					// setTimeout(function(){
 					
 					// 	Set value
+					console.log("#############")
 					console.log(window.location.href)
 					delivery_no= window.location.href.split("/")[5]
-					
+					console.log(delivery_no)
 
 					$('input[data-fieldname="pos_party"]').val(delivery_no).change();
 					// }, 300)
@@ -88,56 +90,19 @@ $.getScript( "http://maps.google.com/maps/api/js?key=AIzaSyCGWFz53x4ukwNmX8B0U51
 		
 		locations = me.get_all_location();
 		b = JSON.parse(locations["responseText"])
-		console.log("@#@#@#@#@#@@#@#@@#")
+	
 		console.log(b.message)
-		console.log("path")
-		console.log(typeof b.message[0].driving_path)
-		// console.log(b.message[0].driving_path.match(/[-]{0,1}[\d.]*[\d]+/g));
 		
-
 
 		var html = frappe.render_template("drivermaptemplate", {"data":"this is encripted data"})
 		$("#myGrid1").html(html)
 		var directionsService = new google.maps.DirectionsService();
-		
-		var points = b.message[0].driving_path.match(/[-]{0,1}[\d.]*[\d]+/g);
-		 var _waypoints = new Array();
-		 var noofwaypoints = points.length;
-		 if(points.length> 40){
-		 		noofwaypoints = 40;
-		 }
- 
-		for(i=2;i<noofwaypoints;i++)
-		{
-			if(i%2 == 0){
-				var _mapPoints = new Array();
-				_mapPoints.push(new google.maps.LatLng(points[i], points[i+1]));
-			 _waypoints.push({
-                    location: new google.maps.LatLng(points[i], points[i+1]),
-                    stopover: true  //stopover is used to show marker on map for waypoints
-                });
-
-
-
-			}
-			
-			
-		}
-
-		console.log(_waypoints);
-		var source = new google.maps.LatLng(points[0], points[1]);
-		var destination = new google.maps.LatLng(points[points.length-2],points[points.length-1]);
-
-		
-
-      
-
-
+		var source = new google.maps.LatLng(b.message[0].start_lat, b.message[0].start_long);
+		var destination = new google.maps.LatLng(b.message[0].stop_lat, b.message[0].stop_long);
 
 		var request = {
 			origin: source,
     		destination: destination,
-    		waypoints: _waypoints,
     		travelMode: 'DRIVING'
 			};
 			console.log("start locations")
@@ -159,9 +124,6 @@ $.getScript( "http://maps.google.com/maps/api/js?key=AIzaSyCGWFz53x4ukwNmX8B0U51
 
     directionsDisplay.setMap(map);
 
-     map.addListener('click', function(e) {
-	    console.log(e.latLng);
-	  });
     var infowindow = new google.maps.InfoWindow();
 
         
