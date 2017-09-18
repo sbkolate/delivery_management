@@ -220,15 +220,14 @@ def get_driver_details_from_email(user_id=None):
 @frappe.whitelist(allow_guest=True)
 def get_delivery_schedule_list(user_id=None):
 	date=today()
-	ds_list = frappe.db.sql("""select name,status,driver_user_id,
-		ifnull(customer_ref, '') AS customer_ref,
+	ds_list = frappe.db.sql("""select name, customer_ref,status,driver_user_id,
 		delivery_note_no,
 		ifnull(date, '') AS date,
 		ifnull(trip, '') AS trip,
 		ifnull(mobile_no, '') AS mobile_no,
 		ifnull(contact_no, '') AS contact_no,
-		CONCAT(address_line_1,' ',address_line_2)AS address,
-		ifnull(address, '') AS address 
+		CONCAT(address_line_1,' ',address_line_2)AS Address,
+		ifnull(address, '') AS Address 
 		from `tabDelivery Schedule` WHERE driver_user_id='{0}' and date='{1}' order by trip""".format(user_id,date),as_dict=1)
 	
 	if not ds_list:
