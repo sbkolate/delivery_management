@@ -190,6 +190,16 @@ def get_driver_details_from_email(user_id=None):
 	if driver.carrier:
 		carrier_type = frappe.db.get_value("Carrier",driver.carrier,"type")
 	
+	if carrier_type:
+		carrier_type = carrier_type
+	else:
+		carrier_type = ""
+
+	if driver.carrier:
+		driver.carrier = driver.carrier
+	else:
+		driver.carrier = ""
+	
 	driver_details = {
 		"ID" : driver.name,
 		"Full Name": driver.full_name,
@@ -198,6 +208,7 @@ def get_driver_details_from_email(user_id=None):
 		"Profile Picture": driver.profile_picture,
 		"Assigned Vehicle No.": driver.carrier,
 		"carrier_type": carrier_type,
+		"updated":driver.modified
 		}
 	return driver_details
 
@@ -220,7 +231,7 @@ def get_driver_details_from_email(user_id=None):
 @frappe.whitelist(allow_guest=True)
 def get_delivery_schedule_list(user_id=None):
 	date=today()
-	ds_list = frappe.db.sql("""select name, customer_ref,status,driver_user_id,
+	ds_list = frappe.db.sql("""select name,ifnull(customer_ref, '') AS customer_ref,status,driver_user_id,
 		delivery_note_no,
 		ifnull(date, '') AS date,
 		ifnull(trip, '') AS trip,
@@ -366,11 +377,14 @@ def get_about():
 		from tabSingles 
 		where doctype ='About' 
 		and (field = 'title' 
-			 OR field = 'description')""", as_dict=1)
+			 OR field = 'description' OR field = 'modified')""", as_dict=1)
 
 	about = {}
 	for item in data:
-		about.update({item['field']: item['value']})
+		if item['field']=="modified":
+			about.update({"updated": item['value']})
+		else:
+			about.update({item['field']: item['value']})
 
 
 	return about
