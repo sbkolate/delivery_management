@@ -226,8 +226,8 @@ def get_delivery_schedule_list(user_id=None):
 		ifnull(trip, '') AS trip,
 		ifnull(mobile_no, '') AS mobile_no,
 		ifnull(contact_no, '') AS contact_no,
-		CONCAT(address_line_1,' ',address_line_2)AS Address,
-		ifnull(address, '') AS Address 
+		CONCAT(ifnull(address_line_1, ''),' ',ifnull(address_line_2, ''), ' ', ifnull(address_line_3, '')) AS Address
+		
 		from `tabDelivery Schedule` WHERE driver_user_id='{0}' and date='{1}' order by trip""".format(user_id,date),as_dict=1)
 	
 	if not ds_list:
