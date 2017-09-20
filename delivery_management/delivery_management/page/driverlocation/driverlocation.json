@@ -1,19 +1,19 @@
 {
  "content": null, 
- "creation": "2017-07-21 17:06:44.644137", 
+ "creation": "2017-09-15 20:56:49.149952", 
  "docstatus": 0, 
  "doctype": "Page", 
  "idx": 0, 
- "modified": "2017-07-21 17:06:44.644137", 
+ "modified": "2017-09-15 20:56:49.149952", 
  "modified_by": "Administrator", 
  "module": "Delivery Management", 
- "name": "driver-locations", 
+ "name": "driverlocation", 
  "owner": "Administrator", 
- "page_name": "Driver Locations", 
+ "page_name": "driverlocation", 
  "roles": [], 
  "script": null, 
  "standard": "Yes", 
  "style": null, 
  "system_page": 0, 
- "title": "Driver Locations"
+ "title": "driverlocation"
 }
