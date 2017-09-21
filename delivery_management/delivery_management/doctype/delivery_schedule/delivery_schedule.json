@@ -1383,7 +1383,7 @@
    "default": "1", 
    "fieldname": "img_count", 
    "fieldtype": "Int", 
-   "hidden": 0, 
+   "hidden": 1, 
    "ignore_user_permissions": 0, 
    "ignore_xss_filter": 0, 
    "in_filter": 0, 
@@ -1413,7 +1413,7 @@
    "columns": 0, 
    "fieldname": "disabled", 
    "fieldtype": "Check", 
-   "hidden": 0, 
+   "hidden": 1, 
    "ignore_user_permissions": 0, 
    "ignore_xss_filter": 0, 
    "in_filter": 0, 
@@ -1442,12 +1442,12 @@
  "idx": 0, 
  "image_view": 0, 
  "in_create": 0, 
- "is_submittable": 0, 
+ "is_submittable": 1, 
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-09-13 16:44:16.595530", 
- "modified_by": "demo@digitalprizm.net", 
+ "modified": "2017-09-22 02:13:01.067905", 
+ "modified_by": "Administrator", 
  "module": "Delivery Management", 
  "name": "Delivery Schedule", 
  "name_case": "", 
@@ -1470,7 +1470,7 @@
    "role": "System Manager", 
    "set_user_permissions": 0, 
    "share": 1, 
-   "submit": 0, 
+   "submit": 1, 
    "write": 1
   }, 
   {
@@ -1490,7 +1490,7 @@
    "role": "Hafary Admin", 
    "set_user_permissions": 0, 
    "share": 1, 
-   "submit": 0, 
+   "submit": 1, 
    "write": 1
   }, 
   {
@@ -1510,7 +1510,7 @@
    "role": "Delivery Manager", 
    "set_user_permissions": 0, 
    "share": 1, 
-   "submit": 0, 
+   "submit": 1, 
    "write": 1
   }, 
   {
@@ -1530,7 +1530,7 @@
    "role": "Administrator", 
    "set_user_permissions": 0, 
    "share": 1, 
-   "submit": 0, 
+   "submit": 1, 
    "write": 1
   }
  ], 
