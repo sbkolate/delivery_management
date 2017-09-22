@@ -1442,11 +1442,11 @@
  "idx": 0, 
  "image_view": 0, 
  "in_create": 0, 
- "is_submittable": 1, 
+ "is_submittable": 0, 
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-09-22 02:13:01.067905", 
+ "modified": "2017-09-22 10:34:36.525276", 
  "modified_by": "Administrator", 
  "module": "Delivery Management", 
  "name": "Delivery Schedule", 
@@ -1470,7 +1470,7 @@
    "role": "System Manager", 
    "set_user_permissions": 0, 
    "share": 1, 
-   "submit": 1, 
+   "submit": 0, 
    "write": 1
   }, 
   {
@@ -1490,7 +1490,7 @@
    "role": "Hafary Admin", 
    "set_user_permissions": 0, 
    "share": 1, 
-   "submit": 1, 
+   "submit": 0, 
    "write": 1
   }, 
   {
@@ -1510,7 +1510,7 @@
    "role": "Delivery Manager", 
    "set_user_permissions": 0, 
    "share": 1, 
-   "submit": 1, 
+   "submit": 0, 
    "write": 1
   }, 
   {
@@ -1530,7 +1530,7 @@
    "role": "Administrator", 
    "set_user_permissions": 0, 
    "share": 1, 
-   "submit": 1, 
+   "submit": 0, 
    "write": 1
   }
  ], 
