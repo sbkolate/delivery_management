@@ -490,7 +490,7 @@ def update_no_img_in_delivery_schedule(name=None):
 		file_doc.attached_to_name = ds_doc.name
 		file_url_attach = get_files_path ()
 
-		file_doc.file_url = "files/"  + "no_image_allowed.png"
+		file_doc.file_url = "/assets/delivery_management/images/no_image_allowed.png"
 		file_doc.validate()
 		file_doc.insert(ignore_permissions=True)
 		ds_doc.save(ignore_permissions=True)
