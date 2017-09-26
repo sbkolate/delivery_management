@@ -377,7 +377,7 @@ def get_about():
 		from tabSingles 
 		where doctype ='About' 
 		and (field = 'title' 
-			 OR field = 'description' OR field = 'modified')""", as_dict=1)
+			 OR field = 'description' OR field = 'modified' OR field = 'version')""", as_dict=1)
 
 	about = {}
 	for item in data:
@@ -456,6 +456,47 @@ def is_image_uploaded(name=None):
 		return {"is_image":"not_uploaded"}
 
 
+@frappe.whitelist(allow_guest=True)
+def get_return_delivery_list():
+	rd_list = frappe.db.sql("""select name, customer_ref,
+		delivery_note_no 
+		from `tabReturn Delivery`""".format(),as_dict=1)
+	
+	return rd_list
+
+@frappe.whitelist(allow_guest=True)
+def create_return_delivery(customer_ref=None,delivery_note_no=None,driver=None,contact_person_name=None):
+	# new_return_delivery = frappe.db.sql("""insert into `tabReturn Delivery`(customer_ref,delivery_note_no,driver,contact_person_name) 
+	# 	values ('{0}','{1}','{2}','{3}') """
+	# 	.format(customer_ref,delivery_note_no,driver,contact_person_name), as_dict=1)
+	# frappe.db.commit()
+	return "New Delivery Return Is Created"
+
+@frappe.whitelist(allow_guest=True)
+def update_no_img_in_delivery_schedule(name=None):
+	ds_doc = frappe.get_doc("Delivery Schedule", name)
+	
+	if ds_doc.name:
+		ds_doc.flags.ignore_permissions = True
+		ds_doc.save(ignore_permissions=True)
+		img_name="/assets/delivery_management/images/no_image_allowed.png"
+		file_doc = frappe.new_doc("File")
+		print("##########")
+		print(file_doc)
+		file_doc.file_name = name + "no_image"
+		file_doc.folder = "Home/Attachments"
+		file_doc.attached_to_doctype = "Delivery Schedule"
+		file_doc.attached_to_name = ds_doc.name
+		file_url_attach = get_files_path ()
+
+		file_doc.file_url = "files/"  + "no_image_allowed.png"
+		file_doc.validate()
+		file_doc.insert(ignore_permissions=True)
+		ds_doc.save(ignore_permissions=True)
+		frappe.db.commit()
+		return "No Image Uploaded For " + ds_doc.name
+
+		print(file_url_attach)
 
 
 
