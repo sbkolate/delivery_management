@@ -21,6 +21,11 @@ def get_data():
 					"type": "doctype",
 					"name": "Driver",
 					"description": _("Driver"),
+				},
+				{
+					"type": "doctype",
+					"name": "Return Delivery",
+					"description": _("Return Delivery"),
 				},				
 				{
 					"type": "doctype",
