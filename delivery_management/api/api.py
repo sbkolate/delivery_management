@@ -233,6 +233,7 @@ def get_delivery_schedule_list(user_id=None):
 	date=today()
 	ds_list = frappe.db.sql("""select name,ifnull(customer_ref, '') AS customer_ref,status,driver_user_id,
 		delivery_note_no,
+		modified as updated,
 		ifnull(date, '') AS date,
 		ifnull(trip, '') AS trip,
 		ifnull(mobile_no, '') AS mobile_no,
