@@ -231,7 +231,7 @@ def get_driver_details_from_email(user_id=None):
 @frappe.whitelist(allow_guest=True)
 def get_delivery_schedule_list(user_id=None):
 	date=today()
-	ds_list = frappe.db.sql("""select name,ifnull(customer_ref, '') AS customer_ref,status,driver_user_id,
+	ds_list = frappe.db.sql("""select name,ifnull(customer_ref, '') AS customer_ref,status,driver_user_id,is_return,
 		delivery_note_no,
 		modified as updated,
 		ifnull(date, '') AS date,
@@ -318,7 +318,7 @@ def update_driving_in_ds(name=None,lat=None,lon=None,):
 @frappe.whitelist(allow_guest=True)
 def get_single_delivery_shedule(name=None):
 	single_delivery_shedule = frappe.db.sql("""select name,customer_ref,date,driver_user_id,
-		trip,driver_full_name,
+		trip,driver_full_name,is_return,
 		ifnull(mobile_no, '') AS mobile_no,
 		ifnull(trip, '') AS trip,
 		ifnull(contact_no, '') AS contact_no,
@@ -339,7 +339,8 @@ def get_single_delivery_shedule(name=None):
 		"Trip": single_delivery_shedule.trip,
 		"Delivery Note": single_delivery_shedule.delivery_note_no,
 		"Mobile No": single_delivery_shedule.mobile_no,
-		"Contact No": single_delivery_shedule.contact_no 
+		"Contact No": single_delivery_shedule.contact_no,
+		"Is Return":single_delivery_shedule.is_return 
 
 	}
 	return delivery_shedule
@@ -457,21 +458,26 @@ def is_image_uploaded(name=None):
 		return {"is_image":"not_uploaded"}
 
 
-@frappe.whitelist(allow_guest=True)
-def get_return_delivery_list():
-	rd_list = frappe.db.sql("""select name, customer_ref,
-		delivery_note_no 
-		from `tabReturn Delivery`""".format(),as_dict=1)
+# @frappe.whitelist(allow_guest=True)
+# def get_return_delivery_list():
+# 	rd_list = frappe.db.sql("""select name, customer_ref,
+# 		delivery_note_no 
+# 		from `tabReturn Delivery`""".format(),as_dict=1)
 	
-	return rd_list
+# 	return rd_list
 
-@frappe.whitelist(allow_guest=True)
-def create_return_delivery(customer_ref=None,delivery_note_no=None,driver=None,contact_person_name=None):
-	# new_return_delivery = frappe.db.sql("""insert into `tabReturn Delivery`(customer_ref,delivery_note_no,driver,contact_person_name) 
-	# 	values ('{0}','{1}','{2}','{3}') """
-	# 	.format(customer_ref,delivery_note_no,driver,contact_person_name), as_dict=1)
-	# frappe.db.commit()
-	return "New Delivery Return Is Created"
+# @frappe.whitelist(allow_guest=True)
+# def create_return_delivery(customer_ref=None,delivery_note_no=None,driver=None,contact_person_name=None):
+# 	rd_doc = frappe.new_doc("Return Delivery")
+# 	rd_doc.customer_ref = customer_ref
+# 	rd_doc.delivery_note_no = delivery_note_no
+# 	rd_doc.driver = driver
+# 	rd_doc.contact_person_name = contact_person_name
+# 	rd_doc.save(ignore_permissions=True)
+# 	frappe.db.commit()
+# 	return "New Delivery Return Is Created"
+
+
 
 @frappe.whitelist(allow_guest=True)
 def update_no_img_in_delivery_schedule(name=None):
@@ -482,8 +488,6 @@ def update_no_img_in_delivery_schedule(name=None):
 		ds_doc.save(ignore_permissions=True)
 		img_name="/assets/delivery_management/images/no_image_allowed.png"
 		file_doc = frappe.new_doc("File")
-		print("##########")
-		print(file_doc)
 		file_doc.file_name = name + "no_image"
 		file_doc.folder = "Home/Attachments"
 		file_doc.attached_to_doctype = "Delivery Schedule"
@@ -497,7 +501,7 @@ def update_no_img_in_delivery_schedule(name=None):
 		frappe.db.commit()
 		return "No Image Uploaded For " + ds_doc.name
 
-		print(file_url_attach)
+		
 
 
 
