@@ -10,6 +10,7 @@ def get_driver_locations(carrier=None):
 	
 	driver_locations = frappe.db.sql(""" select 
 		concat("Carrier: ",carrier_number, " <br> : ") as carrier_number,
+		concat("Driver Name: ",driver, " <br> : ") as driver,
 		CASE
 		WHEN name
 		THEN (select concat(full_name," - ", name) from tabDriver where carrier = `tabCarrier`.name limit 1)         
