@@ -62,9 +62,14 @@ def send_delivery_dispatch_alert(name):
 	ds_name = ds_doc.name
 	url_link = short_url(ds_name)
 	subject = _("Your hafary order is delivered")
+	
 	# sender = frappe.session.user not in STANDARD_USERS and frappe.session.user or None
 	sender = "contact@digitalprizm.net"
-	message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.delivery_note_no +" is delivered.<br>For more info click here   "+url_link+"<br>"+"Kindly Find the attachment."
+	if ds_doc.is_return=="NO":
+		message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.delivery_note_no +" is delivered.<br>For more info click here   "+url_link+"<br>"+"Kindly Find the attachment."
+	elif ds_doc.is_return=="Yes":
+		message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.name +" is Returned.<br>For more info click here   "+url_link+"<br>"+"Kindly Find the attachment."
+
 	# attachments = ds_doc.get_attachments()
 	recipients = ds_doc.email
 	email_html = frappe.render_template("templates/include/dispatchalert.html", {"doc":ds_doc, "short_url": url_link })
@@ -73,9 +78,13 @@ def send_delivery_dispatch_alert(name):
 	
 	#convert msg html
 	
-	
-	frappe.sendmail(recipients=recipients, sender=sender, subject=subject,
+	if ds_doc.is_return=="NO":
+		frappe.sendmail(recipients=recipients, sender=sender, subject=subject,
 			message=email_html,  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
+	elif ds_doc.is_return=="Yes":
+		frappe.sendmail(recipients=recipients, sender=sender, subject="Your hafary order is returned",
+			message=email_html,  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
+
 	
 	#send sms
 

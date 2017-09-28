@@ -37,7 +37,7 @@ def add_header(w):
 		 "Contact Person Name", "Mobile No", 
 		 "Contact No", "Delivery Note No", "Email",
 		 "Lorry No",  "Trip","Remarks",
-		 "Pin Code"])
+		 "Pin Code","Is Return"])
 	# w.writerow(["ID", "Date", "Customer Ref", "Delivery Note No", "Lorry No", "Trip",
 	# 	 "Contact Person Name", "Address Line 1", "Address Line 2", "Address Line 3", 
 	# 	 "Pin Code", "Contact No", "Mobile No", "Email", "Remarks"])
@@ -110,7 +110,8 @@ def upload():
 		d = frappe._dict(zip(columns, row))
 		d["doctype"] = "Delivery Schedule"
 		d["customer_ref"] = row[2]
-		d["pin_code"] = row[14]
+		d["is_return"] = row[15]
+
 		import datetime
 		new_date = datetime.datetime.strptime(row[1],'%d-%b-%y').strftime('%d-%m-%Y')
 		d["date"] = new_date
