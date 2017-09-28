@@ -24,11 +24,17 @@ class DeliverySchedule(Document):
 			self.driver_user_id = frappe.db.get_value("Driver", {"carrier": self.carrier}, "user_id")
 
 		if self.mobile_no:
-			if self.mobile_no[:3] != "+65":
+			if self.mobile_no[:3] == "+65" or self.mobile_no[:3] == "+91" :
+				pass
+			else:
 				self.mobile_no = "+65"+self.mobile_no
 
+
+
 		if self.contact_no:
-			if self.contact_no[:3] != "+65":
+			if self.contact_no[:3] == "+65" or self.contact_no[:3] == "+91" :
+				pass
+			else:
 				self.contact_no = "+65"+self.contact_no
 
 	def get_attachments(self):

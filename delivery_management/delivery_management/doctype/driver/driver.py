@@ -29,6 +29,8 @@ class Driver(Document):
 
 	def create_user(self):
 		# self.set_full_name()
+		
+		print(self.email_address)
 		if self.email_address:
 			user = frappe.db.get_value("User", self.email_address, "name")
 			if not user:

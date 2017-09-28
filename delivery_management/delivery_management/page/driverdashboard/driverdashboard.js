@@ -95,7 +95,8 @@ delivery_management.Dashboard = Class.extend
 
 			
 			locations.push([b.message[0].carrier_number+b.message[0].mydriver, parseFloat(b.message[0].latitude), parseFloat(b.message[0].longitude)]);
-			  
+			  console.log("#########joshi #########")
+			    console.log(b.message[0].driver)
 
 
 
