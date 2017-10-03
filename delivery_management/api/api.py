@@ -265,9 +265,9 @@ def update_start_loc_in_ds(name=None,lat=None,lon=None):
 @frappe.whitelist(allow_guest=True)
 def update_stop_loc_in_ds(name=None,lat=None,lon=None):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
-	attachments = get_attachments("Delivery Schedule", ds_doc.name)
-	if not attachments:
-		return {"message":"product_image_missing"}
+	# attachments = get_attachments("Delivery Schedule", ds_doc.name)
+	# if not attachments:
+	# 	return {"message":"product_image_missing"}
 
 	if ds_doc.name:
 		ds_doc.stop_lat = lat
