@@ -11,6 +11,7 @@ from frappe.desk.form.load import get_attachments
 
 from frappe.utils import flt, time_diff_in_hours, get_datetime, getdate, today, cint, get_datetime_str
 from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
+# from frappe.core.doctype.sms_settings.sms_settings import send_sms
 
 
 from frappe.desk.form.load import get_attachments
@@ -89,14 +90,27 @@ def send_delivery_dispatch_alert(name):
 	#send sms
 
 	if ds_doc.mobile_no:
-		message = ""
-		message += "Hello your order "
-		message += ds_doc.delivery_note_no
-		message += " is delivered.\nPlease see details \n"
-		ds_name = ds_doc.name
-		short_url_link = short_url(ds_name)
-		message += short_url_link
-		send_message_api(ds_doc.mobile_no,message)
+		if ds_doc.is_return=="Yes":
+			message = ""
+			message += "Hello your order "
+			message += ds_doc.delivery_note_no
+			message += " is Returned.\nPlease see details \n"
+			ds_name = ds_doc.name
+			short_url_link = short_url(ds_name)
+			message += short_url_link
+			send_message_api(ds_doc.mobile_no,message)
+
+		elif ds_doc.is_return=="No":
+			message = ""
+			message += "Hello your order "
+			message += ds_doc.delivery_note_no
+			message += " is Delivered.\nPlease see details \n"
+			ds_name = ds_doc.name
+			short_url_link = short_url(ds_name)
+			message += short_url_link
+			send_message_api(ds_doc.mobile_no,message)
+
+
 
 
 
