@@ -75,6 +75,12 @@ def get_data():
 					"doctype": "Driver"
 				},
 				{
+					"type": "report",
+					"is_query_report": True,
+					"name": "Delivery Schedule Report",
+					"doctype": "Delivery Schedule"
+				},
+				{
 					"type": "page",
 					"name": "driverdashboard",
 					"label": _("Driver Dashboard"),
