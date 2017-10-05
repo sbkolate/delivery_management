@@ -66,7 +66,7 @@ def send_delivery_dispatch_alert(name):
 	
 	# sender = frappe.session.user not in STANDARD_USERS and frappe.session.user or None
 	sender = "contact@digitalprizm.net"
-	if ds_doc.is_return=="NO":
+	if ds_doc.is_return=="No":
 		message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.delivery_note_no +" is delivered.<br>For more info click here   "+url_link+"<br>"+"Kindly Find the attachment."
 	elif ds_doc.is_return=="Yes":
 		message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.name +" is Returned.<br>For more info click here   "+url_link+"<br>"+"Kindly Find the attachment."
@@ -79,7 +79,7 @@ def send_delivery_dispatch_alert(name):
 	
 	#convert msg html
 	
-	if ds_doc.is_return=="NO":
+	if ds_doc.is_return=="No":
 		frappe.sendmail(recipients=recipients, sender=sender, subject=subject,
 			message=email_html,  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
 	elif ds_doc.is_return=="Yes":
