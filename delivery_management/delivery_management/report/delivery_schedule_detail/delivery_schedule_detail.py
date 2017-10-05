@@ -18,7 +18,7 @@ def  get_colums():
 	# +["Pin Code:60"]+["Contact No:60"]+["Mobile No:60"]+["Email:60"]+["Remark:60"]
 	# return columns
 
-	columns =["Date:Data:95"]+["Driver:data:120"]+["Customer:data:120"]+["Address:data:200"]+["Contact No:Data:90"]\
+	columns =["Date:Data:95"]+["Driver:data:120"]+["Customer:Link/Customer:120"]+["Address:data:200"]+["Contact No:Data:130"]\
 						 +["D/O No:data:80"]+["Remark:data:250"]+["Trip:Data:60"]#+["Lorry No:60"] + ["name:Data:120"]
 	return columns
 
