@@ -12,6 +12,13 @@ def get_data():
 			"type": "module",
 			"label": _("Delivery Management")
 		},
+		{
+			"module_name": "Reports Module",
+			"color": "#0f9155",
+			"icon": "fa fa-report",
+			"type": "module",
+			"label": _("Reports Module")
+		},
 
 		{
 			"module_name": "Carrier",

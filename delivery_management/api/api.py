@@ -266,8 +266,8 @@ def update_start_loc_in_ds(name=None,lat=None,lon=None):
 def update_stop_loc_in_ds(name=None,lat=None,lon=None):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
 	attachments = get_attachments("Delivery Schedule", ds_doc.name)
-	if not attachments:
-		return {"message":"product_image_missing"}
+	# if not attachments:
+	# 	return {"message":"product_image_missing"}
 
 	if ds_doc.name:
 		ds_doc.stop_lat = lat
@@ -324,7 +324,7 @@ def get_single_delivery_shedule(name=None):
 		ifnull(trip, '') AS trip,
 		ifnull(contact_no, '') AS contact_no,
 		ifnull(delivery_note_no, '') AS delivery_note_no,
-		CONCAT(ifnull(address_line_1, ''),' ',ifnull(address_line_2, ''), ' ', ifnull(address_line_3, '')) AS address
+		CONCAT(ifnull(address_line_1, ''),', ',ifnull(address_line_2, ''), ', ', ifnull(address_line_3, '')) AS address
 		from `tabDelivery Schedule` WHERE name='{0}' """.format(name),as_dict=1)
 	
 	if single_delivery_shedule:
