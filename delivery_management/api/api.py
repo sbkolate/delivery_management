@@ -8,8 +8,8 @@ from frappe.utils import strip, get_files_path
 from frappe.desk.form.load import get_attachments
 
 from frappe.utils import flt, time_diff_in_hours, get_datetime, getdate, today, cint, get_datetime_str
-from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
-# from frappe.core.doctype.sms_settings.sms_settings import send_sms
+#from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
+from frappe.core.doctype.sms_settings.sms_settings import send_sms
 import ast
 from bitly import ping
 
@@ -265,9 +265,9 @@ def update_start_loc_in_ds(name=None,lat=None,lon=None):
 @frappe.whitelist(allow_guest=True)
 def update_stop_loc_in_ds(name=None,lat=None,lon=None):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
-	# attachments = get_attachments("Delivery Schedule", ds_doc.name)
-	# if not attachments:
-	# 	return {"message":"product_image_missing"}
+	attachments = get_attachments("Delivery Schedule", ds_doc.name)
+	if not attachments:
+		return {"message":"product_image_missing"}
 
 	if ds_doc.name:
 		ds_doc.stop_lat = lat
