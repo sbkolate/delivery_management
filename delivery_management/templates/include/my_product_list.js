@@ -10,7 +10,7 @@ window.get_product_list = function() {
 		throw "product list not initialized (no start)"
 	}
 	var ds_name = window.location.href.split("?")[1]
-	url = "/api/method/delivery_management.api.api.get_single_delivery?" + ds_name
+	url = "/api/method/delivery_management.api.utility.get_single_delivery_myorderpage?" + ds_name
 	$.ajax({
 		url: url,
 		// url: "/api/method/delivery_management.api.api.get_single_delivery?name=DSCH00078",
@@ -55,7 +55,9 @@ window.render_product_list = function(data) {
 
 	html +="<tr>\
     			<td>Address</td><td>"
-    html += data["Address Disply"]
+    html += data["Address Line1"]+","
+    html += data["Address Line2"]+","
+    html += data["Address Line3"]
     html +=  "</td></tr>"
 
    	html +="<tr>\
@@ -71,6 +73,11 @@ window.render_product_list = function(data) {
     html +="<tr>\
     			<td>Contact No</td><td>"
     html += data["Contact No"]
+    html +=  "</td></tr>"
+
+    html +="<tr>\
+    			<td>Mobile No</td><td>"
+    html += data["Mobile No"]
     html +=  "</td></tr>"
     html +=  "</table>"
     html +=  data["attachments"]
