@@ -10,8 +10,11 @@ from frappe.utils import strip, get_files_path
 from frappe.desk.form.load import get_attachments
 
 from frappe.utils import flt, time_diff_in_hours, get_datetime, getdate, today, cint, get_datetime_str
+
+# from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
 from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
 #from frappe.core.doctype.sms_settings.sms_settings import send_sms
+
 
 
 from frappe.desk.form.load import get_attachments
@@ -62,7 +65,7 @@ def send_delivery_dispatch_alert(name):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
 	ds_name = ds_doc.name
 	url_link = short_url(ds_name)
-	subject = _("Your hafary order is delivered")
+	subject = _("Your Hafary order is delivered")
 	
 	# sender = frappe.session.user not in STANDARD_USERS and frappe.session.user or None
 	sender = "contact@digitalprizm.net"
@@ -83,7 +86,7 @@ def send_delivery_dispatch_alert(name):
 		frappe.sendmail(recipients=recipients, sender=sender, subject=subject,
 			message=email_html,  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
 	elif ds_doc.is_return=="Yes":
-		frappe.sendmail(recipients=recipients, sender=sender, subject="Your hafary order is returned",
+		frappe.sendmail(recipients=recipients, sender=sender, subject="Your Hafary order is returned",
 			message=email_html,  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
 
 	
