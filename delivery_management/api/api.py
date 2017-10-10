@@ -9,9 +9,12 @@ from frappe.desk.form.load import get_attachments
 
 from frappe.utils import flt, time_diff_in_hours, get_datetime, getdate, today, cint, get_datetime_str
 
-# from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
-from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
-#from frappe.core.doctype.sms_settings.sms_settings import send_sms
+#from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
+from frappe.core.doctype.sms_settings.sms_settings import send_sms
+
+
+
+
 
 import ast
 from bitly import ping
@@ -269,23 +272,26 @@ def update_start_loc_in_ds(name=None,lat=None,lon=None):
 def update_stop_loc_in_ds(name=None,lat=None,lon=None):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
 	attachments = get_attachments("Delivery Schedule", ds_doc.name)
-	# if not attachments:
-	# 	return {"message":"product_image_missing"}
+		# if not attachments:
+		# 	return {"message":"product_image_missing"}
 
-	if ds_doc.name:
-		ds_doc.stop_lat = lat
-		ds_doc.stop_long = lon
-		ds_doc.status='Delivered'
-		ds_doc.save(ignore_permissions=True)
-		frappe.db.commit()
-		send_delivery_dispatch_alert(ds_doc.name)
+	if ds_doc.status != "Delivered":
+		if ds_doc.name:
+			ds_doc.stop_lat = lat
+			ds_doc.stop_long = lon
+			ds_doc.status='Delivered'
+			ds_doc.save(ignore_permissions=True)
+			frappe.db.commit()
+			send_delivery_dispatch_alert(ds_doc.name)
 
-		if ds_doc.carrier:
-			update_location_for_carrier(ds_doc.carrier,lat,lon)
-		return {"message":"location_updated "}
+			if ds_doc.carrier:
+				update_location_for_carrier(ds_doc.carrier,lat,lon)
+			return {"message":"location_updated "}
+		else:
+			return {"message":"location_not_updated "}
 	else:
 		return {"message":"location_not_updated "}
-
+		
 @frappe.whitelist(allow_guest=True)
 def update_driving_in_ds(name=None,lat=None,lon=None,):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
