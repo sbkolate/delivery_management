@@ -3,9 +3,14 @@
     <tr>
       <td style="border-bottom: 0px; background: rgb(236,235,241); padding: 10px;" width="100%">  
         <table cellspacing="0" cellpadding="0" border="0" width="100%" align="left">
+        {% if (doc.is_return == 'No')%}
           <tbody>
             <tr>
-              <td><font color="#2f2f2f" face="arial, helvetica, sans-serif"><span style="font-size: 22px; color: black;">Delivery Order&nbsp;{{ doc.name }}</span></font></td>
+              <td><font color="#2f2f2f" face="arial, helvetica, sans-serif">
+                <span style="font-size: 22px; color: black;">
+
+                  Delivery Order&nbsp;{{ doc.name }}
+                </span></font></td>
             </tr>
             <tr>
               <td><font color="#2f2f2f" face="arial, helvetica, sans-serif"><span style="font-size: 20px; color: black;">Dear &nbsp;{{doc.contact_person_name or ""}},</span></font>  </td>
@@ -15,6 +20,25 @@
             </tr>
 
           </tbody>
+
+           {% elif (doc.is_return == 'Yes')%}
+          <tbody>
+            <tr>
+              <td><font color="#2f2f2f" face="arial, helvetica, sans-serif">
+                <span style="font-size: 22px; color: black;">
+                
+                  Order &nbsp;#{{ doc.name }} &nbsp;is returned.
+                </span></font></td>
+            </tr>
+            <tr>
+              <td><font color="#2f2f2f" face="arial, helvetica, sans-serif"><span style="font-size: 20px; color: black;">Dear &nbsp;{{doc.contact_person_name or ""}},</span></font>  </td>
+            </tr>
+            <tr>
+              <td><font color="#2f2f2f" face="arial, helvetica, sans-serif"><span style="font-size: 20px; color: black;">Your order is returned.</span></font>  </td>
+            </tr>
+
+          </tbody>
+          {% endif -%}
         </table>
       </td>
     </tr>
