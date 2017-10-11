@@ -105,7 +105,7 @@
    "reqd": 1, 
    "search_index": 0, 
    "set_only_once": 0, 
-   "unique": 1
+   "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
@@ -1478,8 +1478,8 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-10-10 19:37:49.338918", 
- "modified_by": "demo@digitalprizm.net", 
+ "modified": "2017-10-11 18:26:34.702107", 
+ "modified_by": "Administrator", 
  "module": "Delivery Management", 
  "name": "Delivery Schedule", 
  "name_case": "", 
