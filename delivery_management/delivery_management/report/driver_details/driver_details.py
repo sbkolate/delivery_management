@@ -12,13 +12,13 @@ def execute(filters=None):
 
 
 def  get_colums():
-	columns = ["Driver Name:Data:120"]+["Talkie Number/Contact Number:Data:80"]+["Email Address:Data:60"]+["Driving License Number:Data:100"]+["Carrier:Data:100"]
+	columns = ["Driver Id:Link/Driver:120"]+["Driver Name:Data:120"]+["Talkie Number/Contact Number:Data:80"]+["Email Address:Data:150"]+["Driving License Number:Data:100"]+["Carrier:Link/Carrier:100"]
 	
 
 	return columns
 
 def get_data():
-	dl = frappe.db.sql("""select full_name,contact_number,email_address,license_number,carrier
+	dl = frappe.db.sql("""select name,full_name,contact_number,email_address,license_number,carrier
 				from `tabDriver` 
 				ORDER BY user_id""",as_list=1,debug=1)
 	return dl

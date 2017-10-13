@@ -18,8 +18,8 @@ def validate_filters(filters):
 
 
 def  get_colums():
-	columns =["Date:Data:95"]+["Driver:data:120"]+["Customer:data:120"]+["Address:data:200"]+["Contact No:Data:90"]\
-						 +["D/O No:data:80"]+["Trip:Data:60"]+["Lorry No:60"]+["Is Return:data:100"]+["Remark:data:250"]
+	columns =["Date:Data:95"]+["Driver Id:Link/Driver:120"]+["Driver:data:120"]+["Customer:Link/Customer:120"]+["Address:data:200"]+["Mobile No:Data:120"]+["Contact No:Data:120"]\
+						 +["D/O No:data:80"]+["Trip:Data:60"]+["Lorry No:Link/Carrier"]+["Is Return:data:100"]+["Remark:data:250"]
 	return columns
 
 
@@ -32,9 +32,9 @@ def get_data(filters):
 
 
 	dl = frappe.db.sql("""select 
-		DATE_FORMAT(date,"%d-%m-%Y"),driver_full_name,
+		DATE_FORMAT(date,"%d-%m-%Y"),driver,driver_full_name,
 		customer_ref,
-		CONCAT(address_line_1,' ',address_line_2,' ',address_line_3)AS Address,
+		CONCAT(address_line_1,' ',address_line_2,' ',address_line_3)AS Address,mobile_no,
 		contact_no,delivery_note_no,trip,carrier,is_return,remarks
 		from `tabDelivery Schedule`
 		{0} 

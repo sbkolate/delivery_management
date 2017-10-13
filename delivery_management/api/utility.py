@@ -10,8 +10,13 @@ from frappe.utils import strip, get_files_path
 from frappe.desk.form.load import get_attachments
 
 from frappe.utils import flt, time_diff_in_hours, get_datetime, getdate, today, cint, get_datetime_str
+
 from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
-# from frappe.core.doctype.sms_settings.sms_settings import send_sms
+#from frappe.core.doctype.sms_settings.sms_settings import send_sms
+
+
+
+
 
 
 from frappe.desk.form.load import get_attachments
@@ -62,11 +67,11 @@ def send_delivery_dispatch_alert(name):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
 	ds_name = ds_doc.name
 	url_link = short_url(ds_name)
-	subject = _("Your hafary order is delivered")
+	subject = _("Your Hafary order is delivered")
 	
 	# sender = frappe.session.user not in STANDARD_USERS and frappe.session.user or None
 	sender = "contact@digitalprizm.net"
-	if ds_doc.is_return=="NO":
+	if ds_doc.is_return=="No":
 		message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.delivery_note_no +" is delivered.<br>For more info click here   "+url_link+"<br>"+"Kindly Find the attachment."
 	elif ds_doc.is_return=="Yes":
 		message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.name +" is Returned.<br>For more info click here   "+url_link+"<br>"+"Kindly Find the attachment."
@@ -79,11 +84,11 @@ def send_delivery_dispatch_alert(name):
 	
 	#convert msg html
 	
-	if ds_doc.is_return=="NO":
+	if ds_doc.is_return=="No":
 		frappe.sendmail(recipients=recipients, sender=sender, subject=subject,
 			message=email_html,  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
 	elif ds_doc.is_return=="Yes":
-		frappe.sendmail(recipients=recipients, sender=sender, subject="Your hafary order is returned",
+		frappe.sendmail(recipients=recipients, sender=sender, subject="Your Hafary order is returned",
 			message=email_html,  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
 
 	
@@ -109,6 +114,63 @@ def send_delivery_dispatch_alert(name):
 			short_url_link = short_url(ds_name)
 			message += short_url_link
 			send_message_api(ds_doc.mobile_no,message)
+
+
+
+def sc_get_item_for_list_in_html(context):
+	# add missing absolute link in files
+	# user may forget it during upload
+	if (context.get("website_image") or "").startswith("files/"):
+		context["website_image"] = "/" + urllib.quote(context["website_image"])
+
+	products_template = 'templates/include/my_product_list.html'
+	if cint(frappe.db.get_single_value('Products Settings', 'products_as_list')):
+		products_template = 'templates/include/my_product_list.html'
+
+	return frappe.get_template(products_template).render(context)
+
+
+@frappe.whitelist(allow_guest=True)
+def get_single_delivery_myorderpage(name=None):
+	single_delivery_shedule = frappe.get_doc("Delivery Schedule", str(name))
+
+	ds_list = frappe.db.sql("""select name,customer_ref,date,driver_user_id,
+		trip,driver_full_name,
+		ifnull(mobile_no, '') AS mobile_no,
+		ifnull(contact_no, '') AS contact_no,
+		ifnull(delivery_note_no, '') AS delivery_note_no,
+		ifnull(address_line_1, '')AS address1,
+		ifnull(address_line_2, '')AS address2,
+		ifnull(address_line_3, '')AS address3
+		from `tabDelivery Schedule` WHERE name='{0}' """.format(name),as_dict=1)
+	
+	if ds_list:
+		ds_list = ds_list[0]
+	
+	delivery_shedule = {
+		"ID" : ds_list.name,
+		"Customer Ref": ds_list.customer_ref,
+		"Date": ds_list.date,	
+		"Driver ID": ds_list.driver_user_id,
+		"Driver Name": ds_list.driver_full_name,
+		"Trip": ds_list.trip,
+		"Delivery Note": ds_list.delivery_note_no,
+		"Mobile No": ds_list.mobile_no,
+		"Contact No": ds_list.contact_no,
+		"Address Line1": ds_list.address1,
+		"Address Line2": ds_list.address2,
+		"Address Line3": ds_list.address3
+
+	}
+
+	attachments = get_attachments("Delivery Schedule", single_delivery_shedule.name)
+	data = attachments
+	k = [sc_get_item_for_list_in_html(r) for r in data]
+	k = "".join(k)
+
+	delivery_shedule.update({"attachments":"<h3>Product Images:</h3>"+k})
+	return delivery_shedule
+
 
 
 
