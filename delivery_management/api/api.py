@@ -8,14 +8,10 @@ from frappe.utils import strip, get_files_path
 from frappe.desk.form.load import get_attachments
 
 from frappe.utils import flt, time_diff_in_hours, get_datetime, getdate, today, cint, get_datetime_str
+from frappe.utils import nowtime
 
-from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
-#from frappe.core.doctype.sms_settings.sms_settings import send_sms
-
-
-
-
-
+#from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
+from frappe.core.doctype.sms_settings.sms_settings import send_sms
 import ast
 from bitly import ping
 
@@ -260,6 +256,7 @@ def update_start_loc_in_ds(name=None,lat=None,lon=None):
 	if ds_doc.name:
 		ds_doc.start_lat = lat
 		ds_doc.start_long = lon
+		ds_doc.start_time=nowtime()
 		ds_doc.status='In Transit'
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
@@ -279,6 +276,7 @@ def update_stop_loc_in_ds(name=None,lat=None,lon=None):
 		if ds_doc.name:
 			ds_doc.stop_lat = lat
 			ds_doc.stop_long = lon
+			ds_doc.stop_time=nowtime()
 			ds_doc.status='Delivered'
 			ds_doc.save(ignore_permissions=True)
 			frappe.db.commit()
