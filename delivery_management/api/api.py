@@ -256,7 +256,7 @@ def update_start_loc_in_ds(name=None,lat=None,lon=None):
 	if ds_doc.name:
 		ds_doc.start_lat = lat
 		ds_doc.start_long = lon
-		ds_doc.start_time=nowtime()
+		ds_doc.start_time=frappe.utils.get_datetime(frappe.utils.now()).strftime("%H:%M:%S")
 		ds_doc.status='In Transit'
 		ds_doc.save(ignore_permissions=True)
 		frappe.db.commit()
@@ -276,7 +276,7 @@ def update_stop_loc_in_ds(name=None,lat=None,lon=None):
 		if ds_doc.name:
 			ds_doc.stop_lat = lat
 			ds_doc.stop_long = lon
-			ds_doc.stop_time=nowtime()
+			ds_doc.stop_time=frappe.utils.get_datetime(frappe.utils.now()).strftime("%H:%M:%S")
 			ds_doc.status='Delivered'
 			ds_doc.save(ignore_permissions=True)
 			frappe.db.commit()
