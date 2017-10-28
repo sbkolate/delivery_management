@@ -1,7 +1,5 @@
 frappe.provide('delivery_management');
 // frappe.require("/assets/delivery_management/js/googlemap.js");
-
-
 frappe.pages['driverdashboard'].on_page_load = function(wrapper) {
 	var page = frappe.ui.make_app_page({
 		parent: wrapper,
@@ -9,21 +7,18 @@ frappe.pages['driverdashboard'].on_page_load = function(wrapper) {
 		single_column: true
 	});
 
-	wrapper.driverdashboard = new delivery_management.Dashboard(wrapper);
+wrapper.driverdashboard = new delivery_management.Dashboard(wrapper);
+// var html = frappe.render_template("maptemplate", {"data":"this is encripted data"})
+var html = "hello"
+$(html).appendTo($(wrapper).find('.layout-main'));
+// frappe.breadcrumbs.add("Clinic Dashboard");
 
-	// var html = frappe.render_template("maptemplate", {"data":"this is encripted data"})
-	var html = "hello"
-	$(html).appendTo($(wrapper).find('.layout-main'));
-	// frappe.breadcrumbs.add("Clinic Dashboard");
-
-	$("<br><div class='row'><div class='party-area col-xs-4' style='margin-left:10px;z-index: 12;'> </div> <div class='party-area col-xs-8'> </div><br><br></div>\
+$("<br><div class='row'><div class='party-area col-xs-4' style='margin-left:10px;z-index: 12;'> </div> <div class='party-area col-xs-8'> </div><br><br></div>\
   <div class='row'>\
 	  	<div class='party-area col-xs-12'>\
 			<div id='myGrid1' style='width:100%;height:500px;''></div>\
 		</div>\
 	</div>").appendTo($(wrapper).find('.layout-main-section'));
-
-
 }
 
 delivery_management.Dashboard = Class.extend
@@ -32,11 +27,18 @@ delivery_management.Dashboard = Class.extend
 		{
 			$.extend(this, opts);
 			this.add_filter()
+
 			this.make_fun();
 			this.page.main.find(".page").css({"padding-top": "0px"});
+
 		},
 		add_filter: function(opts, wrapper,page){
 			console.log("in make party");
+			this.page.set_primary_action(__("Show All Carrier"),
+				function() {  
+					me.show_all_carrier();
+				}, "icon-refresh")
+
     		var me = this;
 			console.log(me.page.wrapper.find("#party-area"));
 	
@@ -70,6 +72,7 @@ delivery_management.Dashboard = Class.extend
 
 		},
 		make_fun: function(){
+		
 		this.page.set_title(__("Dashboard") + " - " + __("Driver Location"));
 		var me = this;
 		setTimeout(function(){
@@ -157,6 +160,83 @@ delivery_management.Dashboard = Class.extend
 		});
 
      },
+     get_location: function(){
+     	var me = this;
+		return frappe.call({
+			method: "delivery_management.delivery_management.page.driverdashboard.driverdashboard.get_driver_all_locations",
+			async:false,
+		
+		callback: function(r)
+			{
+				return  r.message
+			}
+		});
+
+     },
+     show_all_carrier: function(){
+     	var me = this;
+
+     	$.getScript( "http://maps.google.com/maps/api/js?key=AIzaSyCGWFz53x4ukwNmX8B0U51qa9W0t5_df3Y&&sensor=false", function( data, textStatus, jqxhr ) {
+     		console.log( "Load was performed." );
+     		loc = me.get_location();
+			l = JSON.parse(loc["responseText"])
+			var html = frappe.render_template("maptemplate", {"data":"this is encripted data"})
+			$("#myGrid1").html(html)
+			console.log("@@@@@@@@##########@@@@@")
+			console.log(l.message)
+
+			var locations =[];
+			for(i=0;i<l.message.length;i++)
+				{
+					console.log(l.message[i].latitude);
+					console.log(l.message[i].longitude)
+					locations.push([l.message[i].carrier_number, parseFloat(l.message[i].latitude), parseFloat(l.message[i].longitude), i]);
+				}
+	
+
+			// var map = new google.maps.Map(document.getElementById('map'), {
+			// 	zoom: 13,
+			// 	center: new google.maps.LatLng(18.5204, 73.8567),
+			// 	mapTypeId: google.maps.MapTypeId.ROADMAP
+			// });
+				var map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 10,
+					center: new google.maps.LatLng(l.message[1].latitude, l.message[1].longitude),
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				});
+
+
+    				var infowindow = new google.maps.InfoWindow();
+    				var marker, i;
+
+    			for (i = 0; i < locations.length; i++)
+    			{ 
+    				
+    				// console.log(locations[i][2]);
+      				marker = new google.maps.Marker({
+        			position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+        			map: map,
+        
+      			});
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(locations[i][0]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+
+    }
+
+
+});
+  		console.log( "Load was performed." );
+     	console.log("in show all carrier");
+
+
+     	
+
+     }
 
 })
 

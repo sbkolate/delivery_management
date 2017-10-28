@@ -14,11 +14,6 @@ from frappe.utils import flt, time_diff_in_hours, get_datetime, getdate, today, 
 #from erpnext.setup.doctype.sms_settings.sms_settings import send_sms
 from frappe.core.doctype.sms_settings.sms_settings import send_sms
 
-
-
-
-
-
 from frappe.desk.form.load import get_attachments
 from frappe.core.doctype.communication.email import make
 
