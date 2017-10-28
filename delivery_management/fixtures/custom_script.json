@@ -43,5 +43,14 @@
   "name": "User-Client", 
   "script": "frappe.ui.form.on(\"User\", {\n\tafter_save: function(frm) {\n\t\tconsole.log(\"after_save\")\n\t\tfrappe.set_route(\"List\", \"User\");\n\t},\n\trefresh: function(frm) {\n\t\tcur_frm.add_custom_button(__('<i class=\"fa fa-home\" title=\"Back\" style=\"margin-left: 10px;background-color: red;padding: 6px;margin: -10px;border-radius: 5px;color: white;\"> Cancel</i>'),\n\t\t\tfunction () { frappe.set_route(\"/\"); }, 'fa fa-home btn-default', 'btn-danger')\n\t\tif(frm.doc.__islocal == 1) {\n\t\t\t$(\".ellipsis.title-text\").hide()\n\t\t}\n\t\telse{\n\t\t\t$(\".ellipsis.title-text\").show()\n\n\t\t}\n\t}\n});", 
   "script_type": "Client"
+ }, 
+ {
+  "docstatus": 0, 
+  "doctype": "Custom Script", 
+  "dt": "Carrier", 
+  "modified": "2017-09-04 21:16:02.028386", 
+  "name": "Carrier-Client", 
+  "script": "frappe.ui.form.on(\"Carrier\", {\n\tafter_save: function(frm) {\n\t\tconsole.log(\"after_save\")\n\t\tfrappe.set_route(\"List\", \"Carrier\");\n\t},\n\t\n});", 
+  "script_type": "Client"
  }
 ]
