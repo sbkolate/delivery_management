@@ -64,7 +64,7 @@ delivery_management.Dashboard = Class.extend
 					// setTimeout(function(){
 					
 					// 	Set value
-					console.log("#############")
+					
 					console.log(window.location.href)
 					delivery_no= window.location.href.split("/")[5]
 					console.log(delivery_no)
@@ -90,8 +90,14 @@ $.getScript( "http://maps.google.com/maps/api/js?key=AIzaSyCGWFz53x4ukwNmX8B0U51
 		
 		locations = me.get_all_location();
 		b = JSON.parse(locations["responseText"])
+		
 	
-		console.log(b.message)
+		console.log("#############@@@@@@@@")
+		var points = b.message[0].driving_path.match(/[-]{0,1}[\d.]*[\d]+/g);
+		var dest = points.length;
+		console.log(points)
+		console.log("#############@@@@@@@@")
+		
 		
 
 		var html = frappe.render_template("drivermaptemplate", {"data":"this is encripted data"})
@@ -99,13 +105,15 @@ $.getScript( "http://maps.google.com/maps/api/js?key=AIzaSyCGWFz53x4ukwNmX8B0U51
 		var directionsService = new google.maps.DirectionsService();
 		var source = new google.maps.LatLng(b.message[0].start_lat, b.message[0].start_long);
 		var destination = new google.maps.LatLng(b.message[0].stop_lat, b.message[0].stop_long);
+		var des = new google.maps.LatLng(points[points.length-2],points[points.length-1]);
 
+		console.log(points[points.length-2],points[points.length-1])
 		var request = {
 			origin: source,
-    		destination: destination,
+    		destination: des,
     		travelMode: 'DRIVING'
 			};
-			console.log("start locations")
+		console.log("start locations")
 		console.log(b.message);
 		console.log("stop locations")
 		var directionsDisplay = new google.maps.DirectionsRenderer();
