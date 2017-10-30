@@ -47,7 +47,7 @@ def get_driver_all_locations():
 		ELSE ""
 		END AS contact_number,
 		user_id,latitude,longitude, 
-		driver from `tabCarrier` WHERE (latitude IS NOT NULL AND longitude IS NOT NULL) """,as_dict=1)
+		driver from `tabCarrier` WHERE (latitude IS NOT NULL AND longitude IS NOT NULL) AND disabled=0""",as_dict=1)
 
 	# import json
 	# k = json.loads(driver_locations)
