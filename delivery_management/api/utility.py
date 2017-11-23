@@ -63,8 +63,8 @@ def send_delivery_dispatch_alert(name):
 	ds_name = ds_doc.name
 	url_link = short_url(ds_name)
 	subject_line = "Your Hafary order "
-	if ds_name.delivery_note_no:
-		subject_line += ds_name.delivery_note_no
+	if ds_doc.delivery_note_no:
+		subject_line += ds_doc.delivery_note_no
 		subject_line += " "
 	subject_line += "is delivered"
 
