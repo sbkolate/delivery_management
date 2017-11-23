@@ -83,7 +83,7 @@
 
                         <tr>
                           <td style="width: 37%"> Date :</td>
-                          <td style="width: 63%">{{ doc.get_formatted("date") }}</td>
+                          <td style="width: 63%">{{ doc.get_formatted("date") }} {{ frappe.utils.get_datetime(frappe.utils.now()).strftime("%H:%M") }}</td>
                         </tr>
 
                         <tr>
