@@ -93,10 +93,11 @@
 
                         <tr>
                           <td style="width: 37%"> Address : </td>
-                          <td style="width: 63%">{{doc.address_line_1 or ""}} &nbsp;
-                            {% if doc.address_line_2 %},{{ doc.address_line_2 }}{% endif -%}&nbsp; 
-                            {% if doc.address_line_3 %},{{ doc.address_line_3 }}{% endif -%}&nbsp; 
-                            {% if doc.pin_code %}- {{ doc.pin_code }}{% endif -%}
+                          <td style="width: 63%">{{doc.address_line_1 or ""}}
+                            {% if doc.address_line_2 %},&nbsp;
+                            {{ doc.address_line_2 }}{% endif -%} 
+                            {% if doc.address_line_3 %},&nbsp;{{ doc.address_line_3 }}{% endif -%}
+                            {% if doc.pin_code %}&nbsp; - {{ doc.pin_code }}{% endif -%}
                           </td>
                         </tr>
 
