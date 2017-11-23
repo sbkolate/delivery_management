@@ -55,15 +55,19 @@ window.render_product_list = function(data) {
 
 	html +="<tr>\
     			<td>Address</td><td>"
-    html += data["Address Line1"]+","
-    html += data["Address Line2"]+","
-    html += data["Address Line3"]
+    html += data["Address Line1"]
+    if(data["Address Line2"]){
+    	html += ", "+ data["Address Line2"]
+    }
+    if(data["Address Line3"]){
+    	html += ", "+ data["Address Line3"]
+    }
+    if(data["pin_code"]){
+   	 	html += " - "+ data["pin_code"]
+    }
+
     html +=  "</td></tr>"
 
-   	html +="<tr>\
-    			<td>Driver Name</td><td>"
-    html += data["Driver Name"]
-    html +=  "</td></tr>"
 
     html +="<tr>\
     			<td>Delivery Note</td><td>"
@@ -71,12 +75,12 @@ window.render_product_list = function(data) {
     html +=  "</td></tr>"
 
     html +="<tr>\
-    			<td>Contact No</td><td>"
+    			<td>Customer Contact No</td><td>"
     html += data["Contact No"]
     html +=  "</td></tr>"
 
     html +="<tr>\
-    			<td>Mobile No</td><td>"
+    			<td>Customer Mobile No</td><td>"
     html += data["Mobile No"]
     html +=  "</td></tr>"
     html +=  "</table>"

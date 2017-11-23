@@ -62,7 +62,13 @@ def send_delivery_dispatch_alert(name):
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
 	ds_name = ds_doc.name
 	url_link = short_url(ds_name)
-	subject = _("Your Hafary order is delivered")
+	subject_line = "Your Hafary order "
+	if ds_name.delivery_note_no:
+		subject_line += ds_name.delivery_note_no
+		subject_line += " "
+	subject_line += "is delivered"
+
+	subject = _(subject_line)
 	
 	# sender = frappe.session.user not in STANDARD_USERS and frappe.session.user or None
 	sender = "enquiry@hafary.com.sg"
@@ -136,7 +142,9 @@ def get_single_delivery_myorderpage(name=None):
 		ifnull(delivery_note_no, '') AS delivery_note_no,
 		ifnull(address_line_1, '')AS address1,
 		ifnull(address_line_2, '')AS address2,
-		ifnull(address_line_3, '')AS address3
+		ifnull(address_line_3, '')AS address3,
+		ifnull(pin_code, '')AS pin_code
+
 		from `tabDelivery Schedule` WHERE name='{0}' """.format(name),as_dict=1)
 	
 	if ds_list:
@@ -154,7 +162,8 @@ def get_single_delivery_myorderpage(name=None):
 		"Contact No": ds_list.contact_no,
 		"Address Line1": ds_list.address1,
 		"Address Line2": ds_list.address2,
-		"Address Line3": ds_list.address3
+		"Address Line3": ds_list.address3,
+		"pin_code": ds_list.pin_code
 
 	}
 
