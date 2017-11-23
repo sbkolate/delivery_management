@@ -100,20 +100,22 @@ def send_delivery_dispatch_alert(name):
 			message = ""
 			message += "Hello your order "
 			message += ds_doc.delivery_note_no
-			message += " is Returned.\nPlease see details \n"
+			message += " has been Returned.\nClick "
 			ds_name = ds_doc.name
 			short_url_link = short_url(ds_name)
 			message += short_url_link
-			send_message_api(ds_doc.mobile_no,message)
+			message += " to view details.\nThank you."
 
 		elif ds_doc.is_return=="No":
 			message = ""
 			message += "Hello your order "
 			message += ds_doc.delivery_note_no
-			message += " is Delivered.\nPlease see details \n"
+			message += " has been Delivered.\nClick "
 			ds_name = ds_doc.name
 			short_url_link = short_url(ds_name)
 			message += short_url_link
+			message += " to view details.\nThank you."
+
 			send_message_api(ds_doc.mobile_no,message)
 
 
