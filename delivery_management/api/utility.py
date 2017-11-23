@@ -98,7 +98,7 @@ def send_delivery_dispatch_alert(name):
 	if ds_doc.mobile_no:
 		if ds_doc.is_return=="Yes":
 			message = ""
-			message += "Hello your order "
+			message += "Dear Customer,\nYour order "
 			message += ds_doc.delivery_note_no
 			message += " has been Returned.\nClick "
 			ds_name = ds_doc.name
@@ -108,7 +108,7 @@ def send_delivery_dispatch_alert(name):
 
 		elif ds_doc.is_return=="No":
 			message = ""
-			message += "Hello your order "
+			message += "Dear Customer,\nYour order "
 			message += ds_doc.delivery_note_no
 			message += " has been Delivered.\nClick "
 			ds_name = ds_doc.name
