@@ -114,7 +114,7 @@ def send_delivery_dispatch_alert(name):
 			message = ""
 			message += "Dear Customer,\nYour order "
 			message += ds_doc.delivery_note_no
-			message += "has been Delivered.\nClick "
+			message += " has been Delivered.\nClick "
 			ds_name = ds_doc.name
 			short_url_link = short_url(ds_name)
 			message += short_url_link
