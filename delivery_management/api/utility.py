@@ -71,7 +71,7 @@ def send_delivery_dispatch_alert(name):
 	subject = _(subject_line)
 	
 	# sender = frappe.session.user not in STANDARD_USERS and frappe.session.user or None
-	sender = "enquiry@hafary.com.sg"
+	sender = "no-reply@hafary.com.sg"
 	if ds_doc.is_return=="No":
 		message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.delivery_note_no +" is delivered.<br>For more info click here   "+url_link+"<br>"+"Kindly Find the attachment."
 	elif ds_doc.is_return=="Yes":
@@ -84,13 +84,17 @@ def send_delivery_dispatch_alert(name):
 	# ds_doc.send_email(recipients, sender, subject, message, attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
 	
 	#convert msg html
+	# 	frappe.sendmail(recipients=recipients, sender=sender, subject="Your Hafary order is returned",
+	# 		message=email_html,  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
+
 	
+	#without print
 	if ds_doc.is_return=="No":
 		frappe.sendmail(recipients=recipients, sender=sender, subject=subject,
-			message=email_html,  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
+			message=email_html)
 	elif ds_doc.is_return=="Yes":
 		frappe.sendmail(recipients=recipients, sender=sender, subject="Your Hafary order is returned",
-			message=email_html,  attachments=[frappe.attach_print("Delivery Schedule", name, file_name=name,print_format="Delivery Schedule")])
+			message=email_html)
 
 	
 	#send sms
@@ -110,7 +114,7 @@ def send_delivery_dispatch_alert(name):
 			message = ""
 			message += "Dear Customer,\nYour order "
 			message += ds_doc.delivery_note_no
-			message += " has been Delivered.\nClick "
+			message += "has been Delivered.\nClick "
 			ds_name = ds_doc.name
 			short_url_link = short_url(ds_name)
 			message += short_url_link
