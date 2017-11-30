@@ -12,7 +12,8 @@ from frappe.core.doctype.communication.email import make
 class DeliverySchedule(Document):
 	def validate(self):
 		if self.lorry_no:
-			self.carrier = self.lorry_no
+			if not self.carrier:
+				self.carrier = self.lorry_no
 
 		carrier_trip = "{0} - {1}".format(self.carrier,self.trip)
 		self.carrier_trip = carrier_trip
