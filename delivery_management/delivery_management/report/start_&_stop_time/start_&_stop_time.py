@@ -35,7 +35,7 @@ def get_data(filters):
 		DATE_FORMAT(date,"%d-%m-%Y"),email,carrier,trip,delivery_note_no,
 		TIME_FORMAT(start_time,"%H:%m"),
 		TIME_FORMAT(stop_time,"%H:%m"),
-		TIMEDIFF(start_time-stop_time,"%H:%m:%s")status,driver_full_name,driver,name,
+		TIMEDIFF('start_time','stop_time'),status,driver_full_name,driver,name,
 		customer_ref,
 		CONCAT(address_line_1,' ',address_line_2,' ',address_line_3)AS Address,mobile_no,
 		contact_no,is_return,remarks
