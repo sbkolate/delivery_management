@@ -18,8 +18,8 @@ def validate_filters(filters):
 
 
 def  get_colums():
-	columns =["Date:Data:95"]+["Email:data:95"]+["Start Time:Time:120"]+["Stop Time:Time:120"]+["Driver Id:Link/Driver:60"]+["Delivery Schedule:data:120"]+["Driver:data:120"]+["Customer:Link/Customer:120"]+["Address:data:200"]+["Mobile No:Data:120"]+["Contact No:Data:120"]\
-						 +["D/O No:data:80"]+["Trip:Data:60"]+["Lorry No:Link/Carrier"]+["Is Return:data:100"]+["Status:Select:100"]+["Remark:data:250"]
+	columns =["Date:Data:95"]+["Email:data:130"]+["Lorry No:Link/Carrier"]+["Trip No:Data:60"]+["D/O No:data:80"]+["Start Time:Time:90"]+["Stop Time:Time:90"]+["Trip Duration:Time:90"]+["Status:Select:100"]+["Driver:data:120"]+["Driver Id:Link/Driver:60"]+["Delivery Schedule:data:120"]+["Customer:Link/Customer:120"]+["Address:data:200"]+["Mobile No:Data:120"]+["Contact No:Data:120"]\
+						 +["Is Return:data:100"]+["Remark:data:250"]
 	return columns
 
 
@@ -32,12 +32,13 @@ def get_data(filters):
 
 
 	dl = frappe.db.sql("""select 
-		DATE_FORMAT(date,"%d-%m-%Y"),email,
-		TIME_FORMAT(start_time,"%H-%m-%S"),
-		TIME_FORMAT(stop_time,"%H-%m-%S"),driver,name,driver_full_name,
+		DATE_FORMAT(date,"%d-%m-%Y"),email,carrier,trip,delivery_note_no,
+		TIME_FORMAT(start_time,"%H:%m"),
+		TIME_FORMAT(stop_time,"%H:%m"),
+		TIMEDIFF(start_time-stop_time,"%H:%m:%s")status,driver_full_name,driver,name,
 		customer_ref,
 		CONCAT(address_line_1,' ',address_line_2,' ',address_line_3)AS Address,mobile_no,
-		contact_no,delivery_note_no,trip,carrier,is_return,status,remarks
+		contact_no,is_return,remarks
 		from `tabDelivery Schedule`
 		{0} 
 		 ORDER BY driver,trip,modified desc""".format(filter_condition),as_list=1,debug=1)

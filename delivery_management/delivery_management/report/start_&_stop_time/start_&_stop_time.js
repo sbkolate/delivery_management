@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 /* eslint-disable */
 
-frappe.query_reports["Delivery Schedule Report"] = {
+frappe.query_reports["Start & Stop Time"] = {
 	"filters": [
 		{
 			"fieldname":"from_date",
