@@ -5,18 +5,47 @@
 
 
 <hr>
-<table class="table table-bordered">
+<table width="100%" class="table table-bordered" style="margin: 20px -71px;">
 	<thead>
 		<tr>
-			<th style="width: 10%">
+			<th style="width: 3% !important;">
 				{%= __("Sr No") %}
 			</th>
-			<th style="width: 12%">
-				{%= __("Date (INV#)") %}
+			<th style="width: 9% !important;">
+				{%= __("Date") %}
 			</th>
-			<th style="width: 12%">
-				{%= __("Date (INV#)") %}
+			<th style="width: 7%">
+				{%= __("Driver Name") %}
 			</th>
+			<th style="width: 10%;">
+				{%= __("Driver Email") %}
+			</th>
+			<th style="width: 13%;">
+				{%= __("Lorry No") %}
+			</th>
+			<th style="width: 3%;">
+				{%= __("Trip No") %}
+			</th>
+			<th style="width: 7%;">
+				{%= __("D/O No") %}
+			</th>
+			<th style="width: 10%;">
+				{%= __("Start Time") %}
+			</th>
+			<th style="width: 10%;">
+				{%= __("Stop Time") %}
+			</th>
+			<th style="width: 10%;">
+				{%= __("Trip Duration") %}
+			</th>
+			<th style="width: 10%;">
+				{%= __("Status") %}
+			</th>
+			<th style="width: 8%;">
+				{%= __("Is Return") %}
+			</th>
+
+
 
 		</tr>
 	</thead>
@@ -28,12 +57,38 @@
 				</td>
 				<td>
 					{%= frappe.datetime.str_to_user(data[i][__("Date")]) %}
-
-					
 				</td>
 				<td>
 					{%= data[i][__("Driver Full Name")] %}
 				</td>
+				<td>
+					{%= data[i][__("Driver Email")] %}
+				</td>
+				<td>
+					{%= data[i][__("Lorry No")] %}
+				</td>
+				<td>
+					{%= data[i][__("Trip No")] %}
+				</td>
+				<td>
+					{%= data[i][__("D/O No")] %}
+				</td>
+				<td>
+					{%= data[i][__("Start Time")] %}
+				</td>
+				<td>
+					{%= data[i][__("Stop Time")] %}
+				</td>
+				<td>
+					{%= data[i][__("Trip Duration")] %}
+				</td>
+				<td>
+					{%= data[i][__("Status")] %}
+				</td>
+				<td>
+					{%= data[i][__("Is Return")] %}
+				</td>
+				
 
 			</tr>
 		{% } %}
