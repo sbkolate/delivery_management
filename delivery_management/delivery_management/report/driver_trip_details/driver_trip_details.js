@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 /* eslint-disable */
 
-frappe.query_reports["Start & Stop Time"] = {
+frappe.query_reports["Driver Trip Details"] = {
 	"filters": [
 		{
 			"fieldname":"from_date",
