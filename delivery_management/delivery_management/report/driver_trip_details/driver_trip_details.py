@@ -18,7 +18,7 @@ def validate_filters(filters):
 
 
 def  get_colums():
-	columns =["Date:Data:95"]+["Driver Full Name:Data:130"]+["Driver Email:data:130"]+["Lorry No:Link/Carrier"]\
+	columns =["Date:Date:95"]+["Driver Full Name:Data:130"]+["Driver Email:data:130"]+["Lorry No:Link/Carrier"]\
 		+["Trip No:Data:60"]+["D/O No:data:80"]+["Start Time:Time:90"]\
 		+["Stop Time:Time:90"]+["Trip Duration:Time:90"]\
 		+["Status:Select:100"]+["Is Return:data:100"]\
@@ -38,7 +38,7 @@ def get_data(filters):
 
 
 	dl = frappe.db.sql("""select 
-		DATE_FORMAT(date,"%d-%m-%Y"),
+		date,
 		CASE when (1=1)
 			then (select full_name from `tabDriver` where name = `tabDelivery Schedule`.driver)
 			else ""
