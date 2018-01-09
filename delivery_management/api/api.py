@@ -51,7 +51,7 @@ def update_img_in_delivery_schedule(name=None,img_1=None,img_2=None,img_3=None,i
 		img_count = int(ds_doc.img_count) + 1
 		img_name = "_img"+ str(img_count) +".png"
 		
-		ds_doc.img_1 = img_1
+		# ds_doc.img_1 = img_1
 		ds_doc.img_count = img_count
 
 		file_url += img_name
@@ -81,7 +81,7 @@ def update_img_in_delivery_schedule(name=None,img_1=None,img_2=None,img_3=None,i
 		img_count = int(ds_doc.img_count) + 1
 		img_name = "_img"+ str(img_count) +".png"
 		
-		ds_doc.img_2 = img_2
+		# ds_doc.img_2 = img_2
 		ds_doc.img_count = img_count
 
 		file_url += img_name
@@ -111,7 +111,7 @@ def update_img_in_delivery_schedule(name=None,img_1=None,img_2=None,img_3=None,i
 		img_count = int(ds_doc.img_count) + 1
 		img_name = "_img"+ str(img_count) +".png"
 		
-		ds_doc.img_3 = img_3
+		# ds_doc.img_3 = img_3
 		ds_doc.img_count = img_count
 
 		file_url += img_name
@@ -141,7 +141,7 @@ def update_img_in_delivery_schedule(name=None,img_1=None,img_2=None,img_3=None,i
 		img_count = int(ds_doc.img_count) + 1
 		img_name = "_img"+ str(img_count) +".png"
 		
-		ds_doc.img_4 = img_4
+		# ds_doc.img_4 = img_4
 		ds_doc.img_count = img_count
 
 		file_url += img_name
