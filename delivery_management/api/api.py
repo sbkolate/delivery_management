@@ -32,6 +32,16 @@ def ping():
 def update_img_in_delivery_schedule(name=None,img_1=None,img_2=None,img_3=None,img_4=None):
 	ds_doc = frappe.get_doc("Delivery Schedule", name)
 	
+	if ds_doc.status != "Delivered":
+		if ds_doc.name:
+			# ds_doc.stop_lat = lat
+			# ds_doc.stop_long = lon
+			ds_doc.stop_time=frappe.utils.get_datetime(frappe.utils.now()).strftime("%H:%M:%S")
+			ds_doc.status='Delivered'
+			ds_doc.save(ignore_permissions=True)
+			frappe.db.commit()
+			send_delivery_dispatch_alert(ds_doc.name)
+			
 	if ds_doc.name:
 		ds_doc.flags.ignore_permissions = True
 		ds_doc.save(ignore_permissions=True)
