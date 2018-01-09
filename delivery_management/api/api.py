@@ -23,7 +23,7 @@ from delivery_management.api.utility import update_location_for_carrier, short_u
 
 STANDARD_USERS = ("Guest", "Administrator")
 
-
+#test api
 @frappe.whitelist(allow_guest=True)
 def ping():
 	return "pong"
