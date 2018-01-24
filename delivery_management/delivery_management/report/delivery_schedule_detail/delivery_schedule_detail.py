@@ -18,8 +18,10 @@ def  get_colums():
 	# +["Pin Code:60"]+["Contact No:60"]+["Mobile No:60"]+["Email:60"]+["Remark:60"]
 	# return columns
 
-	columns =["Date:Data:95"]+["Driver:data:120"]+["Customer:Link/Customer:120"]+["Address:data:200"]+["Mobile No:Data:130"]\
-						 +["D/O No:data:80"]+["Remark:data:250"]+["Trip:Data:60"]#+["Lorry No:60"] + ["name:Data:120"]
+	columns =["Date:Data:95"]+["Driver:data:120"]\
+			+["Customer:Link/Customer:120"]+["Address:data:200"]\
+			+["Contact Person Name:Data:130"]+["Mobile No:Data:130"]\
+			+["D/O No:data:80"]+["Remark:data:250"]+["Trip:Data:60"]#+["Lorry No:60"] + ["name:Data:120"]
 	return columns
 
 def get_data(filters):
@@ -40,7 +42,7 @@ def get_data(filters):
 		DATE_FORMAT(date,"%d-%m-%Y"),driver_full_name,
 		customer_ref,
 		CONCAT(address_line_1,' ',address_line_2,' ',address_line_3)AS Address,
-		mobile_no,delivery_note_no,
+		contact_person_name,mobile_no,delivery_note_no,
 		remarks,trip,
 		carrier, name
 		from `tabDelivery Schedule`
@@ -51,9 +53,9 @@ def get_data(filters):
 	t=""
 	for i in dl:
 		# print i[7]
-		if k!= i[7]:
-			dl.insert(dl.index(i),[(i[0]),i[1],"<b>Trip No</b>",i[7],"Lorry No",i[8],"-",i[7],"flag"])
-		k = i[7]
+		if k!= i[8]:
+			dl.insert(dl.index(i),[(i[0]),i[1],"<b>Trip No</b>",i[8],"","Lorry No",i[9],"-",i[8],"flag"])
+		k = i[8]
 
 	
 	# if dl:

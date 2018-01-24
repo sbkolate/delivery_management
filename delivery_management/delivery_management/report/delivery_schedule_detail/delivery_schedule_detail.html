@@ -9,38 +9,49 @@
 	<tbody>
 		<tr>
 			<td>
-			<b> Date </b>
+			<b> Date: </b>{%= data[i][__("Date")] %}
 				
 			</td>
 			<td>
-			{%= data[i][__("Date")] %}
+			
 			</td>
 			<td><b></b></td>
-			<td><b>Lorry:</b></td>
-			<td>{%= data[i][__("D/O No")]  %}</td>
+			<td><b>Lorry: </b> {%= data[i][__("D/O No")]  %}
+			</td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td>
-			<b> {%= __("Trip No.") %} </b>
-				
+				<b>{%= __("Trip No.") %}: </b> {%= data[i][__("Address")]  %}
+					
 			</td>
-			<td>{%= data[i][__("Address")]  %}</td>
 			<td></td>
-			<td><b>Driver:</b></td>
-			<td>{%= data[i][__("Driver")]  %}</td>
+			<td></td>
+			<td><b>Driver:</b> {%= data[i][__("Driver")]  %}</td>
+			<td></td>
+			<td></td>
 		</tr>
 
 		<tr>
-			<td style="width: 15%;background-color: lightgray;border: 1px solid black;">
-				{%= __("Customer") %}</td>
+			<td style="width: 12%;background-color: lightgray;border: 1px solid black;">
+				<b>{%= __("Customer") %}</b>
+			</td>
 			<td style="width: 25%;background-color: lightgray;border: 1px solid black;">
-				{%= __("Address") %}</td>
-			<td style="width: 10%;background-color: lightgray;border: 1px solid black;">
-				{%= __("Mobile No") %}</td>
-			<td style="width: 10%;background-color: lightgray;border: 1px solid black;">
-				{%= __("D/O No") %}</td>
+				<b>{%= __("Address") %}</b>
+			</td>
 			<td style="width: 15%;background-color: lightgray;border: 1px solid black;">
-				{%= __("Remarks") %}</td>
+				<b>{%= __("Contact Person Name") %}</b>
+			</td>
+			<td style="width: 12%;background-color: lightgray;border: 1px solid black;">
+				<b>{%= __("Mobile No") %}</b>
+			</td>
+			<td style="width: 10%;background-color: lightgray;border: 1px solid black;">
+				<b>{%= __("D/O No") %}</b>
+			</td>
+			<td style="width: 15%;background-color: lightgray;border: 1px solid black;">
+				<b>{%= __("Remarks") %}</b>
+			</td>
 		</tr>
 
 
@@ -52,12 +63,14 @@
 
 {% if (data[i][__("Trip")] == data[k][__("Trip")] )  {-%}
 
-{% if ((data[k][__("Contact No")] != "Lorry No") && (data[k][__("Driver")] == data[i][__("Driver")] ))  {-%}
+{% if ((data[k][__("Mobile No")] != "Lorry No") && (data[k][__("Driver")] == data[i][__("Driver")] ))  {-%}
 
 		<tr>
 			<td>{%= data[k][__("Customer")]  %}</td>
 			<td>{%= data[k][__("Address")]  %}</td>
+			<td>{%= data[k][__("Contact Person Name")]  %}</td>
 			<td>{%= data[k][__("Mobile No")]  %}</td>
+			
 			<td>{%= data[k][__("D/O No")]  %}</td>
 			<td>{%= data[k][__("Remark")]  %}</td>
 
@@ -74,7 +87,7 @@
 	</tbody>
 </table>
 
-{% if ((data[i][__("Contact No")] == "Lorry No"))  {-%}
+{% if ((data[i][__("Mobile No")] == "Lorry No"))  {-%}
 
 
 
