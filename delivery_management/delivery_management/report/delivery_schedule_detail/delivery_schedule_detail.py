@@ -41,7 +41,7 @@ def get_data(filters):
 	dl = frappe.db.sql("""select 
 		DATE_FORMAT(date,"%d-%m-%Y"),driver_full_name,
 		customer_ref,
-		CONCAT(address_line_1,' ',address_line_2,' ',address_line_3)AS Address,
+		CONCAT(COALESCE(address_line_1,''),' ',COALESCE(address_line_2,''),' ',COALESCE(address_line_3,''))AS Address,
 		contact_person_name,mobile_no,delivery_note_no,
 		remarks,trip,
 		carrier, name
