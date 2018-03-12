@@ -65,9 +65,15 @@ def get_data():
 				{
 					"type": "report",
 					"is_query_report": True,
-					"name": "Driver Trip Details",
+					"name": "Delivery Schedule Tracking",
 					"doctype": "Delivery Schedule"
 				},
+				# {
+				# 	"type": "report",
+				# 	"is_query_report": True,
+				# 	"name": "Driver Trip Details",
+				# 	"doctype": "Delivery Schedule"
+				# },
 				{
 					"type": "report",
 					"is_query_report": True,
