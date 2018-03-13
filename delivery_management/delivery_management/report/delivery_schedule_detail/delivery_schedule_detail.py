@@ -47,7 +47,7 @@ def get_data(filters):
 		carrier, name
 		from `tabDelivery Schedule`
 		{0} 
-		 ORDER BY driver,trip,modified desc""".format(filter_condition),as_list=1,debug=1)
+		 ORDER BY driver,trip,creation """.format(filter_condition),as_list=1,debug=1)
 	print "\n\nddl",dl
 	k=""
 	t=""
