@@ -32,10 +32,15 @@ def get_data(filters):
 	if filters.get("from_date"):
 		filter_condition += " where date = '" + filters.get("from_date") + "'"
 	
-	if filters.get("from_date") or filters.get("carrier") or filters.get("delivery_note_no"):
-		filter_condition += " and delivery_note_no = '" + filters.get("delivery_note_no") +"'"
+	if filters.get("carrier"):
+		filter_condition += " and carrier = '" + filters.get("carrier") +"'"
 		print("################")
 		print(filter_condition)
+
+	if filters.get("delivery_note_no") or filters.get("carrier"):
+		filter_condition += " and delivery_note_no = '" + filters.get("delivery_note_no") +"'"
+	# 	print("################")
+	# 	print(filter_condition)
 
 	elif filters.get("carrier"):
 		filter_condition += " where carrier = '" + filters.get("carrier") + "'"
