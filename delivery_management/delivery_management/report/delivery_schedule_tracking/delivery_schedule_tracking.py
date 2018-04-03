@@ -36,7 +36,22 @@ def get_data(filters):
 	
 
 	if filters.get("carrier"):
-		filter_condition += " and carrier = '" + filters.get("carrier") + "'"
+		filter_condition += " and carrier = '" + filters.get("carrier") +"'"
+		print("################")
+		print(filter_condition)
+
+	# if filters.get("delivery_note_no") or filters.get("carrier"):
+	# 	filter_condition += " and delivery_note_no = '" + filters.get("delivery_note_no") +"'"
+	# 	print("################")
+	# 	print(filter_condition)
+
+	elif filters.get("carrier"):
+		filter_condition += " where carrier = '" + filters.get("carrier") + "'"
+
+
+# 	if filters.get("carrier"):
+# 		filter_condition += " and carrier = '" + filters.get("carrier") + "'"
+# >>>>>>> f91afe2fa5ceccaf5ccb109f710dc4b695158f2e
 	
 	if filters.get("delivery_note_no"):
 		filter_condition += "  and delivery_note_no LIKE '%" + filters.get("delivery_note_no") + "%'"
