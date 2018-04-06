@@ -386,6 +386,14 @@ def send_message_api(mobile_no=None,message=None):
 		ds_sms.message = message
 		ds_sms.save(ignore_permissions=True)
 		frappe.db.commit()
+
+		import requests
+		url = 'https://bulksms.vsms.net/eapi/submission/send_sms/2/2.0?username=Hafary&password=Hafary@123&message='
+		url+= message
+		url+='&msisdn='
+		url+=mobile_no
+		r = requests.get(url)
+
 		send_sms([mobile_no],message)
 		return "success"
 	else:

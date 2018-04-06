@@ -26,6 +26,13 @@ def send_message_api(mobile_no=None,message=None):
 		ds_sms.message = message
 		ds_sms.save(ignore_permissions=True)
 		frappe.db.commit()
+		import requests
+		url = 'https://bulksms.vsms.net/eapi/submission/send_sms/2/2.0?username=Hafary&password=Hafary@123&message='
+		url+= message
+		url+='&msisdn='
+		url+=mobile_no
+		r = requests.get(url)
+
 		send_sms([mobile_no],message)
 		return "success"
 	else:
@@ -109,6 +116,7 @@ def send_delivery_dispatch_alert(name):
 			short_url_link = short_url(ds_name)
 			message += short_url_link
 			message += " to view details.\nThank you."
+			send_message_api(ds_doc.mobile_no,message)
 
 		elif ds_doc.is_return=="No":
 			message = ""
