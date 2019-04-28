@@ -29,7 +29,7 @@ class DeliverySchedule(Document):
 				pass
 			else:
 				self.mobile_no = "+65"+self.mobile_no
-
+			self.mobile_no = self.mobile_no.replace(" ", "")
 
 
 		if self.contact_no:
@@ -37,6 +37,9 @@ class DeliverySchedule(Document):
 				pass
 			else:
 				self.contact_no = "+65"+self.contact_no
+			
+			self.contact_no = self.contact_no.replace(" ", "")
+
 
 	def get_attachments(self):
 		attachments = [d.name for d in get_attachments(self.doctype, self.name)]
