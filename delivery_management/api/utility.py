@@ -84,6 +84,7 @@ def send_delivery_dispatch_alert(name):
 	elif ds_doc.is_return=="Yes":
 		message="Hi "+ds_doc.contact_person_name+","+" <br> Your Delivery with DN:"+ds_doc.name +" is Returned.<br>For more info click here   "+url_link+"<br>"+"Kindly Find the attachment."
 
+	#send_message_api(ds_doc.mobile_no, message)
 	# attachments = ds_doc.get_attachments()
 	recipients = ds_doc.email
 	email_html = frappe.render_template("templates/include/dispatchalert.html", {"doc":ds_doc, "short_url": url_link })
