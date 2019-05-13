@@ -55,14 +55,18 @@ def short_url(url):
 	host_name = frappe.get_site_config().host_name
 	# base_url = "http://hafarydev.digitalprizm.net/myorder?name="
 	base_url = host_name + "/myorder?name=" + url
-	print "********\n\n\n"
-	print(base_url)
-	post_url = 'https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyDaTiY50Ly3rLN5Ox8R3jpADtri2RT6fcU'
-	params = json.dumps({'longUrl': base_url})
-	response = requests.post(post_url,params,headers={'Content-Type': 'application/json'})
-	google_url = response.json()
-	print (google_url['id'])
-	return google_url['id']
+	# print "********\n\n\n"
+	# print(base_url)
+	# post_url = 'https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyDaTiY50Ly3rLN5Ox8R3jpADtri2RT6fcU'
+	# params = json.dumps({'longUrl': base_url})
+	# response = requests.post(post_url,params,headers={'Content-Type': 'application/json'})
+	# google_url = response.json()
+	# print (google_url['id'])
+	# return google_url['id']
+
+	short_url=requests.get("http://tinyurl.com/api-create.php?url="+base_url)
+	return short_url._content
+
 
 
 def send_delivery_dispatch_alert(name):
