@@ -69,9 +69,10 @@ def short_url(url):
 	return short_url._content
 
 
-
+@frappe.whitelist(allow_guest=True)
 def send_delivery_dispatch_alert(name):
 	
+	print("\n\n=========",name)
 	#send sms
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
 	ds_name = ds_doc.name
