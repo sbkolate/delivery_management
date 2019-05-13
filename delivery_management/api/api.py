@@ -31,7 +31,7 @@ def ping():
 @frappe.whitelist(allow_guest=True)
 def update_img_in_delivery_schedule(name=None,img_1=None,img_2=None,img_3=None,img_4=None):
 	ds_doc = frappe.get_doc("Delivery Schedule", name)
-	send_delivery_dispatch_alert(ds_doc.name)
+	
 	if ds_doc.status != "Delivered":
 		if ds_doc.name:
 			# ds_doc.stop_lat = lat
@@ -40,7 +40,7 @@ def update_img_in_delivery_schedule(name=None,img_1=None,img_2=None,img_3=None,i
 			ds_doc.status='Delivered'
 			ds_doc.save(ignore_permissions=True)
 			
-			
+			send_delivery_dispatch_alert(ds_doc.name)
 			frappe.db.commit()
 	if ds_doc.name:
 		ds_doc.flags.ignore_permissions = True
@@ -281,7 +281,7 @@ def update_stop_loc_in_ds(name=None,lat=None,lon=None):
 	attachments = get_attachments("Delivery Schedule", ds_doc.name)
 		# if not attachments:
 		# 	return {"message":"product_image_missing"}
-	send_delivery_dispatch_alert(ds_doc.name)
+	
 
 	if ds_doc.status != "Delivered":
 		if ds_doc.name:
@@ -291,6 +291,7 @@ def update_stop_loc_in_ds(name=None,lat=None,lon=None):
 			ds_doc.status='Delivered'
 			ds_doc.save(ignore_permissions=True)
 			frappe.db.commit()
+			send_delivery_dispatch_alert(ds_doc.name)
 			
 
 			if ds_doc.carrier:
