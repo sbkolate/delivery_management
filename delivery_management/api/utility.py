@@ -25,7 +25,7 @@ def send_message_api(mobile_no=None,message=None):
 		ds_sms.send_to = mobile_no
 		ds_sms.message = message
 		ds_sms.save(ignore_permissions=True)
-		frappe.db.commit()
+		
 		#import requests
 		#url = 'https://bulksms.vsms.net/eapi/submission/send_sms/2/2.0?username=Hafary&password=Hafary@123&message='
 		#url+= message
@@ -34,6 +34,7 @@ def send_message_api(mobile_no=None,message=None):
 		#r = requests.get(url)
 
 		send_sms([mobile_no],message)
+		frappe.db.commit()
 		return "success"
 	else:
 		return "SMS not send"
@@ -70,8 +71,37 @@ def short_url(url):
 
 
 def send_delivery_dispatch_alert(name):
+	
+	#send sms
 	ds_doc = frappe.get_doc("Delivery Schedule", str(name))
 	ds_name = ds_doc.name
+	if ds_doc.mobile_no:
+		if ds_doc.is_return=="Yes":
+			message = ""
+			message += "Dear Customer,\nYour order "
+			message += ds_doc.delivery_note_no
+			message += " has been Returned.\nClick "
+			ds_name = ds_doc.name
+			short_url_link = short_url(ds_name)
+			message += short_url_link
+			message += " to view details.\nThank you."
+			send_message_api(ds_doc.mobile_no,message)
+
+		elif ds_doc.is_return=="No":
+			message = ""
+			message += "Dear Customer,\nYour order "
+			message += ds_doc.delivery_note_no
+			message += " has been Delivered.\nClick "
+			ds_name = ds_doc.name
+			short_url_link = short_url(ds_name)
+			message += short_url_link
+			message += " to view details.\nThank you."
+
+			send_message_api(ds_doc.mobile_no,message)
+
+		print(message)
+
+
 	url_link = short_url(ds_name)
 	subject_line = "Your Hafary order "
 	if ds_doc.delivery_note_no:
@@ -107,33 +137,6 @@ def send_delivery_dispatch_alert(name):
 	elif ds_doc.is_return=="Yes":
 		frappe.sendmail(recipients=recipients, sender=sender, subject="Your Hafary order is returned",
 			message=email_html)
-
-	
-	#send sms
-
-	if ds_doc.mobile_no:
-		if ds_doc.is_return=="Yes":
-			message = ""
-			message += "Dear Customer,\nYour order "
-			message += ds_doc.delivery_note_no
-			message += " has been Returned.\nClick "
-			ds_name = ds_doc.name
-			short_url_link = short_url(ds_name)
-			message += short_url_link
-			message += " to view details.\nThank you."
-			send_message_api(ds_doc.mobile_no,message)
-
-		elif ds_doc.is_return=="No":
-			message = ""
-			message += "Dear Customer,\nYour order "
-			message += ds_doc.delivery_note_no
-			message += " has been Delivered.\nClick "
-			ds_name = ds_doc.name
-			short_url_link = short_url(ds_name)
-			message += short_url_link
-			message += " to view details.\nThank you."
-
-			send_message_api(ds_doc.mobile_no,message)
 
 
 
