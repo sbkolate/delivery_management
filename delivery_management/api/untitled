@@ -1,0 +1,166 @@
+
+Date.prototype.getMonthName = function(lang) {
+    lang = lang && (lang in Date.locale) ? lang : 'en';
+    return Date.locale[lang].month_names[this.getMonth()];
+};
+
+Date.prototype.getMonthNameShort = function(lang) {
+    lang = lang && (lang in Date.locale) ? lang : 'en';
+    return Date.locale[lang].month_names_short[this.getMonth()];
+};
+
+Date.locale = {
+    en: {
+       month_names: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+       month_names_short: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+    }
+};
+
+frappe.ui.form.on("Material Request", "validate", function(frm) {
+  abbr_series = 'aa'
+  frappe.call({
+          method: "frappe.client.get_value",
+                async:false,
+          args: {
+              doctype: "Company",
+              fieldname: "abbr_series",
+              filters: { name: cur_frm.doc.company },
+          },
+          callback: function(res){
+              if (res && res.message){
+            abbr_series=res.message['abbr_series']
+                          
+              }
+          }   
+      });
+  var ymd = frm.doc.transaction_date;
+  var yy = ymd.substring(2,4);
+  var mm = ymd.substring(5,7);
+  var d = new Date(cur_frm.doc.transaction_date)
+  var ym = "CT"+abbr_series+"MERQ"+yy+ d.getMonthNameShort() + "-.###";
+  frm.set_value("naming_series", ym);
+})
+
+
+//Add Interaction
+frappe.ui.form.on("Material Request", "refresh", function(frm, doctype, name) {
+cur_frm.add_custom_button(__('Add Interaction'), function() {
+var d = frappe.prompt([
+    {'fieldname': 'person_interacted_with', 'fieldtype': 'Data', 'label': 'Person Interacted with', 'reqd': 0},    
+    {label:__("Type of Interaction"), fieldtype:"Select",'default': "Follow Up Call",
+                    options: ["Cold Call","Follow Up Call","Mail","Cold Visit","Follow Up Visit","Existing Customer Visit","SMS or Whatsapp","Skype or Webex"],
+                    fieldname:"type_of_interaction"},
+    {label:__("Result"), fieldtype:"Select", options: 
+    ["Status Quo","Warmer","Colder","Closed Lost","Closed Won"], fieldname:"result"},
+    {'fieldname': 'responsible', 'fieldtype': 'Link', options:"User", 'default': user, 'label': 'Responsible', 'reqd': 0},
+    {'fieldname': 'create_task', 'fieldtype': 'Check', 'default': true, 'label': 'Create Task'},
+    {fieldtype: "Column Break"},
+
+    {'fieldname': 'next_date', 'fieldtype': 'Date', 
+    'label': 'Next Action Date', 'default': frappe.datetime.add_days(frappe.datetime.nowdate(),7), 'reqd': 0},
+    {'fieldname': 'next_action_by', 'fieldtype': 'Link', options:"User", 'default': user,'label': 'Next Action By', 'reqd': 0},
+    {'fieldname': 'comment', 'fieldtype': 'Text', 'label': 'Next Action Task', 'reqd': 1},
+    {fieldtype: "Section Break"},
+
+    {'fieldname': 'remark', 'fieldtype': 'Text Editor', 'label': 'Remarks', 'reqd': 1} 
+
+
+],
+function(values){
+    var c = d.get_values()
+    var cmnt = "Person Interacted with: "+ c.person_interacted_with
+               +"<br>Type of Interaction: "+ c.type_of_interaction
+               +"<br>Result: "+ c.result 
+               +"<br>Next Action Date: " +c.next_date 
+               +"<br>Next Action By: "+ c.next_action_by 
+               + "<br>Next Action Task: "+c.comment 
+               + "<br>Responsible: "+c.responsible 
+               + "<br>Remarks: "+c.remark 
+
+                
+    var me = frm.doc
+    // start interaction master
+       frappe.call({
+            method: "shopchemical.custom_methods.add_interaction",
+            args: {
+                doc:{
+                    doctype: "Interaction Master",
+                    reference_doctype: frm.doc.doctype,
+                    reference_name: frm.doc.name,
+                    result: c.result,
+                    person_interacted_with: c.person_interacted_with,
+
+     //                responce_reson: c.responce_reson,
+                    next_action_date: c.next_date,
+                    type_of_interaction: c.type_of_interaction,
+                    // result: c.result,
+                    next_action_by: c.next_action_by,
+                    next_action_task: c.comment,
+                    remakrs: c.remarks,
+                    responsible: c.responsible
+                    // next_date
+                }
+            },
+            callback: function(r) {
+                        msgprint("Interaction master record created");
+            }
+        });
+    //end interaction master
+//create todo
+console.log(c.create_task);
+    if(c.create_task==true){
+        frappe.call({
+                        method: "shopchemical.custom_methods.create_todo",
+                        args: {
+                            owner: c.next_action_by,
+                            assigned_by: c.responsible,
+                            description: c.comment,
+                            date: c.next_date,
+                            reference_name: frm.doc.name,
+                            reference_type: frm.doc.doctype
+                        }
+                    })
+    }
+//end of create todo
+
+    return frappe.call({
+            method: "frappe.desk.form.utils.add_comment",
+            args: {
+                doc:{
+                    doctype: "Communication",
+                    communication_type: "Comment",
+                    reference_doctype: frm.doc.doctype,
+                    reference_name: frm.doc.name,
+                    comment: "cmnt",
+                    subject: "cmnt",
+                    content: cmnt,
+                    responce_reson: c.responce_reson,
+                    next_date: c.next_date,
+                    type_of_interaction: c.type_of_interaction,
+                    result: c.result,
+                    next_action_by: c.next_action_by,
+                    reference_owner: frm.doc.owner,
+                    comment_by: user,
+                    user: user,
+                    sender_full_name:user_fullname,
+                }
+            },
+            callback: function(r) {
+                        msgprint("Interaction Submited Successfully");
+                        cur_frm.reload_doc();
+            if (cur_frm) {
+                        if (cur_frm.docname && (frappe.last_edited_communication[cur_frm.doctype] || {})[cur_frm.docname]) {
+                            delete frappe.last_edited_communication[cur_frm.doctype][cur_frm.docname];
+                        }
+                    }
+            }
+        });
+},
+'Add Interaction',
+'Submit','Add Interaction', "btn-default"
+)
+});
+
+                        // frm.refresh();
+
+});

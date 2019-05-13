@@ -99,7 +99,7 @@ def send_delivery_dispatch_alert(name):
 
 			send_message_api(ds_doc.mobile_no,message)
 
-		print(message)
+		# print(message)
 
 
 	url_link = short_url(ds_name)
@@ -131,12 +131,13 @@ def send_delivery_dispatch_alert(name):
 
 	
 	#without print
-	if ds_doc.is_return=="No":
-		frappe.sendmail(recipients=recipients, sender=sender, subject=subject,
-			message=email_html)
-	elif ds_doc.is_return=="Yes":
-		frappe.sendmail(recipients=recipients, sender=sender, subject="Your Hafary order is returned",
-			message=email_html)
+	if recipients:
+		if ds_doc.is_return=="No":
+			frappe.sendmail(recipients=recipients, sender=sender, subject=subject,
+				message=email_html)
+		elif ds_doc.is_return=="Yes":
+			frappe.sendmail(recipients=recipients, sender=sender, subject="Your Hafary order is returned",
+				message=email_html)
 
 
 
